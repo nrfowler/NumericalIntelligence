@@ -25,11 +25,14 @@
           desc: "",
           answer: ""
       };
+
+      //document.cookie[0]=1;
+      gameLevel = parseInt(document.cookie) ?? 1;
       var saLevel = gameLevel + 1;
       var q = new Array(saLevel + 1);
       var i = 0;
       do {
-          q[i++] = getRandomNumber(2);;
+          q[i++] = getRandomNumber(2);
       } while (i < saLevel)
       totalPitches++;
       problem2.desc = " " + q[0];

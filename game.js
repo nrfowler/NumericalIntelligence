@@ -34,7 +34,7 @@ function changeMode() {
     seconds = 0;
     //totalTime=0;
     mode = (mode + 1) % totalModes;
-    gameLevel=1;
+    gameLevel=parseInt(document.cookie);
     loadGame();
 }
 function getRandomNumber(digits){
@@ -82,21 +82,27 @@ function hideQuestion() {
 function incrementPoints() {
     var mentalMathThreshold = 5;
     var longerTH = 15;
+
     inarow++;
     pointDiff=gameLevel;
     points +=  gameLevel;
     if(inarow>5){
       gameLevel++;
+      document.cookie=gameLevel;
       inarow=0;
     }
 }
 function decrementPoints() {
     var mentalMathThreshold = 5;
     var longerTH = 15;
-    inarow=0;
-pointDiff = -1.5*gameLevel;
-        if (penaltyMode)
-            points += pointDiff;
+    inarow--;
+    pointDiff = -1.5*gameLevel;
+    if (penaltyMode)
+        points += pointDiff;
+    if(inarow<-2){
+      mode= (mode+1)%modeNames.length;
+      inarow=0;
+    }
 }
 function checkAns() {
     if (event.key === 'Enter') {
