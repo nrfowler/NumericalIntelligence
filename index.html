@@ -1,0 +1,63 @@
+<html>
+<head>
+  <title>NumericalIQ.com</title>
+	<script src="game.js"></script>
+	<script src="addition.js"></script>
+	<script src="multiply.js"></script>
+<script src="bridge.js"></script>
+<script>
+	//var randomnum = Math.floor(Math.random() * (1000 - 100) + 100) / 100;
+  	window.onload = function(){
+		modeNames = [loadMult,loadDivide,"Serial Addition","Long Addition","Bridge Points"];
+    modeBlinkDuration = [3,3,3,9,0];
+    points = 0;
+    gameLevel = 1;
+    totalPitches = 0;
+    totalModes = modeNames.length;
+    mode= 0;
+    blinkMode = 1;
+    question = "";
+    inarow=0;
+    timeouts = [];
+    //timer variable
+    seconds = 0;
+    totalTime=0;
+    //points scored in "pitch"
+    pointDiff=0;
+    //do wrong answers decrement points?
+    penaltyMode=true;
+	//previous random variable
+	PRV = 0;
+    loadGame();
+  }
+
+</script>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<div id="bar1">
+		<textarea id="problem2"></textarea>
+  </div>
+  <div style="font-size:40px" id="bridge">
+
+  </div>
+<div id="bar2">
+  <input id="ans" type="number" onkeydown="checkAns()" autofocus ></input>
+  <br />
+
+
+
+  <input type="button" class="button" value="Up Level" onclick="incLevel()"/>
+  <input type="button" class="button"  value="Down Level" onclick="decLevel()"/ >
+  <input type="button" class="button" value="Change Game Mode" onclick="changeMode()"/>
+  <input type="button" class="button" value="Toggle Blink Mode" onclick="changeBlinkMode()"/>
+  <div id="stats">
+
+  	<p id="answer2"></p><p id="curLevel"></p><p id="curMode"></p><p id="isBlink"></p>
+  </div>
+
+</div>
+
+
+</body>
+</html>

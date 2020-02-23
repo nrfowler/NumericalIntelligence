@@ -1,0 +1,67 @@
+body {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+}
+div {
+		width: 50%;
+		height: 800px;
+}
+#problem2 {
+		font-size: 10vh;
+		padding-right: 10px;
+		width: 70%;
+		height: 50%;
+}
+#bar2 {
+		font-size: 4vh;
+		text-align: center;
+}
+#ans {
+		font-size: 60px;
+		border: 5px solid black;
+}
+.button {
+		font-size: 3vh;
+}
+
+@media screen and (min-width: 800px) {
+    body {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    div {
+        width: 50%;
+				height: 800px;
+    }
+		#stats{
+			font-size:16px;
+		}
+		textarea{
+			border-color: white;
+
+		}
+    #problem2 {
+        font-size: 10vh;
+				padding-right: 10px;
+				width: 70%;
+				height: 100%;
+    }
+    #bar2 {
+        font-size: 4vh;
+        text-align: center;
+    }
+    #ans {
+        font-size: 60px;
+        border: 5px solid black;
+    }
+    .button {
+        font-size: 3vh;
+    }
+		#advert{
+			font-size:10px;
+		}
+}
