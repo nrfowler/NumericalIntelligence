@@ -48,19 +48,8 @@ if(digits==2)
       return Math.round(Math.random() * 8.999 * Math.pow(10,digits-1) +Math.pow(10,digits-1) )
 }
 function loadGame() {
-    if (mode == 0) {
-        question = modeNames[0]();
-    } else if (mode == 1) {
-      question = loadDivide();
-    } else if (mode == 2) {
-      question = loadSerialAddition();
-    }
-    else if (mode == 3){
-        question = loadLongAddition();
-      }
-      else if (mode == 4){
-          question = pointCount();
-        }
+        question = modeNames[mode]();
+
 }
 
 function startTimer() {
@@ -71,6 +60,9 @@ function endTimer() {
     return new Date().getTime() / 1000 - seconds;
 }
 function showQuestion(){
+  var problem2e = document.getElementById('bridge');
+  problem2e.style.display = "none";
+  document.getElementById('bar1').style.display = "block";
   document.getElementById('problem2').innerHTML =question;
 }
 function hideQuestion() {

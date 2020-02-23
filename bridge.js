@@ -1,4 +1,4 @@
-function pointCount() {
+function loadPointCount() {
     startTimer();
     var average;
     var ttt;
