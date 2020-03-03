@@ -17,7 +17,7 @@ Blink mode simulates cases where you are verbally told a number but cannot see i
 * TODO: Flashing bridge game (and all p questions), bidding game (1NT), and trick points game
 * TODO: Progress bar, time limit
 * TODO: If wrong, show question for 5 seconds
-* TODO: store levels as cookies
+
 ## Changelog
 ### Alphanumeric Arithmetic [deactivated]
 Simulates variables. Gives a better grasp of the alphabet so that whenever you have to sort something alphabetically it is easier.

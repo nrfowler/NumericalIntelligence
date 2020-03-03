@@ -8,7 +8,7 @@ function displayInfo(problem2, input, lin2) {
       clearTimeout(timeouts[i]);
     }
     if (blinkMode) {
-        timeouts.push(window.setTimeout(hideQuestion, modeBlinkDuration[mode]*1000+1000*gameLevel));
+        timeouts.push(window.setTimeout(hideQuestion, modeBlinkDuration[mode]*1000+1500*gameLevel));
     }
     var fff = document.getElementById('curMode');
     fff.innerHTML = input + "<br/>" + lin2;
@@ -34,7 +34,7 @@ function changeMode() {
     seconds = 0;
     //totalTime=0;
     mode = (mode + 1) % totalModes;
-    gameLevel=parseInt(document.cookie);
+
     loadGame();
 }
 function getRandomNumber(digits){
@@ -48,6 +48,7 @@ if(digits==2)
       return Math.round(Math.random() * 8.999 * Math.pow(10,digits-1) +Math.pow(10,digits-1) )
 }
 function loadGame() {
+  gameLevel=modeLevels[mode];
         question = modeNames[mode]();
 
 }
@@ -88,7 +89,7 @@ function incrementPoints() {
     points +=  gameLevel;
     if(inarow>5){
       gameLevel++;
-      document.cookie=gameLevel;
+      //cument.cookie=gameLevel;
       inarow=0;
     }
 }
@@ -104,6 +105,10 @@ function decrementPoints() {
       inarow=0;
     }
 }
+
+function nextQ(){
+
+}
 function checkAns() {
     if (event.key === 'Enter') {
         var elapsed = endTimer();
@@ -113,22 +118,23 @@ function checkAns() {
         var convertedAns;
         var ans2 = document.getElementById('answer2');
         //If typing mode
-        if (mode == 1 && answer.value.length > 0 && answer.value.substring(0, 3) == "add") {
-        }
+        // if (mode == 1 && answer.value.length > 0 && answer.value.substring(0, 3) == "add") {
+        // }
         convertedAns = parseFloat(answer.value)
         if (convertedAns == problem2.answer) {
             incrementPoints();
             displayScore(ans2,elapsed)
             colorFeedback(true);
+            loadGame();
         } else {
             decrementPoints();
             displayScore(ans2,elapsed);
             ans2.innerHTML = ans2.innerHTML + "<p> Correct Answer: " + problem2.answer+"</p>"
             colorFeedback(false);
+
         }
         //Start next pitch
         answer.value = null;
-        loadGame();
     }
 }
 function getDuration(){

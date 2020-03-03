@@ -20,8 +20,11 @@ function loadPointCount() {
     var distrib = 0;
     console.clear()
     var symb = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+    var sample = [9,13,22,26,35,39,48,52,1,14,27,40,2];
+    var j = 0;
     do {
-        q1 = Math.round(Math.random() * 51) + 1;
+        //q1 = Math.round(Math.random() * 51) + 1;
+        q1=sample[j++];
         if (cards.every(e => e != q1)) {
             cards.push(q1);
             if (q1 <= 13) {
@@ -74,17 +77,20 @@ function loadPointCount() {
       {hpc--;}
     if(cards.find(e =>e == 52)==undefined)
       {hpc--;}
-    //add 1 pt for 4 aces
-    const isAce = function(i){
-      if(i==13 || i==26 || i == 39 || i == 52){
+    //add 1 pt for 4 aces or 4 tens
+    const isAce = function(i,card){
+      if(i==card || i==card+13 || i == card+26 || i == card+39){
         return 1;
       }
       else {
         return 0;
       }
     }
-    const reducer = (accumulator, cv) => isAce(cv)+accumulator;
-    hpc += cards.reduce(reducer) == 4? 1: 0;
+    //TODO: Find simpler
+    var reducer = (accumulator, cv) => isAce(cv,13)+accumulator;
+    hpc += cards.reduce(reducer,0) == 4? 1: 0;
+    reducer = (accumulator, cv) => isAce(cv,9)+accumulator;
+    hpc += cards.reduce(reducer,0) == 4? 1: 0;
     totalPitches++;
     //hand is balanced, add 100 (not correct)
     //if(distrib<2){hpc+=100;}

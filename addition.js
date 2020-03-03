@@ -27,7 +27,7 @@
       };
 
       //document.cookie[0]=1;
-      gameLevel = parseInt(document.cookie) ?? 1;
+      //gameLevel = parseInt(document.cookie) ?? 1;
       var saLevel = gameLevel + 1;
       var q = new Array(saLevel + 1);
       var i = 0;
