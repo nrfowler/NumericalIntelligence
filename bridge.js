@@ -24,8 +24,8 @@ function loadPointCount() {
     var j = 0;
     do {
         q1 = Math.round(Math.random() * 51) + 1;
-        //q1=sample[j++];
-        if (cards.every(e => e != q1)) {
+        //skew towards high points
+        if (cards.every(e => e != q1) && q1 % 14 > 2) {
             cards.push(q1);
             if (q1 <= 13) {
                 i = q1 - 1;

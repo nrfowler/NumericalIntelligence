@@ -15,7 +15,7 @@
           q2 = 0;
       do {
           q1 = getRandomNumber(window.gameLevel+1);
-          q2 = getRandomNumber(window.gameLevel+1);
+          q2 = Math.round(Math.random() * 4) + 5;
       } while (q1 % 10 == 0 || q2 % 10 == 0)
       totalPitches++;
       if(blinkMode)
@@ -47,7 +47,7 @@
           q2 = 0;
       do {
           q1 = getRandomNumber(window.gameLevel+1);
-          q2 = getRandomNumber(window.gameLevel);
+          q2 = Math.round(Math.random() * 4) + 5;
       } while (q1 % 10 == 0 || q2 % 10 == 0)
       totalPitches++;
       if(blinkMode)
