@@ -6,7 +6,7 @@ function loadPointCount() {
         desc: "",
         answer: ""
     };
-    document.getElementById("ans").type = "number";
+    document.getElementById("ans").type = "text";
     var q1 = 0,
         q2 = 0;
     var cards = [];
@@ -20,11 +20,11 @@ function loadPointCount() {
     var distrib = 0;
     console.clear()
     var symb = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-    var sample = [9,13,22,26,35,39,48,52,1,14,27,40,2];
+    //var sample = [9,11,22,26,35,39,48,52,1,14,27,40,2];
     var j = 0;
     do {
-        //q1 = Math.round(Math.random() * 51) + 1;
-        q1=sample[j++];
+        q1 = Math.round(Math.random() * 51) + 1;
+        //q1=sample[j++];
         if (cards.every(e => e != q1)) {
             cards.push(q1);
             if (q1 <= 13) {
@@ -92,10 +92,44 @@ function loadPointCount() {
     reducer = (accumulator, cv) => isAce(cv,9)+accumulator;
     hpc += cards.reduce(reducer,0) == 4? 1: 0;
     totalPitches++;
-    //hand is balanced, add 100 (not correct)
-    //if(distrib<2){hpc+=100;}
+
+    var ctr = [clubsctr,diamsctr,heartsctr,spadesctr];
+    ctr.sort();
     problem2.desc = "<p>&spades;" + spadestr + "</p>\n<p><span style='color:red'>&hearts;</span>"+ heartstr + "</p>\n<p><span style='color:orange'>&diams;</span>" + diamstr + " </p>\n" + clubstr+"</p>";
-    problem2.answer = hpc;
+    problem2.answer = "";
+      //hand is 1NT
+    if(ctr.pop()+ctr.pop()<=8 && hpc>15 && hpc < 19){problem2.answer = "1NT";}
+
+    if(clubsctr >= 3 && hpc>12 && hpc <= 21){problem2.answer = "1c";}
+    if(diamsctr >= 3 && hpc>12 && hpc <= 21){problem2.answer = "1d";}
+    if(heartsctr >= 3 && hpc>12 && hpc <= 21){problem2.answer = "1h";}
+    if(spadesctr >= 3 && hpc>12 && hpc <= 21){problem2.answer = "1s";}
+
+    if(clubsctr >= 4 && hpc>12 && hpc <= 21){problem2.answer = "1c";}
+    if(diamsctr >= 4 && hpc>12 && hpc <= 21){problem2.answer = "1d";}
+    if(heartsctr >= 4 && hpc>12 && hpc <= 21){problem2.answer = "1h";}
+    if(spadesctr >= 4 && hpc>12 && hpc <= 21){problem2.answer = "1s";}
+
+    if(clubsctr >= 5 && hpc>12 && hpc <= 21){problem2.answer = "1c";}
+    if(diamsctr >= 5 && hpc>12 && hpc <= 21){problem2.answer = "1d";}
+    if(heartsctr >= 5 && hpc>12 && hpc <= 21){problem2.answer = "1h";}
+    if(spadesctr >= 5 && hpc>12 && hpc <= 21){problem2.answer = "1s";}
+
+    if(clubsctr >= 3 && hpc>21 && hpc <= 30){problem2.answer = "2c";}
+    if(diamsctr >= 3 && hpc>21 && hpc <= 30){problem2.answer = "2d";}
+    if(heartsctr >= 3 && hpc>21 && hpc <= 30){problem2.answer = "2h";}
+    if(spadesctr >= 3 && hpc>21 && hpc <= 30){problem2.answer = "2s";}
+
+    if(clubsctr >= 4 && hpc>21 && hpc <= 30){problem2.answer = "2c";}
+    if(diamsctr >= 4 && hpc>21 && hpc <= 30){problem2.answer = "2d";}
+    if(heartsctr >= 4 && hpc>21 && hpc <= 30){problem2.answer = "2h";}
+    if(spadesctr >= 4 && hpc>21 && hpc <= 30){problem2.answer = "2s";}
+
+    if(clubsctr >= 5 && hpc>21 && hpc <= 30){problem2.answer = "2c";}
+    if(diamsctr >= 5 && hpc>21 && hpc <= 30){problem2.answer = "2d";}
+    if(heartsctr >= 5 && hpc>21 && hpc <= 30){problem2.answer = "2h";}
+    if(spadesctr >= 5 && hpc>21 && hpc <= 30){problem2.answer = "2s";}
+
     var problem2e = document.getElementById('bridge');
     problem2e.style.display = "block";
     document.getElementById('bar1').style.display = "none";

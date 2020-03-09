@@ -120,7 +120,15 @@ function checkAns() {
         //If typing mode
         // if (mode == 1 && answer.value.length > 0 && answer.value.substring(0, 3) == "add") {
         // }
-        convertedAns = parseFloat(answer.value)
+        //if mode is bridge
+        if(mode == 1){
+          convertedAns = answer.value;
+        }
+        else
+        {
+          convertedAns = parseFloat(answer.value)
+
+        }
         if (convertedAns == problem2.answer) {
             incrementPoints();
             displayScore(ans2,elapsed)
