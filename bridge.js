@@ -22,7 +22,7 @@ function loadPointCount() {
     var symb = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
     //var sample = [9,11,22,26,35,39,48,52,1,14,27,40,2];
     var j = 0;
-    var isBiddable =[false,false,false, false];
+    var isBiddable =[0,0,0,0];
     do {
         q1 = Math.round(Math.random() * 51) + 1;
         //skew towards high points
@@ -31,8 +31,8 @@ function loadPointCount() {
             if (q1 <= 13) {
                 i = q1 - 1;
                 clubstr=clubstr.concat(symb[i])+" ";
-                if(i>10){
-                  isBiddable[0]=true;
+                if(i>8){
+                  isBiddable[0]+=i-8;
                 }
                 if(++clubsctr>4)
                  {hpc++;
@@ -41,8 +41,8 @@ function loadPointCount() {
             } else if (q1 <= 26) {
                 i = q1 - 14;
                 diamstr=diamstr.concat(symb[i])+" ";
-                if(i>10){
-                  isBiddable[1]=true;
+                if(i>8){
+                  isBiddable[1]+=i-8;
                 }
                 if(diamsctr++>3) {hpc++;
                   distrib++;
@@ -50,8 +50,8 @@ function loadPointCount() {
             } else if (q1 <= 39) {
                 i = q1 - 27;
                 heartstr=heartstr.concat(symb[i])+" ";
-                if(i>10){
-                  isBiddable[2]=true;
+                if(i>8){
+                  isBiddable[2]+=i-8;
                 }
                 if(heartsctr++>3) {
                   hpc++;
@@ -59,8 +59,8 @@ function loadPointCount() {
             } else {
                 i = q1 - 40;
                 spadestr=spadestr.concat(symb[i])+" ";
-                if(i>10){
-                  isBiddable[3]=true;
+                if(i>8){
+                  isBiddable[3]+=i-8;
                 }
                 if(spadesctr++>3) {
                   hpc++;
@@ -112,36 +112,36 @@ function loadPointCount() {
     problem2.answer = "";
       //hand is 1NT
     if(ctr.pop()+ctr.pop()<=8 && hpc>15 && hpc < 19){problem2.answer = "1NT";}
+if(ctr.pop()+ctr.pop()<=8 && hpc>18 && hpc < 23){problem2.answer = "2NT";}
+    if(isBiddable[0]==Math.max(...isBiddable) && clubsctr >= 3 && hpc>12 && hpc <= 21){problem2.answer = "1c";}
+    if(isBiddable[1]==Math.max(...isBiddable) && diamsctr >= 3 && hpc>12 && hpc <= 21){problem2.answer = "1d";}
+    if(isBiddable[2]==Math.max(...isBiddable) && heartsctr >= 3 && hpc>12 && hpc <= 21){problem2.answer = "1h";}
+    if(isBiddable[3]==Math.max(...isBiddable) && spadesctr >= 3 && hpc>12 && hpc <= 21){problem2.answer = "1s";}
 
-    if(isBiddable[0] && clubsctr >= 3 && hpc>12 && hpc <= 21){problem2.answer = "1c";}
-    if(isBiddable[1] && spadesctr >= 3 && hpc>12 && hpc <= 21){problem2.answer = "1d";}
-    if(isBiddable[2] && heartsctr >= 3 && hpc>12 && hpc <= 21){problem2.answer = "1h";}
-    if(isBiddable[3] && spadesctr >= 3 && hpc>12 && hpc <= 21){problem2.answer = "1s";}
+    if(isBiddable[0]==Math.max(...isBiddable) && clubsctr >= 4 && hpc>12 && hpc <= 21){problem2.answer = "1c";}
+    if(isBiddable[1]==Math.max(...isBiddable) && diamsctr >= 4 && hpc>12 && hpc <= 21){problem2.answer = "1d";}
+    if(isBiddable[2]==Math.max(...isBiddable) && heartsctr >= 4 && hpc>12 && hpc <= 21){problem2.answer = "1h";}
+    if(isBiddable[3]==Math.max(...isBiddable) && spadesctr >= 4 && hpc>12 && hpc <= 21){problem2.answer = "1s";}
 
-    if(isBiddable[0] && clubsctr >= 4 && hpc>12 && hpc <= 21){problem2.answer = "1c";}
-    if(isBiddable[1] && spadesctr >= 4 && hpc>12 && hpc <= 21){problem2.answer = "1d";}
-    if(isBiddable[2] && heartsctr >= 4 && hpc>12 && hpc <= 21){problem2.answer = "1h";}
-    if(isBiddable[3] && spadesctr >= 4 && hpc>12 && hpc <= 21){problem2.answer = "1s";}
+    if(isBiddable[0]==Math.max(...isBiddable) && clubsctr >= 5 && hpc>12 && hpc <= 21){problem2.answer = "1c";}
+    if(isBiddable[1]==Math.max(...isBiddable) && diamsctr >= 5 && hpc>12 && hpc <= 21){problem2.answer = "1d";}
+    if(isBiddable[2]==Math.max(...isBiddable) && heartsctr >= 5 && hpc>12 && hpc <= 21){problem2.answer = "1h";}
+    if(isBiddable[3]==Math.max(...isBiddable) && spadesctr >= 5 && hpc>12 && hpc <= 21){problem2.answer = "1s";}
 
-    if(isBiddable[0] && clubsctr >= 5 && hpc>12 && hpc <= 21){problem2.answer = "1c";}
-    if(isBiddable[1] && spadesctr >= 5 && hpc>12 && hpc <= 21){problem2.answer = "1d";}
-    if(isBiddable[2] && heartsctr >= 5 && hpc>12 && hpc <= 21){problem2.answer = "1h";}
-    if(isBiddable[3] && spadesctr >= 5 && hpc>12 && hpc <= 21){problem2.answer = "1s";}
+    if(isBiddable[0]==Math.max(...isBiddable) && clubsctr >= 3 && hpc>21 && hpc <= 30){problem2.answer = "2c";}
+    if(isBiddable[1]==Math.max(...isBiddable) && diamsctr >= 3 && hpc>21 && hpc <= 30){problem2.answer = "2d";}
+    if(isBiddable[2]==Math.max(...isBiddable) && heartsctr >= 3 && hpc>21 && hpc <= 30){problem2.answer = "2h";}
+    if(isBiddable[3]==Math.max(...isBiddable) && spadesctr >= 3 && hpc>21 && hpc <= 30){problem2.answer = "2s";}
 
-    if(isBiddable[0] && clubsctr >= 3 && hpc>21 && hpc <= 30){problem2.answer = "2c";}
-    if(isBiddable[1] && spadesctr >= 3 && hpc>21 && hpc <= 30){problem2.answer = "2d";}
-    if(isBiddable[2] && heartsctr >= 3 && hpc>21 && hpc <= 30){problem2.answer = "2h";}
-    if(isBiddable[3] && spadesctr >= 3 && hpc>21 && hpc <= 30){problem2.answer = "2s";}
+    if(isBiddable[0]==Math.max(...isBiddable) && clubsctr >= 4 && hpc>21 && hpc <= 30){problem2.answer = "2c";}
+    if(isBiddable[1]==Math.max(...isBiddable) && diamsctr >= 4 && hpc>21 && hpc <= 30){problem2.answer = "2d";}
+    if(isBiddable[2]==Math.max(...isBiddable) && heartsctr >= 4 && hpc>21 && hpc <= 30){problem2.answer = "2h";}
+    if(isBiddable[3]==Math.max(...isBiddable) && spadesctr >= 4 && hpc>21 && hpc <= 30){problem2.answer = "2s";}
 
-    if(isBiddable[0] && clubsctr >= 4 && hpc>21 && hpc <= 30){problem2.answer = "2c";}
-    if(isBiddable[1] && spadesctr >= 4 && hpc>21 && hpc <= 30){problem2.answer = "2d";}
-    if(isBiddable[2] && heartsctr >= 4 && hpc>21 && hpc <= 30){problem2.answer = "2h";}
-    if(isBiddable[3] && spadesctr >= 4 && hpc>21 && hpc <= 30){problem2.answer = "2s";}
-
-    if(isBiddable[0] && clubsctr >= 5 && hpc>21 && hpc <= 30){problem2.answer = "2c";}
-    if(isBiddable[1] && spadesctr >= 5 && hpc>21 && hpc <= 30){problem2.answer = "2d";}
-    if(isBiddable[2] && heartsctr >= 5 && hpc>21 && hpc <= 30){problem2.answer = "2h";}
-    if(isBiddable[3] && spadesctr >= 5 && hpc>21 && hpc <= 30){problem2.answer = "2s";}
+    if(isBiddable[0]==Math.max(...isBiddable) && clubsctr >= 5 && hpc>21 && hpc <= 30){problem2.answer = "2c";}
+    if(isBiddable[1]==Math.max(...isBiddable) && diamsctr >= 5 && hpc>21 && hpc <= 30){problem2.answer = "2d";}
+    if(isBiddable[2]==Math.max(...isBiddable) && heartsctr >= 5 && hpc>21 && hpc <= 30){problem2.answer = "2h";}
+    if(isBiddable[3]==Math.max(...isBiddable) && spadesctr >= 5 && hpc>21 && hpc <= 30){problem2.answer = "2s";}
 
     var problem2e = document.getElementById('bridge');
     problem2e.style.display = "block";
