@@ -1,6 +1,8 @@
   function loadLongAddition() {
       startTimer();
-      
+      modeLevel= 1;
+      modeTitle="longaddition";
+      modeBlinkDuration = 4;
       var q1 = 0,
           q2 = 0, s1=0, s2=0;
     for(var i =0; i < gameLevel+2; i++){
@@ -24,6 +26,7 @@
 
   function loadSerialAddition() {
       startTimer();
+      modeLevel= 2;
       problem2 = {
           desc: "",
           answer: ""

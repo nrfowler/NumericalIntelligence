@@ -2,6 +2,9 @@ function loadPointCount() {
     startTimer();
     var average;
     var ttt;
+    modeTitle = "pointcount"
+    modeLevel= 1;
+    modeBlinkDuration = 3;
     problem2 = {
         desc: "",
         answer: ""

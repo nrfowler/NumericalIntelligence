@@ -6,6 +6,8 @@
       var problem2e = document.getElementById('problem2');
       document.getElementById('bar1').style.display = "block";
       var ttt;
+      modeTitle="mult";
+      modeBlinkDuration = 9;
       problem2 = {
           desc: "",
           answer: ""
@@ -44,6 +46,8 @@
       //document.getElementById("problem2").style.font = "bold 100px arial,serif";
       var gameModifier = Math.pow(10, gameLevel) - 1;
       var average;
+      modeTitle="divide";
+      modeBlinkDuration = 1;
       var ttt;
       problem2 = {
           desc: "",

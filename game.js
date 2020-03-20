@@ -115,7 +115,8 @@ function decrementPoints() {
 }
 
 function ReadingRecall() {
-
+  modeTitle="readingrecall";
+  modeBlinkDuration = 9;
 
     document.getElementById("problem2").style.font = "italic bold 20px arial,serif";
     //TODO: remove useless flashcards
@@ -148,7 +149,7 @@ function checkAns() {
         //if mode is bridge
         if (mode == 1) {
             convertedAns = answer.value;
-        } else if (modeTitle[mode] == "progiq" && answer.value.length > 5) {
+        } else if (modeTitle== "progiq" && answer.value.length > 5) {
             var db = firebase.firestore();
 
             db.collection("flashcards").add({
@@ -247,13 +248,13 @@ function colorFeedback(isRight) {
 
 function incLevel() {
     gameLevel++;
-    modeLevels[mode] = gameLevel;
+    modeLevel = gameLevel;
     loadGame();
 }
 
 function decLevel() {
     if (gameLevel > 1)
         gameLevel--;
-    modeLevels[mode] = gameLevel;
+    modeLevel = gameLevel;
     loadGame();
 }
