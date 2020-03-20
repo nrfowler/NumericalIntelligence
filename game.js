@@ -174,6 +174,7 @@ function checkAns() {
         if (convertedAns == problem2.answer) {
             incrementPoints();
             displayScore(ans2, elapsed)
+
             colorFeedback(true);
             loadGame();
         } else {
@@ -181,11 +182,27 @@ function checkAns() {
             displayScore(ans2, elapsed);
             ans2.innerHTML = ans2.innerHTML + "<p> Correct Answer: " + problem2.answer + "</p>"
             colorFeedback(false);
-
+            sendHardQ(question)
         }
         //Start next pitch
         answer.value = null;
     }
+}
+
+function sendHardQ(problem){
+  var db = firebase.firestore();
+
+  db.collection("hardproblems").add({
+          content: problem
+
+      })
+      .then(function(docRef) {
+          console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function(error) {
+          console.error("Error adding document: ", error);
+      });
+
 }
 
 function getDuration() {

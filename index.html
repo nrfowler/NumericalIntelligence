@@ -57,6 +57,10 @@
     pointDiff=0;
     //do wrong answers decrement points?
     penaltyMode=true;
+    problem2 = {
+        desc: "",
+        answer: ""
+    };
     sentraw = [];
     var db = firebase.firestore();
    db.collection("flashcards").get().then(function(querySnapshot) {
