@@ -36,6 +36,7 @@ function loadPointCount() {
                 }
                 if(++clubsctr>4)
                  {hpc++;
+                   isBiddable[0]++;
                     distrib++;
                 }
             } else if (q1 <= 26) {
@@ -45,7 +46,8 @@ function loadPointCount() {
                   isBiddable[1]+=i-8;
                 }
                 if(diamsctr++>3) {hpc++;
-                  distrib++;
+
+                  isBiddable[1]++;
                 }
             } else if (q1 <= 39) {
                 i = q1 - 27;
@@ -55,7 +57,8 @@ function loadPointCount() {
                 }
                 if(heartsctr++>3) {
                   hpc++;
-                distrib++;}
+                  isBiddable[2]++;
+                }
             } else {
                 i = q1 - 40;
                 spadestr=spadestr.concat(symb[i])+" ";
@@ -64,7 +67,7 @@ function loadPointCount() {
                 }
                 if(spadesctr++>3) {
                   hpc++;
-                distrib++;}
+                isBiddable[3]++;}
             }
             if(i>8)
               hpc+=i-8;

@@ -13,10 +13,17 @@
       document.getElementById("ans").type = "number";
       var q1 = 0,
           q2 = 0;
-      do {
-          q1 = getRandomNumber(window.gameLevel+1);
+      if(gameLevel % 2 ==1)
+      {
+        do {
+          q1 = getRandomNumber((window.gameLevel+1)/2+1);
           q2 = Math.round(Math.random() * 4) + 5;
-      } while (q1 % 10 == 0 || q2 % 10 == 0)
+      } while (q1 % 10 == 0 || q2 % 10 == 0)}
+      else if (gameLevel % 2 == 0){
+        var foo = [5,7,12.5,2.5];
+        q1 = getRandomNumber(window.gameLevel/2+1);
+        q2 = foo[Math.round(Math.random() * 3) ];
+      }
       totalPitches++;
       if(blinkMode)
         window.setTimeout(hideQuestion, 3000+500*window.gameLevel);
