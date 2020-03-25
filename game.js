@@ -52,7 +52,7 @@ function getRandomNumber(digits) {
 }
 
 function loadGame() {
-    gameLevel = modeLevels[mode];
+    gameLevel = modeLevel;
     question = modeNames[mode]();
 
 }
@@ -115,8 +115,8 @@ function decrementPoints() {
 }
 
 function ReadingRecall() {
-  modeTitle="readingrecall";
-  modeBlinkDuration = 9;
+    modeTitle = "progiq";
+    modeBlinkDuration = 9;
 
     document.getElementById("problem2").style.font = "italic bold 20px arial,serif";
     //TODO: remove useless flashcards
@@ -147,28 +147,38 @@ function checkAns() {
         // if (mode == 1 && answer.value.length > 0 && answer.value.substring(0, 3) == "add") {
         // }
         //if mode is bridge
-        if (mode == 1) {
+        if (modetitle ="pointcount") {
             convertedAns = answer.value;
-        } else if (modeTitle== "progiq" && answer.value.length > 5) {
-            var db = firebase.firestore();
+        } else if (modeTitle == "progiq") {
+            if (answer.value == ans2.value) {
+                incrementPoints();
+                displayScore(ans2, elapsed)
 
-            db.collection("flashcards").add({
-                    content: answer.value
+                colorFeedback(true);
+                loadGame();
+                return;
+            }
+            else if ( answer.value.length == 0) {
+    
+                loadGame();
+                return;
+            } else {
+                db = firebase.firestore();
 
-                })
-                .then(function(docRef) {
-                    console.log("Document written with ID: ", docRef.id);
-                })
-                .catch(function(error) {
-                    console.error("Error adding document: ", error);
-                });
-            loadGame();
-            return;
-        } else if (modeTitle[mode] == "progiq" && answer.value.length == 0) {
+                db.collection("flashcards").add({
+                        content: answer.value
 
-            loadGame();
-            return;
-        } else {
+                    })
+                    .then(function(docRef) {
+                        console.log("Document written with ID: ", docRef.id);
+                    })
+                    .catch(function(error) {
+                        console.error("Error adding document: ", error);
+                    });
+                loadGame();
+                return;
+            }
+        }  else {
             convertedAns = parseFloat(answer.value)
 
         }
@@ -190,19 +200,20 @@ function checkAns() {
     }
 }
 
-function sendHardQ(problem){
-  var db = firebase.firestore();
+function sendHardQ(problem) {
+    var db = firebase.firestore();
 
-  db.collection("hardproblems").add({
-          content: problem
-
-      })
-      .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
-      })
-      .catch(function(error) {
-          console.error("Error adding document: ", error);
-      });
+    db.collection("hardproblems").add({
+            content: problem,
+            game: modeTitle,
+            answer: problem2.answer
+        })
+        .then(function(docRef) {
+            console.log("Document written with ID: ", docRef.id);
+        })
+        .catch(function(error) {
+            console.error("Error adding document: ", error);
+        });
 
 }
 

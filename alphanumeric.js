@@ -1,8 +1,15 @@
-function loadAlpha1() {
+function loadAlpha() {
+    //numerical value at a certain index where index A is 0 and value is 1
     var num = [];
+    //minimum level
+    gameLevel = gameLevel == 1 ? 2 : gameLevel;
+    //reset from progiq
+    document.getElementById("problem2").style.font = "60px arial,serif";
+
     var addends = new Array(gameLevel + 1);
     var names = [];
     var total;
+    modeTitle = "alpha";
     startTimer();
     var maxadds = 4;
     totalPitches++;
@@ -14,7 +21,7 @@ function loadAlpha1() {
     if (gameLevel > 2 * maxadds + 4) {
         //level3: greek
         OPL -= 2 * maxadds + 4;
-        totalLetters = 76;
+        totalLetters = 77;
         lin2 = "Greek Alphabet: ";
     } else if (gameLevel > maxadds + 2) {
         OPL -= maxadds + 2;
@@ -22,16 +29,19 @@ function loadAlpha1() {
         lin2 = "Z=26, a=27, b=28...";
     }
     TLR = totalLetters - 1;
-    for (var i = 0; i <= totalLetters - 1; i++) {
-        num.push(i);
-        if (i > 52) {
-            names.push(String.fromCharCode(i + 892));
-            lin2 += names[i - 1] + "     ";
-        } else if (i > 26)
-            names.push(String.fromCharCode(i + 70));
+    for (var i = 0; i <= TLR; i++) {
+        num.push(i+1);
+        if (i >= 52) {
+            names.push(String.fromCharCode(i + 893));
+            lin2 += names[i] + "  =   "+num[i]+  "\n";
+        } else if (i >= 26)
+            names.push(String.fromCharCode(i + 71));
         else
             names.push(String.fromCharCode(i + 65));
-        console.log(names[i]);
+        if (i == 51) console.log(names.slice(-26).join() + "\n--------------------------------------");
+        if (i == 76) console.log(names.slice(-25).join() + "\n--------------------------------------");
+
+        if (i == 25) console.log(names.join()+"\n--------------------------------------");
     }
     total = 0;
     problem2 = {
@@ -53,19 +63,16 @@ function loadAlpha1() {
         problem2.answer = addends.reduce(function(a, b) {
             return a + num[b]
         }, 0);
-    } else if (OPL >= maxadds + 1) {
+    } else if (OPL > maxadds) {
         for (var j = 1; j <= OPL - maxadds; j++) {
             addends[j] = parseInt(Math.random() * TLR);
-            problem2.desc += "·" + names[addends[j]];
+            problem2.desc += "*" + names[addends[j]];
         }
         problem2.answer = addends.reduce(function(a, b) {
             return a * num[b]
         }, 1);
-    } else if (OPL == maxadds + 2) {
-        addends[1] = parseInt(Math.random() * TLR);
-        problem2.desc += " / " + names[addends[1]];
-        problem2.answer = Math.floor(num[0] / num[1]);
     }
+    
     question = problem2.desc;
     displayInfo(problem2, "Alphanumeric Arithmetic", lin2);
     return problem2.desc;

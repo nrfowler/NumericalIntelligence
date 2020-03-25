@@ -31,13 +31,14 @@
 	<script src="game.js"></script>
 	<script src="addition.js"></script>
 	<script src="multiply.js"></script>
+    <script src="alphanumeric.js"></script>
 <script src="bridge.js"></script>
 
 <script>
 	//var randomnum = Math.floor(Math.random() * (1000 - 100) + 100) / 100;
   	window.onload = function(){
-		modeNames = [loadSerialAddition,loadPointCount,loadLongAddition,loadMult,loadDivide, ReadingRecall];
-    modeTitle = "serialaddition";
+            modeNames = [loadAlpha,loadSerialAddition,loadPointCount,loadLongAddition,loadMult,loadDivide, ReadingRecall];
+    modeTitle = "alpha";
     modeLevel = 1
     modeBlinkDuration = 4;
     //[4,3,3,9,0,10];
@@ -46,7 +47,7 @@
     totalPitches = 0;
     totalModes = modeNames.length;
     mode= 0;
-    blinkMode = 1;
+    blinkMode = 0;
     question = "";
     inarow=0;
     timeouts = [];
@@ -63,7 +64,7 @@
         answer: ""
     };
     sentraw = [];
-    var db = firebase.firestore();
+    db = firebase.firestore();
    db.collection("flashcards").get().then(function(querySnapshot) {
  querySnapshot.forEach(function(doc) {
      // doc.data() is never undefined for query doc snapshots

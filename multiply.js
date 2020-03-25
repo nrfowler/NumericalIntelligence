@@ -28,7 +28,7 @@
       }
       totalPitches++;
       if(blinkMode)
-        window.setTimeout(hideQuestion, 3000+500*window.gameLevel);
+        window.setTimeout(hideQuestion, 3000+500*modeBlinkDuration);
       problem2.desc = "  " + q1 + "\nx " + "" + q2;
       problem2.answer = q1 * q2;
 
@@ -62,7 +62,7 @@
       } while (q1 % 10 == 0 || q2 % 10 == 0)
       totalPitches++;
       if(blinkMode)
-        window.setTimeout(hideQuestion, 2000+500*window.gameLevel);
+        window.setTimeout(hideQuestion, 2000+500*modeBlinkDuration);
       problem2.desc = "  " + q1*q2 + " / " + "" + q2;
       problem2.answer = q1;
       var problem2e = document.getElementById('problem2');

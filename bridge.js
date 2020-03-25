@@ -2,6 +2,7 @@ function loadPointCount() {
     startTimer();
     var average;
     var ttt;
+    gameLevel = 1;
     modeTitle = "pointcount"
     modeLevel= 1;
     modeBlinkDuration = 3;
