@@ -2,9 +2,10 @@ function loadAlpha() {
     //numerical value at a certain index where index A is 0 and value is 1
     var num = [];
     //minimum level
-    gameLevel = gameLevel == 1 ? 2 : gameLevel;
+    var minLevel = 2;
+    gameLevel = gameLevel == 1 ? minLevel : gameLevel;
     //reset from progiq
-    document.getElementById("problem2").style.font = "60px arial,serif";
+    document.getElementById("problem2").style.font = "100px arial,serif";
 
     var addends = new Array(gameLevel + 1);
     var names = [];
