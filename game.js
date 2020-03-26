@@ -114,26 +114,7 @@ function decrementPoints() {
     }
 }
 
-function ReadingRecall() {
-    modeTitle = "progiq";
-    modeBlinkDuration = 9;
 
-    document.getElementById("problem2").style.font = "italic bold 20px arial,serif";
-    //TODO: remove useless flashcards
-    //TODO: set input bar to text
-    document.getElementById("ans").type = "string"
-    //startTimer();
-    totalPitches++;
-    blinkMode = 0;
-    total = 0;
-    rndI = rndI - 1;
-    if (rndI < 0) rndI = sentraw.length - 1;
-    problem2 = {
-        desc: sentraw[rndI],
-        answer: sentraw[rndI]
-    };
-    displayInfoNoHide(problem2, "Press enter to scroll", "todo: SRS, button for adding");
-}
 
 function checkAns() {
     if (event.key === 'Enter') {
@@ -149,36 +130,7 @@ function checkAns() {
         //if mode is bridge
         if (modetitle ="pointcount") {
             convertedAns = answer.value;
-        } else if (modeTitle == "progiq") {
-            if (answer.value == ans2.value) {
-                incrementPoints();
-                displayScore(ans2, elapsed)
-
-                colorFeedback(true);
-                loadGame();
-                return;
-            }
-            else if ( answer.value.length == 0) {
-    
-                loadGame();
-                return;
-            } else {
-                db = firebase.firestore();
-
-                db.collection("flashcards").add({
-                        content: answer.value
-
-                    })
-                    .then(function(docRef) {
-                        console.log("Document written with ID: ", docRef.id);
-                    })
-                    .catch(function(error) {
-                        console.error("Error adding document: ", error);
-                    });
-                loadGame();
-                return;
-            }
-        }  else {
+        } else {
             convertedAns = parseFloat(answer.value)
 
         }
