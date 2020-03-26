@@ -49,9 +49,7 @@ function loadAlpha() {
         answer: 0
     };
     addends[0] = parseInt(Math.random() * TLR);
-    while (PRV == addends[0]) {
-        addends[0] = parseInt(Math.random() * TLR);
-    }
+    
     problem2.desc = names[addends[0]];
     //problem2.answer=num[addends[0]];
     if (OPL <= maxadds) {

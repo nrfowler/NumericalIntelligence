@@ -1,33 +1,9 @@
 <html>
 <head>
   <title>NumericalIQ.com</title>
-  <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-app.js"></script>
-
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-firestore.js"></script>
- <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
+  
  	<script src="game.js"></script>
-<script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyB_9Qvoce-yLTyYM-Sd74JR_3IHXUcazZY",
-    authDomain: "numerical-iq.firebaseapp.com",
-    databaseURL: "https://numerical-iq.firebaseio.com",
-    projectId: "numerical-iq",
-    storageBucket: "numerical-iq.appspot.com",
-    messagingSenderId: "907028689388",
-    appId: "1:907028689388:web:79d61b29df8d9add1550c9",
-    measurementId: "G-VGHT4DKPKK"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
 
-
-
-</script>
 	<script src="game.js"></script>
 	<script src="addition.js"></script>
 	<script src="multiply.js"></script>
@@ -63,18 +39,12 @@
         desc: "",
         answer: ""
     };
-    sentraw = [];
-    db = firebase.firestore();
-   db.collection("flashcards").get().then(function(querySnapshot) {
- querySnapshot.forEach(function(doc) {
-     // doc.data() is never undefined for query doc snapshots
-     sentraw.push(doc.data()["content"].replace("add ",""));
-     //console.log(sentraw.pop());
- });
- //wait until loaded
- rndI=sentraw.length-1;
+    
+    
+  
+ 
  loadGame();
- });
+ 
 	//previous random variable
 	PRV = 0;
     loadGame();
