@@ -52,6 +52,7 @@ function getRandomNumber(digits) {
 }
 
 function loadGame() {
+  answerShown = false;
     gameLevel = modeLevel;
     question = modeNames[mode]();
 
@@ -135,7 +136,7 @@ function ReadingRecall() {
     displayInfoNoHide(problem2, "Press enter to scroll", "todo: SRS, button for adding");
 }
 
-function checkAns() {
+async function checkAns() {
     if (event.key === 'Enter') {
         var elapsed = endTimer();
         //useless??
@@ -159,7 +160,7 @@ function checkAns() {
                 return;
             }
             else if ( answer.value.length == 0) {
-    
+
                 loadGame();
                 return;
             } else {
@@ -170,7 +171,7 @@ function checkAns() {
 
                     })
                     .then(function(docRef) {
-                        console.log("Document written with ID: ", docRef.id);
+                        appendLog("Document written with ID: ", docRef.id);
                     })
                     .catch(function(error) {
                         console.error("Error adding document: ", error);
@@ -185,6 +186,9 @@ function checkAns() {
         if (convertedAns == problem2.answer) {
             incrementPoints();
             displayScore(ans2, elapsed)
+            if(!answerShown && CurrentHP != null){
+              await rmDups(CurrentHP.content)
+            }
 
             colorFeedback(true);
             loadGame();
@@ -192,14 +196,54 @@ function checkAns() {
             decrementPoints();
             displayScore(ans2, elapsed);
             ans2.innerHTML = ans2.innerHTML + "<p> Correct Answer: " + problem2.answer + "</p>"
+            answerShown = true;
             colorFeedback(false);
             sendHardQ(question)
+            loadGame();
         }
         //Start next pitch
         answer.value = null;
     }
 }
 
+function appendLog(...params){
+  ermsg =params;
+  //alert(ermsg);
+}
+    function getHardProblems(){
+
+      var i =0;
+      db.collection("hardproblems")
+      .get()
+      .then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+              // doc.data() is never undefined for query doc snapshots
+              //appendLog(doc.id, " => ", doc.data());
+              HardProblems[i++]={docID: doc.id, ...doc.data()};
+          });
+          //appendLog("Got Hard Problems "+HardProblems.length)
+      })
+      .catch(function(error) {
+          appendLog("Error getting documents: ", error);
+      });
+
+    }
+async function deleteProblem(c){
+
+  await db.collection("hardproblems").doc(c.docID).delete().then(function() {
+    appendLog("Document successfully deleted! "+c.content);
+}).catch(function(error) {
+    console.error("Error removing document: ", error);
+});
+}
+
+async function rmDups(content){
+  //alert(HardProblems.filter( h => h.content==content).length+ " to remove");
+var foo = HardProblems.filter( h => h.content==content)
+
+foo.forEach( hp => deleteProblem(hp));
+HardProblems=HardProblems.filter( h => h.content!=content)
+}
 function sendHardQ(problem) {
     var db = firebase.firestore();
 
@@ -209,7 +253,7 @@ function sendHardQ(problem) {
             answer: problem2.answer
         })
         .then(function(docRef) {
-            console.log("Document written with ID: ", docRef.id);
+            appendLog("Document written with ID: ", docRef.id);
         })
         .catch(function(error) {
             console.error("Error adding document: ", error);

@@ -47,6 +47,7 @@
     totalPitches = 0;
     totalModes = modeNames.length;
     mode= 0;
+    answerShown = false;
     blinkMode = 0;
     question = "";
     inarow=0;
@@ -59,12 +60,23 @@
     pointDiff=0;
     //do wrong answers decrement points?
     penaltyMode=true;
+    //displays error logging to user w/o console
+    ermsg =""
     problem2 = {
         desc: "",
         answer: ""
     };
     sentraw = [];
     db = firebase.firestore();
+
+    HardProblems = [];
+
+    CurrentHP= HardProblems[0];
+
+
+
+
+
    db.collection("flashcards").get().then(function(querySnapshot) {
  querySnapshot.forEach(function(doc) {
      // doc.data() is never undefined for query doc snapshots
