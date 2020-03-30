@@ -1,6 +1,4 @@
 function displayInfo(problem2, input, lin2) {
-    var problem2e = document.getElementById('problem2');
-    problem2e.innerHTML = problem2.desc;
     showQuestion();
     //turn off all timeouts
 
@@ -11,7 +9,7 @@ function displayInfo(problem2, input, lin2) {
         timeouts.push(window.setTimeout(hideQuestion, modeBlinkDuration[mode] * 1000 + 1500 * gameLevel));
     }
     var fff = document.getElementById('curMode');
-    fff.innerHTML = input + "<br/>" + lin2 +ermsg;
+    fff.innerHTML = input + "<br/>" + lin2 + ermsg;
     var curLevel = document.getElementById('curLevel');
     curLevel.innerHTML = "Level: " + gameLevel;
 }
@@ -20,7 +18,7 @@ function displayInfoNoHide(problem2, input, lin2) {
     var problem2e = document.getElementById('problem2');
     problem2e.innerHTML = problem2.desc;
     var fff = document.getElementById('curMode');
-    fff.innerHTML = input + "<br/>" + lin2+ ermsg;
+    fff.innerHTML = input + "<br/>" + lin2 + ermsg;
     var curLevel = document.getElementById('curLevel');
     curLevel.innerHTML = "Level: " + gameLevel;
 }
@@ -52,7 +50,7 @@ function getRandomNumber(digits) {
 }
 
 function loadGame() {
-  answerShown = false;
+    answerShown = false;
     gameLevel = modeLevel;
     question = modeNames[mode]();
 
@@ -70,7 +68,8 @@ function showQuestion() {
     var problem2e = document.getElementById('bridge');
     problem2e.style.display = "none";
     document.getElementById('bar1').style.display = "block";
-    document.getElementById('problem2').innerHTML = question;
+    document.getElementById("ans").type = "number";
+    document.getElementById('problem2').innerHTML = problem2.desc;
 }
 
 function hideQuestion() {
@@ -148,7 +147,7 @@ async function checkAns() {
         // if (mode == 1 && answer.value.length > 0 && answer.value.substring(0, 3) == "add") {
         // }
         //if mode is bridge
-        if (modetitle ="pointcount") {
+        if (modetitle = "pointcount") {
             convertedAns = answer.value;
         } else if (modeTitle == "progiq") {
             if (answer.value == ans2.value) {
@@ -158,8 +157,7 @@ async function checkAns() {
                 colorFeedback(true);
                 loadGame();
                 return;
-            }
-            else if ( answer.value.length == 0) {
+            } else if (answer.value.length == 0) {
 
                 loadGame();
                 return;
@@ -179,15 +177,15 @@ async function checkAns() {
                 loadGame();
                 return;
             }
-        }  else {
+        } else {
             convertedAns = parseFloat(answer.value)
 
         }
         if (convertedAns == problem2.answer) {
             incrementPoints();
             displayScore(ans2, elapsed)
-            if(!answerShown && CurrentHP != null){
-              await rmDups(CurrentHP.content)
+            if (!answerShown && CurrentHP != null) {
+                await rmDups(CurrentHP.content)
             }
 
             colorFeedback(true);
@@ -206,44 +204,76 @@ async function checkAns() {
     }
 }
 
-function appendLog(...params){
-  ermsg +=params;
-  //alert(ermsg);
-}
-    function getHardProblems(){
-
-      var i =0;
-      db.collection("hardproblems")
-      .get()
-      .then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
-              // doc.data() is never undefined for query doc snapshots
-              //appendLog(doc.id, " => ", doc.data());
-              HardProblems[i++]={docID: doc.id, ...doc.data()};
-          });
-          //appendLog("Got Hard Problems "+HardProblems.length)
-      })
-      .catch(function(error) {
-          appendLog("Error getting documents: ", error);
-      });
-
-    }
-async function deleteProblem(c){
-
-  await db.collection("hardproblems").doc(c.docID).delete().then(function() {
-    appendLog("Document successfully deleted! "+c.content);
-}).catch(function(error) {
-    console.error("Error removing document: ", error);
-});
+function appendLog(...params) {
+    ermsg += "\n"+params;
+    //alert(ermsg);
 }
 
-async function rmDups(content){
-  //alert(HardProblems.filter( h => h.content==content).length+ " to remove");
-var foo = HardProblems.filter( h => h.content==content)
+function getHardProblems() {
 
-foo.forEach( hp => deleteProblem(hp));
-HardProblems=HardProblems.filter( h => h.content!=content)
+    var i = 0;
+    db.collection("hardproblems")
+        .get()
+        .then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                // doc.data() is never undefined for query doc snapshots
+                //appendLog(doc.id, " => ", doc.data());
+                HardProblems[i++] = {
+                    docID: doc.id,
+                    ...doc.data()
+                };
+            });
+            //appendLog("Got Hard Problems "+HardProblems.length)
+        })
+        .catch(function(error) {
+            appendLog("Error getting documents: ", error);
+        });
+
 }
+async function deleteProblem(c) {
+
+    await db.collection("hardproblems").doc(c.docID).delete().then(function() {
+        appendLog("Document successfully deleted! " + c.content);
+    }).catch(function(error) {
+        console.error("Error removing document: ", error);
+    });
+}
+
+async function rmDups(content) {
+    //alert(HardProblems.filter( h => h.content==content).length+ " to remove");
+    var foo = HardProblems.filter(h => h.content == content)
+    foo.forEach(hp => deleteProblem(hp));
+    HardProblems = HardProblems.filter(h => h.content != content)
+}
+async function getRelevantHP() {
+    await getHardProblems();
+    hpm = HardProblems.filter(d => d.game == modeTitle).filter(d => d.timestamp - Date.now() < -1000 * 3600);
+    CurrentHP = null;
+}
+
+function blackFont() {
+    document.getElementById("problem2").style.font = "10vh arial,serif";
+    document.getElementById("problem2").style.color = "black";
+}
+
+function displayHardProblem() {
+
+    CurrentHP = hpm.sort(function(a, b) {
+        return a - b
+    })[0];
+    blueQuestion();
+    problem2.desc = CurrentHP.content;
+    problem2.answer = CurrentHP.answer;
+    appendLog("Loading hard problem: " + CurrentHP.docID)
+    HardProblems = [];
+}
+
+function blueQuestion() {
+
+    document.getElementById("problem2").style.font = "bold 30px arial,serif";
+    document.getElementById("problem2").style.color = "blue";
+}
+
 function sendHardQ() {
     var db = firebase.firestore();
 
