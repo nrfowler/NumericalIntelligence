@@ -13,14 +13,14 @@
       if(totalPitches > 4)
       {
         await getHardProblems();
-      hpm = HardProblems.filter( d => d.game == modeTitle);
+      hpm = HardProblems.filter( d => d.game == modeTitle).filter( d => d.timestamp -Date.now() < -1000*3600);
       CurrentHP = null;}
       problem2 = {
           desc: "",
           answer: ""
       };
       if(hpm.length > 0 && totalPitches > 4){
-        CurrentHP = hpm[0];
+        CurrentHP = hpm.sort(function(a, b){return a-b})[0];
         document.getElementById("problem2").style.font = "bold 30px arial,serif";
         document.getElementById("problem2").style.color = "red";
         problem2.desc = CurrentHP.content;

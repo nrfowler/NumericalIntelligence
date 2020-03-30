@@ -250,7 +250,8 @@ function sendHardQ() {
     db.collection("hardproblems").add({
             content: problem2.desc,
             game: modeTitle,
-            answer: problem2.answer
+            answer: problem2.answer,
+            timestamp: Date.now()
         })
         .then(function(docRef) {
             appendLog("Document written with ID: ", docRef.id);
