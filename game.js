@@ -11,7 +11,7 @@ function displayInfo(problem2, input, lin2) {
         timeouts.push(window.setTimeout(hideQuestion, modeBlinkDuration[mode] * 1000 + 1500 * gameLevel));
     }
     var fff = document.getElementById('curMode');
-    fff.innerHTML = input + "<br/>" + lin2;
+    fff.innerHTML = input + "<br/>" + lin2 +ermsg;
     var curLevel = document.getElementById('curLevel');
     curLevel.innerHTML = "Level: " + gameLevel;
 }
@@ -20,7 +20,7 @@ function displayInfoNoHide(problem2, input, lin2) {
     var problem2e = document.getElementById('problem2');
     problem2e.innerHTML = problem2.desc;
     var fff = document.getElementById('curMode');
-    fff.innerHTML = input + "<br/>" + lin2;
+    fff.innerHTML = input + "<br/>" + lin2+ ermsg;
     var curLevel = document.getElementById('curLevel');
     curLevel.innerHTML = "Level: " + gameLevel;
 }
@@ -198,8 +198,8 @@ async function checkAns() {
             ans2.innerHTML = ans2.innerHTML + "<p> Correct Answer: " + problem2.answer + "</p>"
             answerShown = true;
             colorFeedback(false);
-            sendHardQ(question)
             loadGame();
+            sendHardQ();
         }
         //Start next pitch
         answer.value = null;
@@ -207,7 +207,7 @@ async function checkAns() {
 }
 
 function appendLog(...params){
-  ermsg =params;
+  ermsg +=params;
   //alert(ermsg);
 }
     function getHardProblems(){
@@ -244,11 +244,11 @@ var foo = HardProblems.filter( h => h.content==content)
 foo.forEach( hp => deleteProblem(hp));
 HardProblems=HardProblems.filter( h => h.content!=content)
 }
-function sendHardQ(problem) {
+function sendHardQ() {
     var db = firebase.firestore();
 
     db.collection("hardproblems").add({
-            content: problem,
+            content: problem2.desc,
             game: modeTitle,
             answer: problem2.answer
         })
