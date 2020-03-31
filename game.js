@@ -12,6 +12,7 @@ function displayInfo(problem2, input, lin2) {
     fff.innerHTML = input + "<br/>" + lin2 + ermsg;
     var curLevel = document.getElementById('curLevel');
     curLevel.innerHTML = "Level: " + gameLevel;
+    ermsg="";
 }
 
 function displayInfoNoHide(problem2, input, lin2) {
@@ -137,7 +138,7 @@ function ReadingRecall() {
 
 async function checkAns() {
     if (event.key === 'Enter') {
-        var elapsed = endTimer();
+        elapsed = endTimer();
         //useless??
         //seconds = seconds + elapsed;
         var answer = document.getElementById('ans');
@@ -184,8 +185,12 @@ async function checkAns() {
         if (convertedAns == problem2.answer) {
             incrementPoints();
             displayScore(ans2, elapsed)
-            if (!answerShown && CurrentHP != null) {
+            if (!answerShown && CurrentHP != null && elapsed <= gameLevel+5) {
                 await rmDups(CurrentHP.content)
+            }
+            else if ( elapsed > gameLevel+5 || CurrentHP?.elapsed < elapsed){
+              appendLog("not quick enough...")
+              sendHardQ();
             }
 
             colorFeedback(true);
@@ -247,7 +252,7 @@ async function rmDups(content) {
 }
 async function getRelevantHP() {
     await getHardProblems();
-    hpm = HardProblems.filter(d => d.game == modeTitle).filter(d => d.timestamp - Date.now() < -1000 * 3600);
+    hpm = HardProblems.filter(d => d.timestamp - Date.now() < -1000 * 3600);
     CurrentHP = null;
 }
 
@@ -264,7 +269,7 @@ function displayHardProblem() {
     blueQuestion();
     problem2.desc = CurrentHP.content;
     problem2.answer = CurrentHP.answer;
-    appendLog("Loading hard problem: " + CurrentHP.docID)
+    appendLog("Loading hard problem " + CurrentHP.docID.substring(1,4) +": "+CurrentHP.content)
     HardProblems = [];
 }
 
@@ -275,16 +280,18 @@ function blueQuestion() {
 }
 
 function sendHardQ() {
+  if(modeTitle=="progiq" || modeTitle == "pointcount" || problem2.ans == "") return;
     var db = firebase.firestore();
 
     db.collection("hardproblems").add({
             content: problem2.desc,
             game: modeTitle,
             answer: problem2.answer,
-            timestamp: Date.now()
+            timestamp: Date.now(),
+            elapsed: elapsed
         })
         .then(function(docRef) {
-            appendLog("Document written with ID: ", docRef.id);
+            appendLog("Document written with ID: ", docRef.id.substring(1,4)," ",problem2.desc);
         })
         .catch(function(error) {
             console.error("Error adding document: ", error);

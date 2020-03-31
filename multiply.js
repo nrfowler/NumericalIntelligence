@@ -1,36 +1,20 @@
   async function loadMult() {
       startTimer();
-      //document.getElementById("problem2").style.font = "bold 100px arial,serif";
-      // var gameModifier = Math.pow(10, gameLevel) - 1;
-      // var average;
-      // var problem2e = document.getElementById('problem2');
-      //document.getElementById('bar1').style.display = "block";
-
-      //var ttt;
       modeTitle = "mult";
       modeBlinkDuration = 9;
       problem2 = {
           desc: "",
           answer: ""
       };
-
       await getRelevantHP();
-
-
       if (hpm.length > 0) {
           displayHardProblem();
       } else {
           blackFont();
           MultLogic();
-
       }
       totalPitches++;
       displayInfo(problem2, "Mode: Multiplication", lin2)
-
-
-      document.getElementById('bridge').style.display = "none";
-
-
       question = problem2.desc;
       return problem2.desc;
   }
