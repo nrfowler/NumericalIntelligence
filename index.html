@@ -1,125 +1,147 @@
 <html>
+
 <head>
-  <title>NumericalIQ.com</title>
-  <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-app.js"></script>
+    <title>NumericalIQ.com</title>
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-app.js"></script>
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
+    <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-firestore.js"></script>
- <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
- 	<script src="game.js"></script>
-<script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyB_9Qvoce-yLTyYM-Sd74JR_3IHXUcazZY",
-    authDomain: "numerical-iq.firebaseapp.com",
-    databaseURL: "https://numerical-iq.firebaseio.com",
-    projectId: "numerical-iq",
-    storageBucket: "numerical-iq.appspot.com",
-    messagingSenderId: "907028689388",
-    appId: "1:907028689388:web:79d61b29df8d9add1550c9",
-    measurementId: "G-VGHT4DKPKK"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-
-
-
-</script>
-	<script src="game.js"></script>
-	<script src="addition.js"></script>
-	<script src="multiply.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
+    <script src="game.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyB_9Qvoce-yLTyYM-Sd74JR_3IHXUcazZY",
+            authDomain: "numerical-iq.firebaseapp.com",
+            databaseURL: "https://numerical-iq.firebaseio.com",
+            projectId: "numerical-iq",
+            storageBucket: "numerical-iq.appspot.com",
+            messagingSenderId: "907028689388",
+            appId: "1:907028689388:web:79d61b29df8d9add1550c9",
+            measurementId: "G-VGHT4DKPKK"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+    <script src="game.js"></script>
+    <script src="addition.js"></script>
+    <script src="multiply.js"></script>
     <script src="alphanumeric.js"></script>
-<script src="bridge.js"></script>
+    <script src="bridge.js"></script>
 
-<script>
-	//var randomnum = Math.floor(Math.random() * (1000 - 100) + 100) / 100;
-  	window.onload = function(){
-            modeNames = [loadAlpha,loadSerialAddition,loadPointCount,loadLongAddition,loadMult,loadDivide, ReadingRecall];
-    modeTitle = "alpha";
-    modeLevel = 1
-    modeBlinkDuration = 4;
-    //[4,3,3,9,0,10];
-    points = 0;
-    gameLevel = 1;
-    totalPitches = 0;
-    totalModes = modeNames.length;
-    mode= 0;
-    answerShown = false;
-    blinkMode = 0;
-    question = "";
-    inarow=0;
-    timeouts = [];
-  document.cookie = "2";
-    //timer variable
-    seconds = 0;
-    elapsed = 0;
-    totalTime=0;
-    //points scored in "pitch"
-    pointDiff=0;
-    //do wrong answers decrement points?
-    penaltyMode=true;
-    //displays error logging to user w/o console
-    ermsg =""
-    problem2 = {
-        desc: "",
-        answer: ""
-    };
-    sentraw = [];
-    db = firebase.firestore();
+    <script>
+        //var randomnum = Math.floor(Math.random() * (1000 - 100) + 100) / 100;
+        window.onload = function() {
+            modeNames = [loadAlpha, loadSerialAddition, loadPointCount, loadLongAddition, loadMult, loadDivide, ReadingRecall];
+            modeTitle = "alpha";
+            modeTitles = ["alphanumeric", "serial addition", "bridge", "long addition", "mulitply", "divide", "flashcards"];
+            modeLevel = 1
+            modeBlinkDuration = 4;
+            //[4,3,3,9,0,10];
+            points = 0;
+            gameLevel = 1;
+            totalPitches = 0;
+            totalModes = modeNames.length;
+            mode = 0;
+            answerShown = false;
+            blinkMode = 0;
+            question = "";
+            inarow = 0;
+            timeouts = [];
+            document.cookie = "2";
+            //timer variable
+            seconds = 0;
+            elapsed = 0;
+            totalTime = 0;
+            //points scored in "pitch"
+            pointDiff = 0;
+            //do wrong answers decrement points?
+            penaltyMode = true;
+            //displays error logging to user w/o console
+            ermsg = ""
+            problem2 = {
+                desc: "",
+                answer: ""
+            };
+            sentraw = [];
+            db = firebase.firestore();
 
-    HardProblems = [];
-    hpm = [];
-    CurrentHP= HardProblems[0];
-
-
-
+            HardProblems = [];
+            hpm = [];
+            CurrentHP = HardProblems[0];
 
 
-   db.collection("flashcards").get().then(function(querySnapshot) {
- querySnapshot.forEach(function(doc) {
-     // doc.data() is never undefined for query doc snapshots
-     sentraw.push(doc.data()["content"].replace("add ",""));
-     //console.log(sentraw.pop());
- });
- //wait until loaded
- rndI=sentraw.length-1;
- loadGame();
- });
-	//previous random variable
-	PRV = 0;
-    loadGame();
-  }
 
-</script>
-	<link rel="stylesheet" href="styles.css">
+
+
+            db.collection("flashcards").get().then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    // doc.data() is never undefined for query doc snapshots
+                    sentraw.push(doc.data()["content"].replace("add ", ""));
+                    //console.log(sentraw.pop());
+                });
+                //wait until loaded
+                rndI = sentraw.length - 1;
+                loadGame();
+            });
+            //previous random variable
+            PRV = 0;
+            loadGame();
+        }
+    </script>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-	<div id="bar1">
-		<textarea id="problem2"></textarea>
-  </div>
-  <div style="font-size:40px" id="bridge">
+    <div id="bar1">
+        <textarea id="problem2"></textarea>
+    </div>
+    <div style="font-size:40px" id="bridge">
 
-  </div>
-<div id="bar2">
-  <input id="ans" type="number" onkeydown="checkAns()" autofocus ></input>
-  <br />
+    </div>
+    <div id="bar2">
+        <input id="ans" type="number" onkeydown="checkAns()" autofocus></input>
+        <br />
 
 
 
-  <input type="button" class="button" value="Up Level" onclick="incLevel()"/>
-  <input type="button" class="button"  value="Down Level" onclick="decLevel()"/ >
-  <input type="button" class="button" value="Change Game Mode" onclick="changeMode()"/>
-  <input type="button" class="button" value="Toggle Blink Mode" onclick="changeBlinkMode()"/>
-  <div id="stats">
+        <span id="levelDisplay">
+    Level: 0
+  </span>
+        <input type="button" class="button" value="&#9650;" onclick="incLevel()" />
+        <input type="button" class="button" value="&#9660;" onclick="decLevel()" />
+        <br/>
 
-  	<p id="answer2"></p><p id="curLevel"></p><p id="curMode"></p><p id="isBlink"></p>
-  </div>
+        <table style="width:100%">
+            <tr>
+                <td>
 
-</div>
+
+                    <span id="modeDisplay">
+  Mode: 0
+</span></td>
+                <td><input type="button" class="button" value="&#x25c2;" onclick="modeDown()" /></td>
+                <td>
+
+                    <input type="button" class="button" value="&#x25b8;" onclick="modeUp()" /></td>
+            </tr>
+        </table>
+        <br />
+        <input type="button" class="button" value="Toggle Blink Mode" id="blinkButton" onclick="changeBlinkMode()" />
+        <br /><br />
+        <div id="stats">
+
+            <p id="answer2"></p>
+            <p id="curMode"></p>
+            <p id="isBlink"></p>
+        </div>
+
+    </div>
 
 
 </body>
+
 </html>

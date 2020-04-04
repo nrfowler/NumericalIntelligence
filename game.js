@@ -10,8 +10,7 @@ function displayInfo(problem2, input, lin2) {
     }
     var fff = document.getElementById('curMode');
     fff.innerHTML = input + "<br/>" + lin2 + ermsg;
-    var curLevel = document.getElementById('curLevel');
-    curLevel.innerHTML = "Level: " + gameLevel;
+
     ermsg="";
 }
 
@@ -20,22 +19,26 @@ function displayInfoNoHide(problem2, input, lin2) {
     problem2e.innerHTML = problem2.desc;
     var fff = document.getElementById('curMode');
     fff.innerHTML = input + "<br/>" + lin2 + ermsg;
-    var curLevel = document.getElementById('curLevel');
-    curLevel.innerHTML = "Level: " + gameLevel;
+
 }
 
 function changeBlinkMode() {
     blinkMode = !blinkMode;
     loadGame();
-    document.getElementById('isBlink').innerHTML = " Blink mode is " + (blinkMode ? "on (hard)" : "off (easy)");
-}
 
-function changeMode() {
+}
+function modeUp(){
+changeMode(1);
+}
+function modeDown(){
+changeMode(-1);
+}
+function changeMode(foo) {
     //totalPitches = 0;
     seconds = 0;
     //totalTime=0;
-    mode = (mode + 1) % totalModes;
-
+    mode = ((mode + foo) <0 ? totalModes-1 : mode + foo) % totalModes;
+    document.getElementById("modeDisplay").innerHTML="Mode "+mode+ ": "+modeTitles[mode];
     loadGame();
 }
 
@@ -54,6 +57,8 @@ function loadGame() {
     answerShown = false;
     gameLevel = modeLevel;
     question = modeNames[mode]();
+    displayLevel();
+    document.getElementById('blinkButton').value = "Toggle Blink " + (blinkMode ? "(on)" : "(off)");
 
 }
 
@@ -201,7 +206,7 @@ async function checkAns() {
             ans2.innerHTML = ans2.innerHTML + "<p> Correct Answer: " + problem2.answer + "</p>"
             answerShown = true;
             colorFeedback(false);
-            loadGame();
+            if(modeTitle!="pointcount") loadGame();
             sendHardQ();
         }
         //Start next pitch
@@ -294,7 +299,7 @@ function sendHardQ() {
             appendLog("Document written with ID: ", docRef.id.substring(1,4)," ",problem2.desc);
         })
         .catch(function(error) {
-            console.error("Error adding document: ", error);
+            appendLog("Error adding document: ", docRef.id.substring(1,4));
         });
 
 }
@@ -343,6 +348,11 @@ function incLevel() {
     gameLevel++;
     modeLevel = gameLevel;
     loadGame();
+}
+
+function displayLevel(){
+
+document.getElementById("levelDisplay").innerHTML="Level: "+gameLevel+ " ";
 }
 
 function decLevel() {
