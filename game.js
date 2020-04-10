@@ -160,7 +160,7 @@ async function checkAns() {
                 incrementPoints();
                 displayScore(ans2, elapsed)
 
-                colorFeedback(true);
+                colorFeedback('yes');
                 loadGame();
                 return;
             } else if (answer.value.length == 0) {
@@ -192,28 +192,33 @@ async function checkAns() {
             displayScore(ans2, elapsed)
             if (!answerShown && CurrentHP != null && elapsed <= gameLevel+5) {
                 await rmDups(CurrentHP.content)
+                colorFeedback('yes');
             }
             else if ( elapsed > gameLevel+5 || CurrentHP?.elapsed < elapsed){
-              appendLog("not quick enough...")
+              appendLog("not quick enough...");
+colorFeedback('slow');
               sendHardQ();
             }
 
-            colorFeedback(true);
             loadGame();
         } else {
             decrementPoints();
             displayScore(ans2, elapsed);
             ans2.innerHTML = ans2.innerHTML + "<p> Correct Answer: " + problem2.answer + "</p>"
             answerShown = true;
-            colorFeedback(false);
+            colorFeedback('wrong');
             if(modeTitle!="pointcount") loadGame();
             sendHardQ();
         }
         //Start next pitch
         answer.value = null;
+        //never repeat
+        pauseQ();
     }
 }
-
+function pauseQ(){
+  pausedQ.push(CurrentHP?.content);
+}
 function appendLog(...params) {
     ermsg += "\n"+params;
     //alert(ermsg);
@@ -258,6 +263,24 @@ async function rmDups(content) {
 async function getRelevantHP() {
     await getHardProblems();
     hpm = HardProblems.filter(d => d.timestamp - Date.now() < -1000 * 3600);
+    //remove dups and remove paused q in session
+    var bar = [];
+    hpm.forEach( d => {
+      if(bar.some(e=>e.content==d.content))
+      {
+
+      }
+      else if (pausedQ.some(e=>e==d.content)){
+
+      }
+      else {
+        bar.push(d);
+      }
+    });
+    hpm =[];
+    hpm = bar;
+
+
     CurrentHP = null;
 }
 
@@ -274,7 +297,7 @@ function displayHardProblem() {
     blueQuestion();
     problem2.desc = CurrentHP.content;
     problem2.answer = CurrentHP.answer;
-    appendLog("Loading hard problem " + CurrentHP.docID.substring(1,4) +": "+CurrentHP.content)
+    appendLog("Loading hard problem " + CurrentHP.docID.substring(1,4) +": "+CurrentHP.content+" date: "+new Date(CurrentHP.timestamp).toString()+" seconds ago: "+(CurrentHP.timestamp - Date.now())/1000 )
     HardProblems = [];
 }
 
@@ -335,10 +358,14 @@ function setColor(color) {
 }
 
 function colorFeedback(isRight) {
-    if (isRight) {
-        setColor("green")
-    } else {
-        setColor("red")
+    if (isRight=="yes") {
+        setColor("green");
+    }
+    else if (isRight=="slow"){
+        setColor("orange");
+    }
+    else {
+        setColor("red");
     }
     window.setTimeout(
         setColor, 2000, "black");

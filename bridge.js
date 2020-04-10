@@ -153,11 +153,15 @@ if(ctr.pop()+ctr.pop()<=8 && hpc>18 && hpc < 23){problem2.answer = "2NT";}
     var problem2e = document.getElementById('bridge');
     problem2e.style.display = "block";
     document.getElementById('bar1').style.display = "none";
-    problem2e.innerHTML =problem2.desc;
+
+  problem2e.innerHTML =problem2.desc;
+
+
+
     var fff = document.getElementById('curMode');
     fff.innerHTML = "Mode: Bridge Point Count";
     var curLevel = document.getElementById('curLevel');
-    curLevel.innerHTML = "Level: " + gameLevel;
+    
     question = problem2.desc;
     return problem2.desc;
 }
