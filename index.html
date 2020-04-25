@@ -12,10 +12,10 @@
 <script>
 	//var randomnum = Math.floor(Math.random() * (1000 - 100) + 100) / 100;
   	window.onload = function(){
-            modeNames = [loadAlpha,loadSerialAddition,loadLongAddition,loadMult,loadDivide];
+            modeNames = [loadMult,loadDivide,loadAlpha,loadSerialAddition,loadLongAddition];
     modeTitle = "alpha";
-    modeLevel = 1
-    modeBlinkDuration = 4;
+            modeLevel = 1
+            modeBlinkDuration = Array.apply(0, Array(modeNames.length)).map(function () { return 2; });
     //[4,3,3,9,0,10];
     points = 0;
     gameLevel = 1;
