@@ -175,7 +175,7 @@ async function checkAns() {
 
                     })
                     .then(function(docRef) {
-                        appendLog("Document written with ID: ", docRef.id);
+                        appendLog("Document written with ID: ", docRef.id, " ", answer.value+"\n");
                     })
                     .catch(function(error) {
                         console.error("Error adding document: ", error);
@@ -319,7 +319,7 @@ function sendHardQ() {
             elapsed: elapsed
         })
         .then(function(docRef) {
-            appendLog("Document written with ID: ", docRef.id.substring(1,4)," ",problem2.desc);
+            appendLog("Document written with ID: ", docRef.id.substring(1,4)," ",problem2.desc+"\n");
         })
         .catch(function(error) {
             appendLog("Error adding document: ", docRef.id.substring(1,4));
@@ -353,6 +353,8 @@ function displayScore(ans2, elapsed) {
 function setColor(color) {
     var answer = document.getElementById('ans');
     var ans2 = document.getElementById('answer2');
+    var problem2e = document.getElementById('problem2');
+    problem2e.style.color = color
     ans2.style.color = color
     answer.style.bordercolor = color
 }
