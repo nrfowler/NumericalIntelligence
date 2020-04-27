@@ -36,11 +36,11 @@
     <script>
         //var randomnum = Math.floor(Math.random() * (1000 - 100) + 100) / 100;
         window.onload = function() {
-            modeNames = [loadSerialAddition, loadPointCount, loadLongAddition, loadMult, loadDivide, loadAlpha, ReadingRecall];
-            modeTitle = "serial addition";
-            modeTitles = ["serial addition", "bridge", "long addition", "mulitply", "divide", "alphanumeric","flashcards"];
-            modeLevel = 1
+            modeNames = [loadSerialAddition, loadLongAddition, loadMult, loadDivide, loadAlpha];
+            modeTitles = [];
+            modeLevel = 1;
             modeBlinkDuration = 4;
+            reviewMode = false;
             //[4,3,3,9,0,10];
             points = 0;
             gameLevel = 1;
@@ -87,6 +87,7 @@
             });
             //previous random variable
             PRV = 0;
+            modeNames.forEach(x => x());
             loadGame();
         }
     </script>
@@ -99,7 +100,7 @@
     <div style="font-size:40px" id="bridge">
     </div>
     <div id="bar2">
-        <input id="ans" type="number" onkeydown="checkAns()" autofocus></input>
+        <input id="ans" type="number" onkeydown="checkAns()" autofocus>
         <br />
         <span id="levelDisplay">
     Level: 0
@@ -107,20 +108,17 @@
         <input type="button" class="button" value="&#9650;" onclick="incLevel()" />
         <input type="button" class="button" value="&#9660;" onclick="decLevel()" />
         <br/>
-        <table style="width:100%">
-            <tr>
-                <td>
+        
 <span id="modeDisplay">
   Mode: 0
-</span></td>
-                <td><input type="button" class="button" value="&#x25c2;" onclick="modeDown()" /></td>
-                <td>
-                    <input type="button" class="button" value="&#x25b8;" onclick="modeUp()" /></td>
-            </tr>
-        </table>
+</span><input type="button" class="button" value="&#x25c2;" onclick="modeDown()" />
+                    <input type="button" class="button" value="&#x25b8;" onclick="modeUp()" />
+
         <br />
         <input type="button" class="button" value="Toggle Blink Mode" id="blinkButton" onclick="changeBlinkMode()" />
-        <br /><br />
+        <br />
+        <input type="button" class="button" value="Review Mode" id="reviewButton" onclick="changeReviewMode()" />
+<br />
         <div id="stats">
             <p id="answer2"></p>
             <p id="curMode"></p>

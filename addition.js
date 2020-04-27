@@ -1,23 +1,32 @@
-  function loadLongAddition() {
+  async function loadLongAddition() {
       startTimer();
       modeLevel= 1;
-      modeTitle="longaddition";
+      modeTitles.push("longaddition");
       modeBlinkDuration = 4;
-      var q1 = 0,
-          q2 = 0, s1=0, s2=0;
-    for(var i =0; i < gameLevel+2; i++){
-          q1 = Math.round(Math.random() * 8) + 1;
-      do {
-          q2 = Math.round(Math.random() * (9-q1)) + q1;
-      } while (q1+q2<10)
-      s1+=q1*Math.pow(10,i);
-      s2+=q2*Math.pow(10,i);
-    }
+      hpm = [];
+      if (reviewMode) await getRelevantHP();
+      if (hpm.length > 0) {
+          displayHardProblem();
+      } else {
+          blackFont();
+          var q1 = 0,
+              q2 = 0, s1 = 0, s2 = 0;
+          for (var i = 0; i < gameLevel + 2; i++) {
+              q1 = Math.round(Math.random() * 8) + 1;
+              do {
+                  q2 = Math.round(Math.random() * (9 - q1)) + q1;
+              } while (q1 + q2 < 10)
+              s1 += q1 * Math.pow(10, i);
+              s2 += q2 * Math.pow(10, i);
+          }
+          problem2.desc = " " + s1 + "\n+" + s2;
+          problem2.answer = s1 + s2;
+      }
+      
 
 
       totalPitches++;
-      problem2.desc =" "+s1 + "\n+" + s2;
-      problem2.answer = s1 + s2;
+      
       lin2="";
       question = problem2.desc;
       displayInfo(problem2, "Mode: Long Addition", lin2);
@@ -31,7 +40,7 @@
           desc: "",
           answer: ""
       };
-
+      modeTitles.push("serial");
       //document.cookie[0]=1;
       //gameLevel = parseInt(document.cookie) ?? 1;
       var saLevel = gameLevel + 1;

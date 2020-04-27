@@ -8,9 +8,10 @@ function displayInfo(problem2, input, lin2) {
     if (blinkMode) {
         timeouts.push(window.setTimeout(hideQuestion, modeBlinkDuration[mode] * 1000 + 1500 * gameLevel));
     }
-    var fff = document.getElementById('curMode');
-    fff.innerHTML = input + "<br/>" + lin2 + ermsg;
-
+    
+    document.getElementById('curMode').innerHTML = input + "<br/>" + lin2 + ermsg;
+    document.getElementById('modeDisplay').innerHTML = "Mode " + (mode+1) + " " + modeTitles[mode];
+    document.getElementById('levelDisplay').innerHTML = "Level " + gameLevel ;
     ermsg="";
 }
 
@@ -27,6 +28,11 @@ function changeBlinkMode() {
     loadGame();
 
 }
+function changeReviewMode() {
+    reviewMode = !reviewMode;
+    loadGame();
+
+}
 function modeUp(){
 changeMode(1);
 }
@@ -37,8 +43,10 @@ function changeMode(foo) {
     //totalPitches = 0;
     seconds = 0;
     //totalTime=0;
-    mode = ((mode + foo) <0 ? totalModes-1 : mode + foo) % totalModes;
-    document.getElementById("modeDisplay").innerHTML="Mode "+mode+ ": "+modeTitles[mode];
+    mode = ((mode + foo) < 0 ? totalModes - 1 : mode + foo) % totalModes;
+    var str1 = "Mode " + mode + ": " + modeTitles[mode];
+    str1 = str1.padEnd(30, ' ');
+    document.getElementById("modeDisplay").innerHTML = str1+"\n";
     loadGame();
 }
 
@@ -262,7 +270,8 @@ async function rmDups(content) {
 }
 async function getRelevantHP() {
     await getHardProblems();
-    hpm = HardProblems.filter(d => d.timestamp - Date.now() < -1000 * 3600);
+    hpm = HardProblems.filter(d => d.game == modeTitles[mode]);
+    hpm = hpm.filter(d => d.timestamp - Date.now() < -1000 * 3600);
     //remove dups and remove paused q in session
     var bar = [];
     hpm.forEach( d => {
@@ -291,6 +300,7 @@ function blackFont() {
 
 function displayHardProblem() {
 
+    
     CurrentHP = hpm.sort(function(a, b) {
         return a - b
     })[0];

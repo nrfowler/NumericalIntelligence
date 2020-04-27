@@ -10,7 +10,7 @@ function loadAlpha() {
     var addends = new Array(gameLevel + 1);
     var names = [];
     var total;
-    modeTitle = "alpha";
+    modeTitles.push("alpha");
     startTimer();
     var maxadds = 4;
     totalPitches++;

@@ -1,12 +1,13 @@
   async function loadMult() {
       startTimer();
-      modeTitle = "mult";
+      modeTitles.push("mult");
       modeBlinkDuration = 9;
       problem2 = {
           desc: "",
           answer: ""
       };
-      await getRelevantHP();
+      hpm = [];
+      if(reviewMode) await getRelevantHP();
       if (hpm.length > 0) {
           displayHardProblem();
       } else {
@@ -40,7 +41,7 @@
       //document.getElementById("problem2").style.font = "bold 100px arial,serif";
       var gameModifier = Math.pow(10, gameLevel) - 1;
       var average;
-      modeTitle = "divide";
+      modeTitles.push("divide");
       modeBlinkDuration = 1;
       var ttt;
       problem2 = {
@@ -49,7 +50,7 @@
       };
       document.getElementById("ans").type = "number";
       var hpm = [];
-      if (totalPitches % 5 == 4) {
+      if (reviewMode && totalPitches % 5 == 4) {
           await getHardProblems();
           hpm = HardProblems.filter(d => d.game == modeTitle);
           CurrentHP = null;
@@ -58,31 +59,29 @@
           desc: "",
           answer: ""
       };
-      if (hpm.length > 0 && totalPitches % 5 == 4) {
+      if (reviewMode && hpm.length > 0 ) {
           CurrentHP = hpm[0];
           problem2.desc = CurrentHP.content;
           problem2.answer = CurrentHP.answer;
           console.log("Loading hard problem: " + CurrentHP.docID)
           HardProblems = [];
       } else {
-          var q1 = 0,
-              q2 = 0;
-          do {
-              q1 = getRandomNumber(window.gameLevel + 1);
-              q2 = Math.round(Math.random() * 4) + 5;
-          } while (q1 % 10 == 0 || q2 % 10 == 0)
-          if (blinkMode)
-              window.setTimeout(hideQuestion, 2000 + 500 * modeBlinkDuration);
-          problem2.desc = "  " + q1 * q2 + " / " + "" + q2;
-          problem2.answer = q1;
+          divLogic();
       }
       totalPitches++;
-      var problem2e = document.getElementById('problem2');
-      problem2e.innerHTML = problem2.desc;
-      var fff = document.getElementById('curMode');
-      fff.innerHTML = "Mode: Division";
-      var curLevel = document.getElementById('curLevel');
-      curLevel.innerHTML = "Level: " + gameLevel;
+      displayInfo(problem2, "Mode: Division", lin2)
       question = problem2.desc;
       return problem2.desc;
   }
+function divLogic() {
+    var q1 = 0,
+        q2 = 0;
+    do {
+        q1 = getRandomNumber(window.gameLevel + 1);
+        q2 = Math.round(Math.random() * 4) + 5;
+    } while (q1 % 10 == 0 || q2 % 10 == 0)
+    if (blinkMode)
+        window.setTimeout(hideQuestion, 2000 + 500 * modeBlinkDuration);
+    problem2.desc = "  " + q1 * q2 + " / " + "" + q2;
+    problem2.answer = q1;
+}
