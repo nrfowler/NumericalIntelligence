@@ -5,7 +5,7 @@ function loadPointCount() {
     gameLevel = 1;
     modeTitle = "pointcount"
     modeLevel= 1;
-    modeBlinkDuration = 3;
+    modeBlinkDuration.push(9);
     problem2 = {
         desc: "",
         answer: ""

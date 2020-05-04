@@ -6,7 +6,7 @@ function loadAlpha() {
     gameLevel = gameLevel == 1 ? minLevel : gameLevel;
     //reset from progiq
     document.getElementById("problem2").style.font = "100px arial,serif";
-
+    modeBlinkDuration.push(6);
     var addends = new Array(gameLevel + 1);
     var names = [];
     var total;

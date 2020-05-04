@@ -5,12 +5,13 @@ function displayInfo(problem2, input, lin2) {
     for (var i = 0; i < timeouts.length; i++) {
         clearTimeout(timeouts[i]);
     }
+    showTime = modeBlinkDuration[mode] * 300 + 1500 * gameLevel;
     if (blinkMode) {
-        timeouts.push(window.setTimeout(hideQuestion, modeBlinkDuration[mode] * 1000 + 1500 * gameLevel));
+        timeouts.push(window.setTimeout(hideQuestion, showTime));
     }
     
     document.getElementById('curMode').innerHTML = input + "<br/>" + lin2 + ermsg;
-    document.getElementById('modeDisplay').innerHTML = "Mode " + (mode+1) + " " + modeTitles[mode];
+    //document.getElementById('modeDisplay').innerHTML = "Mode " + (mode+1) + " ";
     document.getElementById('levelDisplay').innerHTML = "Level " + gameLevel ;
     ermsg="";
 }
@@ -33,6 +34,23 @@ function changeReviewMode() {
     loadGame();
 
 }
+function getRandomInt(max, excluding) {
+    if (excluding === undefined) 
+        return Math.floor(Math.random() * Math.floor(max));
+    var i = excluding;
+    while (i == excluding)
+        i = Math.floor(Math.random() * Math.floor(max));
+    return i;
+}
+function getRandomItem(){
+    return varItems[getRandomInt(varItems.length)];
+}
+
+function changeVerbalMode() {
+    verbalMode = !verbalMode;
+    loadGame();
+
+}
 function modeUp(){
 changeMode(1);
 }
@@ -45,7 +63,7 @@ function changeMode(foo) {
     //totalTime=0;
     mode = ((mode + foo) < 0 ? totalModes - 1 : mode + foo) % totalModes;
     var str1 = "Mode " + mode + ": " + modeTitles[mode];
-    str1 = str1.padEnd(30, ' ');
+    str1 = str1.padEnd(30, '.');
     document.getElementById("modeDisplay").innerHTML = str1+"\n";
     loadGame();
 }
@@ -67,7 +85,8 @@ function loadGame() {
     question = modeNames[mode]();
     displayLevel();
     document.getElementById('blinkButton').value = "Toggle Blink " + (blinkMode ? "(on)" : "(off)");
-
+    document.getElementById('reviewButton').value = "Toggle Review " + (reviewMode ? "(on)" : "(off)");
+    document.getElementById('verbalButton').value = "Toggle Verbal " + (verbalMode ? "(on)" : "(off)");
 }
 
 function startTimer() {
@@ -129,8 +148,8 @@ function decrementPoints() {
 }
 
 function ReadingRecall() {
-    modeTitle = "progiq";
-    modeBlinkDuration = 9;
+    modeTitles[mode]= "progiq";
+    modeBlinkDuration.push(9);
 
     document.getElementById("problem2").style.font = "italic bold 20px arial,serif";
     //TODO: remove useless flashcards
@@ -161,9 +180,9 @@ async function checkAns() {
         // if (mode == 1 && answer.value.length > 0 && answer.value.substring(0, 3) == "add") {
         // }
         //if mode is bridge
-        if (modetitle = "pointcount") {
+        if (modeTitles[mode]== "pointcount") {
             convertedAns = answer.value;
-        } else if (modeTitle == "progiq") {
+        } else if (modeTitles[mode]== "progiq") {
             if (answer.value == ans2.value) {
                 incrementPoints();
                 displayScore(ans2, elapsed)
@@ -215,7 +234,7 @@ colorFeedback('slow');
             ans2.innerHTML = ans2.innerHTML + "<p> Correct Answer: " + problem2.answer + "</p>"
             answerShown = true;
             colorFeedback('wrong');
-            if(modeTitle!="pointcount") loadGame();
+            if(modeTitles[mode]!="pointcount") loadGame();
             sendHardQ();
         }
         //Start next pitch
@@ -317,15 +336,20 @@ function blueQuestion() {
     document.getElementById("problem2").style.color = "blue";
 }
 
+function smallFont() {
+    document.getElementById("problem2").style.font = "italic bold 20px arial,serif";
+}
+
 function sendHardQ() {
-  if(modeTitle=="progiq" || modeTitle == "pointcount" || problem2.ans == "") return;
+  if(modeTitles[mode]=="progiq" || modeTitles[mode]== "pointcount" || problem2.ans == "") return;
     var db = firebase.firestore();
 
     db.collection("hardproblems").add({
             content: problem2.desc,
-            game: modeTitle,
+            game: modeTitles[mode],
             answer: problem2.answer,
-            timestamp: Date.now(),
+        timestamp: Date.now(),
+        showTime: showTime,
             elapsed: elapsed
         })
         .then(function(docRef) {

@@ -2,7 +2,7 @@
       startTimer();
       modeLevel= 1;
       modeTitles.push("longaddition");
-      modeBlinkDuration = 4;
+      modeBlinkDuration.push(9);
       hpm = [];
       if (reviewMode) await getRelevantHP();
       if (hpm.length > 0) {
@@ -19,9 +19,29 @@
               s1 += q1 * Math.pow(10, i);
               s2 += q2 * Math.pow(10, i);
           }
+      }
+      if (verbalMode) {
+          smallFont();
+          var item = getRandomInt(varItems.length);
+          var item2 = getRandomInt(varItems.length, item);
+          var prices = [];
+          for (var i = 1; i <= varItems.length; i++)
+              prices.push(getRandomNumber((window.gameLevel + 1) / 2 + 1));
+          prices[item] = s1;
+          prices[item2] = s2;
+          problem2.desc = "";
+          for (var i = 0; i < varItems.length; i++)
+              problem2.desc += varItems[i] + ':  ' + prices[i] + "\n";
+          problem2.desc += "\n" + varItems[item] + " + " + varItems[item2] + "";
+          problem2.answer = s1 + s2;
+          varItems = varItems.reverse();
+
+      }
+      else {
           problem2.desc = " " + s1 + "\n+" + s2;
           problem2.answer = s1 + s2;
       }
+      
       
 
 

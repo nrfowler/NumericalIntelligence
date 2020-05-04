@@ -1,7 +1,7 @@
   async function loadMult() {
       startTimer();
       modeTitles.push("mult");
-      modeBlinkDuration = 9;
+      modeBlinkDuration.push(9);
       problem2 = {
           desc: "",
           answer: ""
@@ -20,20 +20,34 @@
       return problem2.desc;
   }
 
-  function MultLogic() {
-      var q1 = 0,
-          q2 = 0;
-      if (gameLevel % 2 == 1) {
-          do {
-              q1 = getRandomNumber((window.gameLevel + 1) / 2 + 1);
-              q2 = Math.round(Math.random() * 4) + 5;
-          } while (q1 % 10 == 0 || q2 % 10 == 0)
-      } else if (gameLevel % 2 == 0) {
-          var foo = [5, 7, 12.5, 2.5];
-          q1 = getRandomNumber(window.gameLevel / 2 + 1);
-          q2 = foo[Math.round(Math.random() * 3)];
-      }
-      problem2.desc = "  " + q1 + "\nx " + "" + q2;
+function MultLogic() {
+    var q1 = 0,
+        q2 = 0;
+    if (gameLevel % 2 == 1) {
+        do {
+            q1 = getRandomNumber((window.gameLevel + 1) / 2 + 1);
+            q2 = Math.round(Math.random() * 4) + 5;
+        } while (q1 % 10 == 0 || q2 % 10 == 0)
+    } else if (gameLevel % 2 == 0) {
+        var foo = [5, 7, 12.5, 2.5];
+        q1 = getRandomNumber(window.gameLevel / 2 + 1);
+        q2 = foo[Math.round(Math.random() * 3)];
+    }
+    if (verbalMode) {
+        smallFont();
+        var item = getRandomInt(varItems.length);
+        var prices = [];
+        for (var i = 1; i <= varItems.length; i++)
+            prices.push(getRandomNumber((window.gameLevel + 1) / 2 + 1));
+        prices[item] = q1;
+        for (var i = 0; i < varItems.length; i++)
+            problem2.desc += varItems[i] + '  $' + prices[i]+"\n";
+        problem2.desc += "\n"+q2 + " " + varItems[item]+"";
+        problem2.answer = q1 * q2;
+        varItems = varItems.reverse();
+        return;
+    }
+      problem2.desc = " " + q1 + "\n x" + "" + q2;
       problem2.answer = q1 * q2;
   }
   async function loadDivide() {
@@ -42,7 +56,7 @@
       var gameModifier = Math.pow(10, gameLevel) - 1;
       var average;
       modeTitles.push("divide");
-      modeBlinkDuration = 1;
+      modeBlinkDuration.push(9);
       var ttt;
       problem2 = {
           desc: "",

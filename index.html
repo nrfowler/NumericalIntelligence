@@ -38,9 +38,12 @@
         window.onload = function() {
             modeNames = [loadSerialAddition, loadLongAddition, loadMult, loadDivide, loadAlpha];
             modeTitles = [];
+            verbalMode = true;
             modeLevel = 1;
-            modeBlinkDuration = 4;
+            showTime = 0;
+            modeBlinkDuration=[];
             reviewMode = false;
+            varItems = ['widgets', 'motors', 'turbines', 'propellers', 'fans', 'gaskets'];
             //[4,3,3,9,0,10];
             points = 0;
             gameLevel = 1;
@@ -111,14 +114,19 @@
         
 <span id="modeDisplay">
   Mode: 0
-</span><input type="button" class="button" value="&#x25c2;" onclick="modeDown()" />
+</span>
+        <input type="button" class="button" value="&#x25c2;" onclick="modeDown()" />
                     <input type="button" class="button" value="&#x25b8;" onclick="modeUp()" />
+
+        <br />
 
         <br />
         <input type="button" class="button" value="Toggle Blink Mode" id="blinkButton" onclick="changeBlinkMode()" />
         <br />
         <input type="button" class="button" value="Review Mode" id="reviewButton" onclick="changeReviewMode()" />
 <br />
+        <input type="button" class="button" value="Verbal Mode" id="verbalButton" onclick="changeVerbalMode()" />
+        <br />
         <div id="stats">
             <p id="answer2"></p>
             <p id="curMode"></p>
