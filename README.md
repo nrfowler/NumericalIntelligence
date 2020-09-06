@@ -1,5 +1,5 @@
 # Numerical IQ.com
-Many pre-employment screening tests are starting to just be like "hey, try to do mental math as fast as possible." This game aims to train people, namely just me, to do well on those tests.
+Many pre-employment screening tests are starting to just be like "hey, try to do mental math as fast as possible." This game aims to train people, namely just me, to do well on those tests. This began with 5 modes but I decided to make every modification a new mode; hence dozens of modes.
 ## Game Modes
 ### Multiplication
 Starts at 2 digit then increases

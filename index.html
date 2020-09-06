@@ -10,6 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
     <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
+    <script src="stocks.js"></script>
     <script src="game.js"></script>
     <script>
         // Your web app's Firebase configuration
@@ -43,7 +44,32 @@
             showTime = 0;
             modeBlinkDuration=[];
             reviewMode = false;
-            varItems = ['widgets', 'motors', 'turbines', 'propellers', 'fans', 'gaskets'];
+            listnames =[];
+            priceslist = [];
+            displaytypelist=['vlist','hlist','truckgauges','stocks']
+            listnames[0] = ['front suspension', 'front wheel', 'front brake', 'cab area', 'saddle tank area', 'coupling system',
+          'rear tractor wheels','suspension','brakes'];
+          listnames[1] = ['B','C','N','O','F'];
+          listnames[2]=['exhaust pyrom','engine oil p','engine oil t','engine coolant t','ammeter','voltmeter','tachometer',
+        'odom','air p','air brake app p','fuel gauge','air filter rest','axle t','2nd axle t']
+        listnames[3]=['BA','WMT','D','IBM','KO','WFC','SPY','NDAQ']
+
+          priceslist[0]=[];
+          priceslist[1]=[5,6,7,8,9];
+          priceslist[2]=[];
+
+
+          priceslist[3]=[172,344,78.50,124.64,216.47,24.20,100,100];
+          stocks = new Stocks('ARKXWZK7XN8ZWJ0W');
+          pricefoo = new Array();
+          var rand = getRandomInt(listnames.length);
+          rand = 3;
+          varItems = listnames[rand];
+          displaytype=displaytypelist[rand];
+          prices = [];
+
+          prices = priceslist[rand];
+          populateStocks();
             //[4,3,3,9,0,10];
             points = 0;
             gameLevel = 1;
@@ -111,7 +137,7 @@
         <input type="button" class="button" value="&#9650;" onclick="incLevel()" />
         <input type="button" class="button" value="&#9660;" onclick="decLevel()" />
         <br/>
-        
+
 <span id="modeDisplay">
   Mode: 0
 </span>

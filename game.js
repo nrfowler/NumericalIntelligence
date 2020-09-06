@@ -5,11 +5,13 @@ function displayInfo(problem2, input, lin2) {
     for (var i = 0; i < timeouts.length; i++) {
         clearTimeout(timeouts[i]);
     }
-    showTime = modeBlinkDuration[mode] * 300 + 1500 * gameLevel;
+    if (CurrentHP == null)
+        showTime = modeBlinkDuration[mode] * 300 + 1500 * gameLevel;
+
     if (blinkMode) {
         timeouts.push(window.setTimeout(hideQuestion, showTime));
     }
-    
+
     document.getElementById('curMode').innerHTML = input + "<br/>" + lin2 + ermsg;
     //document.getElementById('modeDisplay').innerHTML = "Mode " + (mode+1) + " ";
     document.getElementById('levelDisplay').innerHTML = "Level " + gameLevel ;
@@ -35,7 +37,7 @@ function changeReviewMode() {
 
 }
 function getRandomInt(max, excluding) {
-    if (excluding === undefined) 
+    if (excluding === undefined)
         return Math.floor(Math.random() * Math.floor(max));
     var i = excluding;
     while (i == excluding)
@@ -67,7 +69,14 @@ function changeMode(foo) {
     document.getElementById("modeDisplay").innerHTML = str1+"\n";
     loadGame();
 }
-
+function getRandomDecimal(digits,decimals){
+  var output = 0;
+  for(var i = 0; i < digits ; i++)
+    output += Math.round(Math.random()*10)*Math.pow(10,i);
+  for(var i = -1; i >= decimals*-1 ; i--)
+    output += Math.round(Math.random()*10)*Math.pow(10,i);
+return Math.round((output ) * Math.pow(10,decimals)) / Math.pow(10,decimals);
+}
 function getRandomNumber(digits) {
     if (digits == 1)
         return Math.round(Math.random() * 7 + 2)
@@ -141,7 +150,7 @@ function decrementPoints() {
     pointDiff = -1.5 * gameLevel;
     if (penaltyMode)
         points += pointDiff;
-    if (inarow < -2) {
+    if (inarow < -20) {
         mode = (mode + 1) % modeNames.length;
         inarow = 0;
     }
@@ -214,16 +223,18 @@ async function checkAns() {
             convertedAns = parseFloat(answer.value)
 
         }
-        if (convertedAns == problem2.answer) {
+        if (Math.abs(convertedAns - problem2.answer)<.001) {
             incrementPoints();
-            displayScore(ans2, elapsed)
-            if (!answerShown && CurrentHP != null && elapsed <= gameLevel+5) {
-                await rmDups(CurrentHP.content)
-                colorFeedback('yes');
+            displayScore(ans2, elapsed);
+            if (!answerShown  && elapsed <= gameLevel+5) {
+              if( CurrentHP != null)  await rmDups(CurrentHP.content);
+              colorFeedback('yes');
+              appendLog("...\n"+foo+" seconds is time limit, you took "+elapsed.toFixed(2));
             }
-            else if ( elapsed > gameLevel+5 || CurrentHP?.elapsed < elapsed){
-              appendLog("not quick enough...");
-colorFeedback('slow');
+            else if ( elapsed > gameLevel+5 || (CurrentHP!=null && CurrentHP?.elapsed < elapsed)){
+              var foo = CurrentHP?.elapsed == undefined ? gameLevel+5 : CurrentHP?.elapsed;
+              appendLog("not quick enough...\n"+foo+" seconds is time limit, you took "+elapsed.toFixed(2));
+                colorFeedback('slow');
               sendHardQ();
             }
 
@@ -319,13 +330,14 @@ function blackFont() {
 
 function displayHardProblem() {
 
-    
+
     CurrentHP = hpm.sort(function(a, b) {
         return a - b
     })[0];
     blueQuestion();
     problem2.desc = CurrentHP.content;
     problem2.answer = CurrentHP.answer;
+    showTime = CurrentHP.showTime;
     appendLog("Loading hard problem " + CurrentHP.docID.substring(1,4) +": "+CurrentHP.content+" date: "+new Date(CurrentHP.timestamp).toString()+" seconds ago: "+(CurrentHP.timestamp - Date.now())/1000 )
     HardProblems = [];
 }
@@ -339,7 +351,9 @@ function blueQuestion() {
 function smallFont() {
     document.getElementById("problem2").style.font = "italic bold 20px arial,serif";
 }
-
+function truckFont() {
+    document.getElementById("problem2").style.font = "12px arial,serif";
+}
 function sendHardQ() {
   if(modeTitles[mode]=="progiq" || modeTitles[mode]== "pointcount" || problem2.ans == "") return;
     var db = firebase.firestore();
@@ -418,6 +432,28 @@ function displayLevel(){
 document.getElementById("levelDisplay").innerHTML="Level: "+gameLevel+ " ";
 }
 
+async function populateStocks(){
+
+listnames[3].forEach(async (item, i) => {
+
+  pricefoo[i] = await stocks.timeSeries({
+symbol: item,
+interval: '1min',
+amount: 1
+});
+sleep(20);
+});
+
+
+
+}
+function sleep(duration) {
+	return new Promise(resolve => {
+		setTimeout(() => {
+			resolve()
+		}, duration * 1000)
+	})
+}
 function decLevel() {
     if (gameLevel > 1)
         gameLevel--;
