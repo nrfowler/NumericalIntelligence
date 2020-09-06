@@ -96,6 +96,7 @@ function loadGame() {
     document.getElementById('blinkButton').value = "Toggle Blink " + (blinkMode ? "(on)" : "(off)");
     document.getElementById('reviewButton').value = "Toggle Review " + (reviewMode ? "(on)" : "(off)");
     document.getElementById('verbalButton').value = "Toggle Verbal " + (verbalMode ? "(on)" : "(off)");
+    document.getElementById('retainButton').value = "Toggle Retain " + (retainMode ? "(on)" : "(off)");
 }
 
 function startTimer() {
@@ -354,8 +355,13 @@ function smallFont() {
 function truckFont() {
     document.getElementById("problem2").style.font = "12px arial,serif";
 }
+
+function changeRetentionMode(){
+  retainMode = !retainMode;
+  loadGame();
+}
 function sendHardQ() {
-  if(modeTitles[mode]=="progiq" || modeTitles[mode]== "pointcount" || problem2.ans == "") return;
+  if(modeTitles[mode]=="progiq" || modeTitles[mode]== "pointcount" || problem2.ans == "" || retainMode == false) return;
     var db = firebase.firestore();
 
     db.collection("hardproblems").add({
