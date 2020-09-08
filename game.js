@@ -64,10 +64,11 @@ function changeMode(foo) {
     seconds = 0;
     //totalTime=0;
     mode = ((mode + foo) < 0 ? totalModes - 1 : mode + foo) % totalModes;
+    loadGame();
     var str1 = "Mode " + mode + ": " + modeTitles[mode];
     str1 = str1.padEnd(30, '.');
     document.getElementById("modeDisplay").innerHTML = str1+"\n";
-    loadGame();
+
 }
 function getRandomDecimal(digits,decimals){
   var output = 0;
@@ -92,7 +93,7 @@ function loadGame() {
     answerShown = false;
     gameLevel = modeLevel;
     question = modeNames[mode]();
-    displayLevel();
+    //displayLevel();
     document.getElementById('blinkButton').value = "Toggle Blink " + (blinkMode ? "(on)" : "(off)");
     document.getElementById('reviewButton').value = "Toggle Review " + (reviewMode ? "(on)" : "(off)");
     document.getElementById('verbalButton').value = "Toggle Verbal " + (verbalMode ? "(on)" : "(off)");
@@ -190,9 +191,10 @@ async function checkAns() {
         // if (mode == 1 && answer.value.length > 0 && answer.value.substring(0, 3) == "add") {
         // }
         //if mode is bridge
-        if (modeTitles[mode]== "pointcount") {
+        if (modeTitles[mode]== "bridge") {
             convertedAns = answer.value;
-        } else if (modeTitles[mode]== "progiq") {
+        } else if (modeTitles[mode]== "progiq")
+        {
             if (answer.value == ans2.value) {
                 incrementPoints();
                 displayScore(ans2, elapsed)
@@ -224,7 +226,7 @@ async function checkAns() {
             convertedAns = parseFloat(answer.value)
 
         }
-        if (Math.abs(convertedAns - problem2.answer)<.001) {
+        if (Math.abs(convertedAns - problem2.answer)<.001 || convertedAns == problem2.answer) {
             incrementPoints();
             displayScore(ans2, elapsed);
             if (!answerShown  && elapsed <= gameLevel+5) {
@@ -408,8 +410,10 @@ function setColor(color) {
     var answer = document.getElementById('ans');
     var ans2 = document.getElementById('answer2');
     var problem2e = document.getElementById('problem2');
+    var bridge = document.getElementById('bridge');
     problem2e.style.color = color
     ans2.style.color = color
+    bridge.style.color = color
     answer.style.bordercolor = color
 }
 
@@ -456,7 +460,8 @@ sleep(20);
 function sleep(duration) {
 	return new Promise(resolve => {
 		setTimeout(() => {
-			resolve()
+      loadGame();
+			resolve();
 		}, duration * 1000)
 	})
 }

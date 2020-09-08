@@ -4,8 +4,9 @@ function loadPointCount() {
     var ttt;
     gameLevel = 1;
     modeTitle = "pointcount"
-    modeLevel= 1;
+    modeTitles.push("bridge");
     modeBlinkDuration.push(9);
+    hpm = [];
     problem2 = {
         desc: "",
         answer: ""
@@ -161,7 +162,7 @@ if(ctr.pop()+ctr.pop()<=8 && hpc>18 && hpc < 23){problem2.answer = "2NT";}
     var fff = document.getElementById('curMode');
     fff.innerHTML = "Mode: Bridge Point Count";
     var curLevel = document.getElementById('curLevel');
-    
+
     question = problem2.desc;
     return problem2.desc;
 }

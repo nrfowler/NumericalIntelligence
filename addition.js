@@ -88,10 +88,13 @@
           problem2.desc = "";
           if(displaytype=="vlist"){
           for (var i = 0; i < varItems.length; i++)
-              problem2.desc += varItems[i] + ':  ' + prices[i] + "\n";}
+              problem2.desc += varItems[i] + ':  ' + prices[i] + "\n";
+          displayQuestion();
+            }
           else if (displaytype=="hlist") {
             for (var i = 0; i < varItems.length; i++)
                 problem2.desc += varItems[i] + ': ' + prices[i] + "     ";
+            displayQuestion();
           }
           else if (displaytype=="truckgauges") {
               truckFont();
@@ -113,11 +116,11 @@
                 problem2.desc +="                        ";
                 problem2.desc +=  prices[12]+" ";
                 problem2.desc +=  prices[13]+"\n";
-
+                displayQuestion();
           }
           else if (displaytype == "stocks"){
 problem2.desc = "loading"
-setTimeout(function(){
+
   problem2.desc = "";
   for (var i = 0; i < varItems.length; i++){
     prices[i]=pricefoo[i][0]['open'];
@@ -125,14 +128,9 @@ setTimeout(function(){
       problem2.desc += varItems[i] + ':  ' + prices[i] + "\n";
     }
       displayQuestion();
-}, varItems.length*30000);
-
-
 
           }
-displayQuestion();
-
-          //varItems = varItems.reverse();
+  //varItems = varItems.reverse();
 
       }
       else{

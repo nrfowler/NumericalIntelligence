@@ -37,7 +37,7 @@
     <script>
         //var randomnum = Math.floor(Math.random() * (1000 - 100) + 100) / 100;
         window.onload = function() {
-            modeNames = [loadSerialAddition, loadLongAddition, loadMult, loadDivide, loadAlpha];
+            modeNames = [loadSerialAddition, loadLongAddition, loadMult, loadDivide, loadAlpha, loadPointCount];
             modeTitles = [];
             verbalMode = true;
             modeLevel = 1;
@@ -52,14 +52,14 @@
           listnames[1] = ['B','C','N','O','F'];
           listnames[2]=['exhaust pyrom','engine oil p','engine oil t','engine coolant t','ammeter','voltmeter','tachometer',
         'odom','air p','air brake app p','fuel gauge','air filter rest','axle t','2nd axle t']
-        listnames[3]=['BA','WMT','D','IBM','KO','WFC','SPY','NDAQ']
+        listnames[3]=['BA','WMT','D','IBM','KO'];//,'WFC','SPY','NDAQ']
 
           priceslist[0]=[];
           priceslist[1]=[5,6,7,8,9];
           priceslist[2]=[];
 
 
-          priceslist[3]=[172,344,78.50,124.64,216.47,24.20,100,100];
+          priceslist[3]=[172,344,78.50,124.64,216.47];//24.20,100,100];
           stocks = new Stocks('ARKXWZK7XN8ZWJ0W');
           pricefoo = new Array();
           var rand = getRandomInt(listnames.length);
@@ -117,8 +117,9 @@
             });
             //previous random variable
             PRV = 0;
-            modeNames.forEach(x => x());
-            loadGame();
+            //modeNames.forEach(x => x());
+            //sleep(3);
+
         }
     </script>
     <link rel="stylesheet" href="styles.css">
