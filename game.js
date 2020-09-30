@@ -31,15 +31,104 @@ function changeBlinkMode() {
     loadGame();
 
 }
+function displayData(){
+  items=[];
+  problem2.desc = "";
+  problem2.answer = 0;
+  if (verbalMode) {
+      smallFont();
+      items.push(getRandomInt(varItems.length));
+      for(var i = 1; i < gameLevel+1; i++) {
+        items.push(getRandomInt(varItems.length, items));
+      }
+
+      if(prices.length==0)
+        for (var i = 1; i <= varItems.length; i++) prices.push(getRandomDecimal(2,2));
+
+      problem2.desc = "";
+      if(displaytype=="vlist"){
+      for (var i = 0; i < varItems.length; i++)
+          problem2.desc += varItems[i] + ':  ' + prices[i] + "\n";
+
+        }
+      else if (displaytype=="hlist") {
+        for (var i = 0; i < varItems.length; i++)
+            problem2.desc += varItems[i] + ': ' + prices[i] + "     ";
+
+      }
+      else if (displaytype=="truckgauges") {
+          truckFont();
+            problem2.desc +=  prices[0] + " ";
+            problem2.desc += prices[1]+ "      ";
+            problem2.desc +=  prices[6]+"    ";
+            problem2.desc +=  prices[7]+ "        ";
+            problem2.desc +=prices[8]+" ";
+            problem2.desc += prices[9]+"\n\n";
+
+            problem2.desc += prices[2] + " ";
+            problem2.desc += prices[3] +"  ";
+            problem2.desc +="                        ";
+            problem2.desc +=  prices[10]+" ";
+            problem2.desc +=  prices[11]+"\n\n";
+
+            problem2.desc +=  prices[4] + " ";
+            problem2.desc += prices[5] +" ";
+            problem2.desc +="                        ";
+            problem2.desc +=  prices[12]+" ";
+            problem2.desc +=  prices[13]+"\n";
+
+      }
+      else if (displaytype == "stocks"){
+problem2.desc = "loading"
+
+problem2.desc = "";
+for (var i = 0; i < varItems.length; i++){
+prices[i]=pricefoo[i][0]['open'];
+console.log(prices[i])
+  problem2.desc += varItems[i] + ':  ' + prices[i] + "\n";
+}
+
+
+      }
+//varItems = varItems.reverse();
+
+  }
+}
+function displayQuestion(){
+  problem2.desc += "\n"+varItems[items[0]];
+  problem2.answer = prices[items[0]]
+  for (var i = 1; i < items.length; i++){
+        problem2.desc +=' + '+ varItems[items[i]] ;
+        problem2.answer += prices[items[i]]  }
+}
+function updateData(){
+  rand++;
+  if(rand>listnames.length) rand = 0;
+  if(rand==3) populateStocks();
+  varItems = listnames[rand];
+  displaytype=displaytypelist[rand];
+
+  prices = priceslist[rand];
+}
+function changeDataSource(){
+  updateData();
+  loadGame();
+}
 function changeReviewMode() {
     reviewMode = !reviewMode;
     loadGame();
 
 }
 function getRandomInt(max, excluding) {
+  if(Array.isArray(excluding)){
+    i = excluding[0];
+    while(excluding.some(x=>x==i))i = Math.floor(Math.random() * Math.floor(max));
+    return i;
+  }
     if (excluding === undefined)
         return Math.floor(Math.random() * Math.floor(max));
-    var i = excluding;
+    var i = 0
+     i = excluding;
     while (i == excluding)
         i = Math.floor(Math.random() * Math.floor(max));
     return i;

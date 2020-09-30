@@ -46,30 +46,28 @@
             reviewMode = false;
             listnames =[];
             priceslist = [];
-            displaytypelist=['vlist','hlist','truckgauges','stocks']
+            displaytypelist=['vlist','hlist','truckgauges','stocks','vlist']
             listnames[0] = ['front suspension', 'front wheel', 'front brake', 'cab area', 'saddle tank area', 'coupling system',
           'rear tractor wheels','suspension','brakes'];
           listnames[1] = ['B','C','N','O','F'];
           listnames[2]=['exhaust pyrom','engine oil p','engine oil t','engine coolant t','ammeter','voltmeter','tachometer',
         'odom','air p','air brake app p','fuel gauge','air filter rest','axle t','2nd axle t']
         listnames[3]=['BA','WMT','D','IBM','KO'];//,'WFC','SPY','NDAQ']
-
+        listnames[4]=['g/oz','ml/tsp','mg/gr','g/lb','fl-oz/pint','fl-oz/quart','mL/quart','mL/pint','fl-dr/fl-oz','mL/fl-dr'
+      ,'mL/oz','L/gal','J/cal'];
           priceslist[0]=[];
           priceslist[1]=[5,6,7,8,9];
           priceslist[2]=[];
-
-
+ items = [];
+priceslist[4]=[28.35,5,64.8,454,16,32,960,480,8,5,30,3.785,4.19];
           priceslist[3]=[172,344,78.50,124.64,216.47];//24.20,100,100];
           stocks = new Stocks('ARKXWZK7XN8ZWJ0W');
           pricefoo = new Array();
-          var rand = getRandomInt(listnames.length);
+          //rand = getRandomInt(listnames.length);
           rand = 3;
-          varItems = listnames[rand];
-          displaytype=displaytypelist[rand];
           prices = [];
+          updateData();
 
-          prices = priceslist[rand];
-          populateStocks();
             //[4,3,3,9,0,10];
             points = 0;
             gameLevel = 1;
@@ -157,6 +155,8 @@
         <br />
                 <input type="button" class="button" value="Retention Mode" id="retainButton" onclick="changeRetentionMode()" />
         <br />
+        <input type="button" class="button" value="Data Source" id="dataButton" onclick="changeDataSource()" />
+<br />
         <div id="stats">
             <p id="answer2"></p>
             <p id="curMode"></p>

@@ -25,19 +25,14 @@ function MultLogic() {
         q2 = 0;
         do {
             q1 = getRandomNumber((window.gameLevel + 1) / 2 + 1);
-            q2 = Math.round(Math.random() * 4) + 5;
+            q2 = Math.round(Math.random() * 2) + 7;
         } while (q1 % 10 == 0 || q2 % 10 == 0)
     if (verbalMode) {
         smallFont();
         var item = getRandomInt(varItems.length);
-        var prices = [];
-        for (var i = 1; i <= varItems.length; i++)
-            prices.push(getRandomNumber((window.gameLevel + 1) / 2 + 1));
-        prices[item] = q1;
-        for (var i = 0; i < varItems.length; i++)
-            problem2.desc += varItems[i] + '  $' + prices[i]+"\n";
+        displayData();
         problem2.desc += "\n"+q2 + " " + varItems[item]+"";
-        problem2.answer = q1 * q2;
+        problem2.answer = prices[item] * q2;
         //varItems = varItems.reverse();
         return;
     }
@@ -45,7 +40,7 @@ function MultLogic() {
       if (gameLevel % 2 == 1) {
 
 
-          problem2.desc = " " + q1 + "\n x" + "" + q2;
+          problem2.desc = " 0x" + q1.toString(16) + "\n x" + "" + q2;
           problem2.answer = q1 * q2;
       } else if (gameLevel % 2 == 0) {
           var foo = [2.5, .75, 1, 2];
