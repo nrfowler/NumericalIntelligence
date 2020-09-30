@@ -154,9 +154,9 @@ function changeMode(foo) {
     //totalTime=0;
     mode = ((mode + foo) < 0 ? totalModes - 1 : mode + foo) % totalModes;
     loadGame();
-    var str1 = "Mode " + mode + ": " + modeTitles[mode];
-    str1 = str1.padEnd(30, '.');
-    document.getElementById("modeDisplay").innerHTML = str1+"\n";
+    // var str1 = "Mode " + mode + ": " + modeTitles[mode];
+    // str1 = str1.padEnd(30, '.');
+    // document.getElementById("modeDisplay").innerHTML = str1+"\n";
 
 }
 function getRandomDecimal(digits,decimals){
