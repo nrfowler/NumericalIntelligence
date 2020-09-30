@@ -30,9 +30,10 @@ function MultLogic() {
     if (verbalMode) {
         smallFont();
         var item = getRandomInt(varItems.length);
-        displayData();
-        problem2.desc += "\n"+q2 + " " + varItems[item]+"";
+        problem2.desc = q2 + " " + varItems[item]+"\n\n";
+
         problem2.answer = prices[item] * q2;
+        displayData();
         //varItems = varItems.reverse();
         return;
     }

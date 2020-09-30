@@ -4,11 +4,11 @@
       modeTitles.push("longaddition");
       modeBlinkDuration.push(9);
       hpm = [];
+      blackFont();
       if (reviewMode) await getRelevantHP();
       if (hpm.length > 0  && reviewMode) {
           displayHardProblem();
       } else {
-          blackFont();
           var q1 = 0,
               q2 = 0, s1 = 0, s2 = 0;
           for (var i = 0; i < gameLevel + 2; i++) {
@@ -25,12 +25,12 @@
           var item = getRandomInt(varItems.length);
           var item2 = getRandomInt(varItems.length, item);
 
-          displayData();
           //displayQuestion();
           var v1 = q1 > 1 ? q1.toString()+"*" : "";
           var v2 = q2 > 1 ? q2.toString()+"*"  : "";
-          problem2.desc += "\n"+v1 + varItems[item] + " + " +v2+ varItems[item2] + "";
+          problem2.desc = ""+v1 + varItems[item] + " + " +v2+ varItems[item2] + "\n\n";
           problem2.answer = q1*prices[item]  + q2*prices[item2]
+          displayData();
           //varItems = varItems.reverse();
 
       }
@@ -58,6 +58,7 @@
           answer: ""
       };
       modeTitles.push("serial");
+      blackFont();
       //document.cookie[0]=1;
       //gameLevel = parseInt(document.cookie) ?? 1;
       var saLevel = gameLevel + 1;
@@ -69,8 +70,8 @@
 
       totalPitches++;
       if (verbalMode) {
+        displayQuestion();
           displayData();
-displayQuestion();
       }
       else{
 

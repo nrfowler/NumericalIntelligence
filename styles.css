@@ -17,10 +17,16 @@
 
 		}
     #problem2 {
-        font-size: 10vh;
+        font-size: 40px;
 				padding-right: 10px;
 				width: 70%;
-				height: 100%;
+				height: 25%;
+    }
+    #legend {
+        font-size: 20px;
+				padding-right: 10px;
+				width: 70%;
+				height: 75%;
     }
     #bar2 {
         font-size: 4vh;
@@ -36,4 +42,3 @@
 		#advert{
 			font-size:10px;
 		}
-

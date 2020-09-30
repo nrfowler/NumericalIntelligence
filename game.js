@@ -33,8 +33,7 @@ function changeBlinkMode() {
 }
 function displayData(){
   items=[];
-  problem2.desc = "";
-  problem2.answer = 0;
+problem2.legend = "";
   if (verbalMode) {
       smallFont();
       items.push(getRandomInt(varItems.length));
@@ -45,47 +44,47 @@ function displayData(){
       if(prices.length==0)
         for (var i = 1; i <= varItems.length; i++) prices.push(getRandomDecimal(2,2));
 
-      problem2.desc = "";
+
       if(displaytype=="vlist"){
       for (var i = 0; i < varItems.length; i++)
-          problem2.desc += varItems[i] + ':  ' + prices[i] + "\n";
+          problem2.legend += varItems[i] + ':  ' + prices[i] + "\n";
 
         }
       else if (displaytype=="hlist") {
         for (var i = 0; i < varItems.length; i++)
-            problem2.desc += varItems[i] + ': ' + prices[i] + "     ";
+            problem2.legend += varItems[i] + ': ' + prices[i] + "     ";
 
       }
       else if (displaytype=="truckgauges") {
           truckFont();
-            problem2.desc +=  prices[0] + " ";
-            problem2.desc += prices[1]+ "      ";
-            problem2.desc +=  prices[6]+"    ";
-            problem2.desc +=  prices[7]+ "        ";
-            problem2.desc +=prices[8]+" ";
-            problem2.desc += prices[9]+"\n\n";
+            problem2.legend +=  prices[0] + " ";
+            problem2.legend += prices[1]+ "      ";
+            problem2.legend +=  prices[6]+"    ";
+            problem2.legend +=  prices[7]+ "        ";
+            problem2.legend +=prices[8]+" ";
+            problem2.legend += prices[9]+"\n\n";
 
-            problem2.desc += prices[2] + " ";
-            problem2.desc += prices[3] +"  ";
-            problem2.desc +="                        ";
-            problem2.desc +=  prices[10]+" ";
-            problem2.desc +=  prices[11]+"\n\n";
+            problem2.legend += prices[2] + " ";
+            problem2.legend += prices[3] +"  ";
+            problem2.legend +="                        ";
+            problem2.legend +=  prices[10]+" ";
+            problem2.legend +=  prices[11]+"\n\n";
 
-            problem2.desc +=  prices[4] + " ";
-            problem2.desc += prices[5] +" ";
-            problem2.desc +="                        ";
-            problem2.desc +=  prices[12]+" ";
-            problem2.desc +=  prices[13]+"\n";
+            problem2.legend +=  prices[4] + " ";
+            problem2.legend += prices[5] +" ";
+            problem2.legend +="                        ";
+            problem2.legend +=  prices[12]+" ";
+            problem2.legend +=  prices[13]+"\n";
 
       }
       else if (displaytype == "stocks"){
-problem2.desc = "loading"
+problem2.legend = "loading"
 
-problem2.desc = "";
+problem2.legend = "";
 for (var i = 0; i < varItems.length; i++){
 prices[i]=pricefoo[i][0]['open'];
 console.log(prices[i])
-  problem2.desc += varItems[i] + ':  ' + prices[i] + "\n";
+  problem2.legend += varItems[i] + ':  ' + prices[i] + "\n";
 }
 
 
@@ -95,11 +94,12 @@ console.log(prices[i])
   }
 }
 function displayQuestion(){
-  problem2.desc += "\n"+varItems[items[0]];
+  problem2.desc = "\n"+varItems[items[0]];
   problem2.answer = prices[items[0]]
   for (var i = 1; i < items.length; i++){
         problem2.desc +=' + '+ varItems[items[i]] ;
         problem2.answer += prices[items[i]]  }
+  problem2.desc +="\n\n"
 }
 function updateData(){
   rand++;
@@ -203,6 +203,7 @@ function showQuestion() {
     document.getElementById('bar1').style.display = "block";
     document.getElementById("ans").type = "number";
     document.getElementById('problem2').innerHTML = problem2.desc;
+    document.getElementById('legend').innerHTML = problem2.legend;
 }
 
 function hideQuestion() {
@@ -416,7 +417,7 @@ async function getRelevantHP() {
 }
 
 function blackFont() {
-    document.getElementById("problem2").style.font = "10vh arial,serif";
+    document.getElementById("problem2").style.font = "40px";
     document.getElementById("problem2").style.color = "black";
 }
 
@@ -436,15 +437,15 @@ function displayHardProblem() {
 
 function blueQuestion() {
 
-    document.getElementById("problem2").style.font = "bold 30px arial,serif";
+    document.getElementById("problem2").style.font = "bold 30px";
     document.getElementById("problem2").style.color = "blue";
 }
 
 function smallFont() {
-    document.getElementById("problem2").style.font = "italic bold 20px arial,serif";
+    document.getElementById("legend").style.font = "italic bold 20px";
 }
 function truckFont() {
-    document.getElementById("problem2").style.font = "12px arial,serif";
+    document.getElementById("legend").style.font = "12px ";
 }
 
 function changeRetentionMode(){
