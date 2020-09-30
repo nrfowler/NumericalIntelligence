@@ -146,12 +146,57 @@ function checkAns() {
             ans2.innerHTML = ans2.innerHTML + "<p> Correct Answer: " + problem2.answer + "</p>"
             colorFeedback(false);
             sendHardQ(question)
+            loadGame();
         }
         //Start next pitch
         answer.value = null;
     }
+    else{
+
+    }
+}
+function onKeyPress(){
+  var answer = document.getElementById('ans');
+  var convertedAns;
+  var ans2 = document.getElementById('answer2');
+  //If typing mode
+  // if (mode == 1 && answer.value.length > 0 && answer.value.substring(0, 3) == "add") {
+  // }
+  //if mode is bridge
+
+  if (modetitle ="pointcount") {
+      convertedAns = answer.value;
+  } else {
+      convertedAns = parseFloat(answer.value)
+
+  }
+
+  if ( getDigits(convertedAns) >= getDigits(problem2.answer)){
+    var elapsed = endTimer();
+    if (convertedAns == problem2.answer) {
+
+        incrementPoints();
+        displayScore(ans2, elapsed)
+
+        colorFeedback(true);
+        loadGame();
+    }
+    else {
+      decrementPoints();
+      displayScore(ans2, elapsed);
+      ans2.innerHTML = ans2.innerHTML + "<p> Correct Answer: " + problem2.answer + "</p>"
+      colorFeedback(false);
+
+      loadGame();
+    }
+    answer.value = null;
+  }
+
 }
 
+function getDigits(number){
+  return Math.log(number) * Math.LOG10E + 1 | 0;
+}
 function sendHardQ(problem) {
     var db = firebase.firestore();
 

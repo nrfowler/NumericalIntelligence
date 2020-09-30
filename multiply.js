@@ -18,7 +18,7 @@
       {
         do {
           q1 = getRandomNumber((window.gameLevel+1)/2+1);
-          q2 = Math.round(Math.random() * 4) + 5;
+          q2 = getRandomNumber((window.gameLevel+1)/2+1);
       } while (q1 % 10 == 0 || q2 % 10 == 0)}
       else if (gameLevel % 2 == 0){
         var foo = [5,7,12.5,2.5];
@@ -52,10 +52,10 @@
           q2 = Math.round(Math.random() * 4) + 5;
       } while (q1 % 10 == 0 || q2 % 10 == 0)
       totalPitches++;
-      
+
       problem2.desc = "  " + q1*q2 + " / " + "" + q2;
       problem2.answer = q1;
-      
+
       question = problem2.desc;
       displayInfo(problem2, "Mode: Division", "");
       return problem2.desc;
