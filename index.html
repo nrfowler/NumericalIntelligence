@@ -50,14 +50,14 @@
             displaytypelist=['vlist','hlist','truckgauges','stocks','vlist']
             listnames[0] = ['front suspension', 'front wheel', 'front brake', 'cab area', 'saddle tank area', 'coupling system',
           'rear tractor wheels','suspension','brakes'];
-          listnames[1] = ['B','C','N','O','F'];
+          listnames[1] = ['B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti'];
           listnames[2]=['exhaust pyrom','engine oil p','engine oil t','engine coolant t','ammeter','voltmeter','tachometer',
         'odom','air p','air brake app p','fuel gauge','air filter rest','axle t','2nd axle t']
         listnames[3]=['BA','WMT','D','IBM','KO'];//,'WFC','SPY','NDAQ']
         listnames[4]=['g/oz','ml/tsp','mg/gr','g/lb','fl-oz/pint','fl-oz/quart','mL/quart','mL/pint','fl-dr/fl-oz','mL/fl-dr'
       ,'mL/oz','L/gal','J/cal'];
           priceslist[0]=[];
-          priceslist[1]=[5,6,7,8,9];
+          priceslist[1]=(new Array(listnames[1].length )).fill(undefined).map((_, i) => i + 5);
           priceslist[2]=[];
  items = [];
 priceslist[4]=[28.35,5,64.8,454,16,32,960,480,8,5,30,3.785,4.19];
