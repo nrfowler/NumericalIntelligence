@@ -67,6 +67,7 @@ priceslist[4]=[28.35,5,64.8,454,16,32,960,480,8,5,30,3.785,4.19];
           //rand = getRandomInt(listnames.length);
           rand = 3;
           prices = [];
+
           updateData();
 
             //[4,3,3,9,0,10];
@@ -104,18 +105,18 @@ priceslist[4]=[28.35,5,64.8,454,16,32,960,480,8,5,30,3.785,4.19];
             db = firebase.firestore();
             HardProblems = [];
             hpm = [];
-            CurrentHP = HardProblems[0];
-            db.collection("flashcards").get().then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    // doc.data() is never undefined for query doc snapshots
-                    sentraw.push(doc.data()["content"].replace("add ", ""));
-                    //console.log(sentraw.pop());
-                });
-                //wait until loaded
-                rndI = sentraw.length - 1;
-                loadGame();
-            });
+            CurrentHP = null //HardProblems[0];
+            // db.collection("flashcards").get().then(function(querySnapshot) {
+            //     querySnapshot.forEach(function(doc) {
+            //         // doc.data() is never undefined for query doc snapshots
+            //         sentraw.push(doc.data()["content"].replace("add ", ""));
+            //         //console.log(sentraw.pop());
+            //     });
+            //     //wait until loaded
+            //     rndI = sentraw.length - 1;
+            // });
             //previous random variable
+            loadGame();
             PRV = 0;
             //modeNames.forEach(x => x());
             //sleep(3);
