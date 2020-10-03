@@ -56,7 +56,7 @@ lin2="";
             varItems = [];
             answerKey = "";
             dataNames = ['truck','elements','truck','stocks','pharmacy','alphabet']
-            displaytypelist=['vlist','hlist','truckgauges','stocks','vlist']
+            displaytypelist=['vlist','hlist','truckgauges','stocks','vlist','vlist']
             listnames[0] = ['front suspension', 'front wheel', 'front brake', 'cab area', 'saddle tank area', 'coupling system',
           'rear tractor wheels','suspension','brakes'];
           listnames[1] = ['B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti'];
@@ -81,7 +81,9 @@ priceslist[4]=[28.35,5,64.8,454,16,32,960,480,8,5,30,3.785,4.19];
           prices = [];
 randMode = false;
           updateData();
-
+RemoveElement([listnames,displaytypelist,priceslist,dataNames],0);
+RemoveElement([listnames,displaytypelist,priceslist,dataNames],1);
+RemoveElement([listnames,displaytypelist,priceslist,dataNames],1);
             //[4,3,3,9,0,10];
             points = 0;
             gameLevel = 1;

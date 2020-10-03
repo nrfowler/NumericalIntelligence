@@ -107,7 +107,7 @@ function displayQuestion(){
 function updateData(){
   rand++;
   if(rand>listnames.length) rand = 0;
-  if(rand==3) populateStocks();
+  if(dataNames[rand]=="stocks") populateStocks();
   varItems = listnames[rand];
   displaytype=displaytypelist[rand];
 
