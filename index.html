@@ -33,20 +33,29 @@
     <script src="multiply.js"></script>
     <script src="alphanumeric.js"></script>
     <script src="bridge.js"></script>
+    <script src="util.js"></script>
 
     <script>
         //var randomnum = Math.floor(Math.random() * (1000 - 100) + 100) / 100;
         window.onload = function() {
             modeNames = [loadSerialAddition, loadLongAddition,
-              loadMult, loadDivide, loadAlpha, loadPointCount];
+              loadMult, loadDivide, loadPointCount];
             modeTitles = [];
             verbalMode = true;
             modeLevel = 1;
             showTime = 0;
+
+lin2="";
             modeBlinkDuration=[];
             reviewMode = false;
             listnames =[];
             priceslist = [];
+            item = 0;
+            item2 = 0;
+            numItems = 0;
+            varItems = [];
+            answerKey = "";
+            dataNames = ['truck','elements','truck','stocks','pharmacy','alphabet']
             displaytypelist=['vlist','hlist','truckgauges','stocks','vlist']
             listnames[0] = ['front suspension', 'front wheel', 'front brake', 'cab area', 'saddle tank area', 'coupling system',
           'rear tractor wheels','suspension','brakes'];
@@ -56,6 +65,9 @@
         listnames[3]=['BA','WMT','D','IBM','KO'];//,'WFC','SPY','NDAQ']
         listnames[4]=['g/oz','ml/tsp','mg/gr','g/lb','fl-oz/pint','fl-oz/quart','mL/quart','mL/pint','fl-dr/fl-oz','mL/fl-dr'
       ,'mL/oz','L/gal','J/cal'];
+      listnames[5] = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+      priceslist[5]=(new Array(listnames[5].length )).fill(undefined).map((_, i) => i+ 1);
+
           priceslist[0]=[];
           priceslist[1]=(new Array(listnames[1].length )).fill(undefined).map((_, i) => i + 5);
           priceslist[2]=[];
@@ -67,7 +79,7 @@ priceslist[4]=[28.35,5,64.8,454,16,32,960,480,8,5,30,3.785,4.19];
           //rand = getRandomInt(listnames.length);
           rand = 3;
           prices = [];
-
+randMode = false;
           updateData();
 
             //[4,3,3,9,0,10];
@@ -161,6 +173,10 @@ priceslist[4]=[28.35,5,64.8,454,16,32,960,480,8,5,30,3.785,4.19];
                 <input type="button" class="button" value="Retention Mode" id="retainButton" onclick="changeRetentionMode()" />
         <br />
         <input type="button" class="button" value="Data Source" id="dataButton" onclick="changeDataSource()" />
+<br />
+
+
+<input type="button" class="button" value="Rand Mode" id="randButton" onclick="toggleRandMode()" />
 <br />
         <div id="stats">
             <p id="answer2"></p>

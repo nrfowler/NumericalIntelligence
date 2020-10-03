@@ -13,7 +13,7 @@ function displayInfo(problem2, input, lin2) {
     }
 
     document.getElementById('curMode').innerHTML = input + "<br/>" + lin2 + ermsg;
-    //document.getElementById('modeDisplay').innerHTML = "Mode " + (mode+1) + " ";
+    document.getElementById('modeDisplay').innerHTML = "Mode " + (mode+1) + " ";
     document.getElementById('levelDisplay').innerHTML = "Level " + gameLevel ;
     ermsg="";
 }
@@ -95,10 +95,13 @@ console.log(prices[i])
 }
 function displayQuestion(){
   problem2.desc = "\n"+varItems[items[0]];
-  problem2.answer = prices[items[0]]
+  problem2.answer = prices[items[0]];
+  answerKey = varItems[items[0]] + "="+prices[items[0]];
   for (var i = 1; i < items.length; i++){
         problem2.desc +=' + '+ varItems[items[i]] ;
-        problem2.answer += prices[items[i]]  }
+        problem2.answer += prices[items[i]];
+        answerKey +=   " "+varItems[items[i]] + "="+prices[items[i]];
+      }
   problem2.desc +="\n\n"
 }
 function updateData(){
@@ -113,6 +116,11 @@ function updateData(){
 function changeDataSource(){
   updateData();
   loadGame();
+}
+
+function toggleRandMode(){
+  randMode = !randMode;
+  document.getElementById('randButton').value = "Random " + (randMode ? "(on)" : "(off)");
 }
 function changeReviewMode() {
     reviewMode = !reviewMode;
@@ -181,12 +189,20 @@ function getRandomNumber(digits) {
 function loadGame() {
     answerShown = false;
     gameLevel = modeLevel;
-    question = modeNames[mode]();
+    answerKey = "";
+    if(randMode == false){
+      question = modeNames[mode]();}
+    else {
+      var f = RandomElement(modeNames);
+      question = f();
+    }
     //displayLevel();
     document.getElementById('blinkButton').value = "Toggle Blink " + (blinkMode ? "(on)" : "(off)");
     document.getElementById('reviewButton').value = "Toggle Review " + (reviewMode ? "(on)" : "(off)");
     document.getElementById('verbalButton').value = "Toggle Verbal " + (verbalMode ? "(on)" : "(off)");
     document.getElementById('retainButton').value = "Toggle Retain " + (retainMode ? "(on)" : "(off)");
+    document.getElementById('dataButton').value = "Data Source: " + dataNames[rand];
+
 }
 
 function startTimer() {
@@ -335,11 +351,13 @@ async function checkAns() {
         } else {
             decrementPoints();
             displayScore(ans2, elapsed);
-            ans2.innerHTML = ans2.innerHTML + "<p> Correct Answer: " + problem2.answer + "</p>"
+            ans2.innerHTML = ans2.innerHTML + "<p>" + problem2.desc + "="+ problem2.answer + "</p>"
+            ans2.innerHTML = ans2.innerHTML + "<p>" + answerKey + "</p>";
             answerShown = true;
             colorFeedback('wrong');
             if(modeTitles[mode]!="pointcount") loadGame();
-            sendHardQ();
+            //sendHardQ();
+            loadGame();
         }
         //Start next pitch
         answer.value = null;

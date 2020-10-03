@@ -22,14 +22,16 @@
       }
       if (verbalMode) {
           smallFont();
-          var item = getRandomInt(varItems.length);
-          var item2 = getRandomInt(varItems.length, item);
-
+           item = getRandomInt(varItems.length);
+           item2 = getRandomInt(varItems.length, item);
+           numItems = 2;
           //displayQuestion();
           var v1 = q1 > 1 ? q1.toString()+"*" : "";
           var v2 = q2 > 1 ? q2.toString()+"*"  : "";
           problem2.desc = ""+v1 + varItems[item] + " + " +v2+ varItems[item2] + "\n\n";
-          problem2.answer = q1*prices[item]  + q2*prices[item2]
+          problem2.answer = q1*prices[item]  + q2*prices[item2];
+          answerKey=   varItems[item] + "="+prices[item]+" ";
+          answerKey +=   varItems[item2] + "="+prices[item2];
           displayData();
           //varItems = varItems.reverse();
 
@@ -47,6 +49,7 @@
       lin2="";
       question = problem2.desc;
       displayInfo(problem2, "Mode: Long Addition", lin2);
+      document.getElementById('modeDisplay').innerHTML = "Mode: Long Addition";
       return problem2.desc;
   }
 
@@ -84,6 +87,7 @@
     }
         lin2="";
         question = problem2.desc;
-      displayInfo(problem2, "Mode: Serial Addition", lin2);
+      displayInfo(problem2, "", lin2);
+      document.getElementById('modeDisplay').innerHTML ="Mode: Serial Addition"
       return problem2.desc;
   }

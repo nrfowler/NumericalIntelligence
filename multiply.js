@@ -15,7 +15,8 @@
           MultLogic();
       }
       totalPitches++;
-      displayInfo(problem2, "Mode: Multiplication", lin2)
+      displayInfo(problem2, "", lin2);
+      document.getElementById('modeDisplay').innerHTML = "Mode: Multiply"
       question = problem2.desc;
       return problem2.desc;
   }
@@ -30,9 +31,10 @@ function MultLogic() {
     if (verbalMode) {
         smallFont();
         var item = getRandomInt(varItems.length);
-        problem2.desc = q2 + " " + varItems[item]+"\n\n";
+        problem2.desc = q1 + " " + varItems[item]+"\n\n";
 
-        problem2.answer = prices[item] * q2;
+        problem2.answer = prices[item] * q1;
+        answerKey =  varItems[item] +"="+prices[item];
         displayData();
         //varItems = varItems.reverse();
         return;
@@ -87,7 +89,8 @@ function MultLogic() {
           divLogic();
       }
       totalPitches++;
-      displayInfo(problem2, "Mode: Division", lin2)
+      displayInfo(problem2, "", lin2)
+      document.getElementById('modeDisplay').innerHTML ="Mode: Division";
       question = problem2.desc;
       return problem2.desc;
   }
