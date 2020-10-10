@@ -160,7 +160,8 @@ if(ctr.pop()+ctr.pop()<=8 && hpc>18 && hpc < 23){problem2.answer = "2NT";}
 
 
     var fff = document.getElementById('curMode');
-    fff.innerHTML = "Mode: Bridge Point Count";
+    document.getElementById('modeDisplay').innerHTML= "Mode: Bridge Point Count";
+
     var curLevel = document.getElementById('curLevel');
 
     question = problem2.desc;

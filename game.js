@@ -104,10 +104,10 @@ function displayQuestion(){
       }
   problem2.desc +="\n\n"
 }
-function updateData(){
-  rand++;
-  if(rand>listnames.length) rand = 0;
-  if(dataNames[rand]=="stocks") populateStocks();
+function updateData(i=1){
+  rand+=i;
+  if(rand>listnames.length-1) rand = 0;
+
   varItems = listnames[rand];
   displaytype=displaytypelist[rand];
 
@@ -161,7 +161,7 @@ function changeMode(foo) {
     seconds = 0;
     //totalTime=0;
     mode = ((mode + foo) < 0 ? totalModes - 1 : mode + foo) % totalModes;
-    loadGame();
+    loadGame(true);
     // var str1 = "Mode " + mode + ": " + modeTitles[mode];
     // str1 = str1.padEnd(30, '.');
     // document.getElementById("modeDisplay").innerHTML = str1+"\n";
@@ -186,21 +186,21 @@ function getRandomNumber(digits) {
         return Math.round(Math.random() * 8.999 * Math.pow(10, digits - 1) + Math.pow(10, digits - 1))
 }
 
-function loadGame() {
+function loadGame(remain = false) {
     answerShown = false;
     gameLevel = modeLevel;
     answerKey = "";
-    if(randMode == false){
+    if(randMode == false || remain){
       question = modeNames[mode]();}
     else {
       var f = RandomElement(modeNames);
       question = f();
     }
     //displayLevel();
-    document.getElementById('blinkButton').value = "Toggle Blink " + (blinkMode ? "(on)" : "(off)");
-    document.getElementById('reviewButton').value = "Toggle Review " + (reviewMode ? "(on)" : "(off)");
-    document.getElementById('verbalButton').value = "Toggle Verbal " + (verbalMode ? "(on)" : "(off)");
-    document.getElementById('retainButton').value = "Toggle Retain " + (retainMode ? "(on)" : "(off)");
+    document.getElementById('blinkButton').value = "Blink " + (blinkMode ? "(on)" : "(off)");
+    document.getElementById('reviewButton').value = "Review " + (reviewMode ? "(on)" : "(off)");
+    document.getElementById('verbalButton').value = "Verbal " + (verbalMode ? "(on)" : "(off)");
+    document.getElementById('retainButton').value = "Retain " + (retainMode ? "(on)" : "(off)");
     document.getElementById('dataButton').value = "Data Source: " + dataNames[rand];
 
 }
@@ -365,6 +365,58 @@ async function checkAns() {
         pauseQ();
     }
 }
+function getDigits(number){
+return Math.log(number) * Math.LOG10E + 1 | 0;
+}
+function onKeyPress(){
+  var answer = document.getElementById('ans');
+  var convertedAns;
+  var ans2 = document.getElementById('answer2');
+  //If typing mode
+  // if (mode == 1 && answer.value.length > 0 && answer.value.substring(0, 3) == "add") {
+  // }
+  //if mode is bridge
+
+  if (modeTitles[mode]== "bridge") {
+      convertedAns = answer.value;
+  } else {
+      convertedAns = parseFloat(answer.value)
+
+  }
+
+  if ( getDigits(convertedAns) >= getDigits(problem2.answer)){
+    var elapsed = endTimer();
+    if (Math.abs(convertedAns - problem2.answer)<.001 || convertedAns == problem2.answer) {
+        incrementPoints();
+        displayScore(ans2, elapsed);
+        if (!answerShown  && elapsed <= gameLevel+5) {
+          colorFeedback('yes');
+          appendLog("...\n"+foo+" seconds is time limit, you took "+elapsed.toFixed(2));
+        }
+        else if ( elapsed > gameLevel+5 || (CurrentHP!=null && CurrentHP?.elapsed < elapsed)){
+          var foo = CurrentHP?.elapsed == undefined ? gameLevel+5 : CurrentHP?.elapsed;
+          appendLog("not quick enough...\n"+foo+" seconds is time limit, you took "+elapsed.toFixed(2));
+            colorFeedback('slow');
+          sendHardQ();
+        }
+
+        loadGame();
+    }
+    else {
+      decrementPoints();
+      displayScore(ans2, elapsed);
+      ans2.innerHTML = ans2.innerHTML + "<p>" + problem2.desc + "="+ problem2.answer + "</p>"
+      ans2.innerHTML = ans2.innerHTML + "<p>" + answerKey + "</p>";
+      answerShown = true;
+      colorFeedback('wrong');
+
+      loadGame();
+    }
+    answer.value = null;
+  }
+
+}
+
 function pauseQ(){
   pausedQ.push(CurrentHP?.content);
 }
@@ -551,16 +603,22 @@ document.getElementById("levelDisplay").innerHTML="Level: "+gameLevel+ " ";
 }
 
 async function populateStocks(){
+  if(!stocksLoading)
+{
+    stocksLoading = true;
+   listnames[3].forEach(async (item, i) => {
 
-listnames[3].forEach(async (item, i) => {
+    pricefoo[i] = await stocks.timeSeries({
+  symbol: item,
+  interval: '1min',
+  amount: 1
+  });
+  sleep(20);
+});
+stocksLoading = false;
+//alert(pricefoo.toString());
 
-  pricefoo[i] = await stocks.timeSeries({
-symbol: item,
-interval: '1min',
-amount: 1
-});
-sleep(20);
-});
+}
 
 
 

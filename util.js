@@ -8,4 +8,8 @@ function RemoveElement(arr,i){
 
   }
 
+  function getDigits(number){
+  return Math.log(number) * Math.LOG10E + 1 | 0;
+}
+
 }

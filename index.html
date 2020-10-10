@@ -39,7 +39,7 @@
         //var randomnum = Math.floor(Math.random() * (1000 - 100) + 100) / 100;
         window.onload = function() {
             modeNames = [loadSerialAddition, loadLongAddition,
-              loadMult, loadDivide, loadPointCount];
+              loadMult, loadDivide];
             modeTitles = [];
             verbalMode = true;
             modeLevel = 1;
@@ -56,10 +56,15 @@ lin2="";
             varItems = [];
             answerKey = "";
             dataNames = ['truck','elements','truck','stocks','pharmacy','alphabet']
-            displaytypelist=['vlist','hlist','truckgauges','stocks','vlist','vlist']
+            displaytypelist=['vlist','vlist','truckgauges','stocks','vlist','vlist']
             listnames[0] = ['front suspension', 'front wheel', 'front brake', 'cab area', 'saddle tank area', 'coupling system',
           'rear tractor wheels','suspension','brakes'];
-          listnames[1] = ['B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti'];
+          listnames[1] = ['B','C','N','O','F','Ne','Na','Mg',
+          'Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti',
+          'V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As',
+          'Se','Br','Kr','Rb','Sr','Y','Zr','Nb','Mo','Tc','Ru',
+          'Rh','Pd','Ag','Cd','In','Sn','Sb','Te','I','Xe'
+        ];
           listnames[2]=['exhaust pyrom','engine oil p','engine oil t','engine coolant t','ammeter','voltmeter','tachometer',
         'odom','air p','air brake app p','fuel gauge','air filter rest','axle t','2nd axle t']
         listnames[3]=['BA','WMT','D','IBM','KO'];//,'WFC','SPY','NDAQ']
@@ -69,7 +74,8 @@ lin2="";
       priceslist[5]=(new Array(listnames[5].length )).fill(undefined).map((_, i) => i+ 1);
 
           priceslist[0]=[];
-          priceslist[1]=(new Array(listnames[1].length )).fill(undefined).map((_, i) => i + 5);
+          priceslist[1]=(new Array(listnames[1].length -34)).fill(undefined).map((_, i) => i + 5);
+          listnames[1].splice(listnames[1].length -34);
           priceslist[2]=[];
  items = [];
 priceslist[4]=[28.35,5,64.8,454,16,32,960,480,8,5,30,3.785,4.19];
@@ -77,13 +83,14 @@ priceslist[4]=[28.35,5,64.8,454,16,32,960,480,8,5,30,3.785,4.19];
           stocks = new Stocks('ARKXWZK7XN8ZWJ0W');
           pricefoo = new Array();
           //rand = getRandomInt(listnames.length);
-          rand = 3;
+          rand = 0;
           prices = [];
 randMode = false;
-          updateData();
+stocksLoading= false;
+populateStocks();
 RemoveElement([listnames,displaytypelist,priceslist,dataNames],0);
 RemoveElement([listnames,displaytypelist,priceslist,dataNames],1);
-RemoveElement([listnames,displaytypelist,priceslist,dataNames],1);
+updateData(0);
             //[4,3,3,9,0,10];
             points = 0;
             gameLevel = 1;
@@ -113,7 +120,7 @@ RemoveElement([listnames,displaytypelist,priceslist,dataNames],1);
             };
 
             retainMode = false;
-
+            getDigits(33);
             pausedQ = [];
             sentraw = [];
             db = firebase.firestore();
@@ -148,7 +155,7 @@ RemoveElement([listnames,displaytypelist,priceslist,dataNames],1);
     <div style="font-size:40px" id="bridge">
     </div>
     <div id="bar2">
-        <input id="ans" type="number" onkeydown="checkAns()" autofocus>
+        <input id="ans" type="number" onkeydown="checkAns()" onkeyup="onKeyPress()" autofocus>
         <br />
         <span id="levelDisplay">
     Level: 0
@@ -166,7 +173,7 @@ RemoveElement([listnames,displaytypelist,priceslist,dataNames],1);
         <br />
 
         <br />
-        <input type="button" class="button" value="Toggle Blink Mode" id="blinkButton" onclick="changeBlinkMode()" />
+        <input type="button" class="button" value="Blink Mode" id="blinkButton" onclick="changeBlinkMode()" />
         <br />
         <input type="button" class="button" value="Review Mode" id="reviewButton" onclick="changeReviewMode()" />
 <br />
@@ -178,7 +185,7 @@ RemoveElement([listnames,displaytypelist,priceslist,dataNames],1);
 <br />
 
 
-<input type="button" class="button" value="Rand Mode" id="randButton" onclick="toggleRandMode()" />
+<input type="button" class="button" value="Random (off)" id="randButton" onclick="toggleRandMode()" />
 <br />
         <div id="stats">
             <p id="answer2"></p>
