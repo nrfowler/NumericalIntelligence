@@ -127,20 +127,7 @@ function changeReviewMode() {
     loadGame();
 
 }
-function getRandomInt(max, excluding) {
-  if(Array.isArray(excluding)){
-    i = excluding[0];
-    while(excluding.some(x=>x==i))i = Math.floor(Math.random() * Math.floor(max));
-    return i;
-  }
-    if (excluding === undefined)
-        return Math.floor(Math.random() * Math.floor(max));
-    var i = 0
-     i = excluding;
-    while (i == excluding)
-        i = Math.floor(Math.random() * Math.floor(max));
-    return i;
-}
+
 function getRandomItem(){
     return varItems[getRandomInt(varItems.length)];
 }
@@ -167,24 +154,7 @@ function changeMode(foo) {
     // document.getElementById("modeDisplay").innerHTML = str1+"\n";
 
 }
-function getRandomDecimal(digits,decimals){
-  var output = 0;
-  for(var i = 0; i < digits ; i++)
-    output += Math.round(Math.random()*10)*Math.pow(10,i);
-  for(var i = -1; i >= decimals*-1 ; i--)
-    output += Math.round(Math.random()*10)*Math.pow(10,i);
-return Math.round((output ) * Math.pow(10,decimals)) / Math.pow(10,decimals);
-}
-function getRandomNumber(digits) {
-    if (digits == 1)
-        return Math.round(Math.random() * 7 + 2)
-    if (digits == 2)
-        return Math.round(Math.random() * (8.9) * Math.pow(10, digits - 1) + Math.pow(10, digits - 1))
-    if (digits == 3)
-        return Math.round(Math.random() * 8.99 * Math.pow(10, digits - 1) + Math.pow(10, digits - 1))
-    if (digits >= 4)
-        return Math.round(Math.random() * 8.999 * Math.pow(10, digits - 1) + Math.pow(10, digits - 1))
-}
+
 
 function loadGame(remain = false) {
     answerShown = false;
@@ -193,7 +163,7 @@ function loadGame(remain = false) {
     if(randMode == false || remain){
       question = modeNames[mode]();}
     else {
-      var f = RandomElement(modeNames);
+      var f = getRndVal(modeNames);
       question = f();
     }
     //displayLevel();
@@ -285,135 +255,7 @@ function ReadingRecall() {
     displayInfoNoHide(problem2, "Press enter to scroll", "todo: SRS, button for adding");
 }
 
-async function checkAns() {
-    if (event.key === 'Enter') {
-        elapsed = endTimer();
-        //useless??
-        //seconds = seconds + elapsed;
-        var answer = document.getElementById('ans');
-        var convertedAns;
-        var ans2 = document.getElementById('answer2');
-        //If typing mode
-        // if (mode == 1 && answer.value.length > 0 && answer.value.substring(0, 3) == "add") {
-        // }
-        //if mode is bridge
-        if (modeTitles[mode]== "bridge") {
-            convertedAns = answer.value;
-        } else if (modeTitles[mode]== "progiq")
-        {
-            if (answer.value == ans2.value) {
-                incrementPoints();
-                displayScore(ans2, elapsed)
 
-                colorFeedback('yes');
-                loadGame();
-                return;
-            } else if (answer.value.length == 0) {
-
-                loadGame();
-                return;
-            } else {
-                db = firebase.firestore();
-
-                db.collection("flashcards").add({
-                        content: answer.value
-
-                    })
-                    .then(function(docRef) {
-                        appendLog("Document written with ID: ", docRef.id, " ", answer.value+"\n");
-                    })
-                    .catch(function(error) {
-                        console.error("Error adding document: ", error);
-                    });
-                loadGame();
-                return;
-            }
-        } else {
-            convertedAns = parseFloat(answer.value)
-
-        }
-        if (Math.abs(convertedAns - problem2.answer)<.001 || convertedAns == problem2.answer) {
-            incrementPoints();
-            displayScore(ans2, elapsed);
-            if (!answerShown  && elapsed <= gameLevel+5) {
-              if( CurrentHP != null)  await rmDups(CurrentHP.content);
-              colorFeedback('yes');
-              appendLog("...\n"+foo+" seconds is time limit, you took "+elapsed.toFixed(2));
-            }
-            else if ( elapsed > gameLevel+5 || (CurrentHP!=null && CurrentHP?.elapsed < elapsed)){
-              var foo = CurrentHP?.elapsed == undefined ? gameLevel+5 : CurrentHP?.elapsed;
-              appendLog("not quick enough...\n"+foo+" seconds is time limit, you took "+elapsed.toFixed(2));
-                colorFeedback('slow');
-              sendHardQ();
-            }
-
-            loadGame();
-        } else {
-            decrementPoints();
-            displayScore(ans2, elapsed);
-            ans2.innerHTML = ans2.innerHTML + "<p>" + problem2.desc + "="+ problem2.answer + "</p>"
-            ans2.innerHTML = ans2.innerHTML + "<p>" + answerKey + "</p>";
-            answerShown = true;
-            colorFeedback('wrong');
-            if(modeTitles[mode]!="pointcount") loadGame();
-            //sendHardQ();
-            loadGame();
-        }
-        //Start next pitch
-        answer.value = null;
-        //never repeat
-        pauseQ();
-    }
-}
-
-function onKeyPress(){
-  var answer = document.getElementById('ans');
-  var convertedAns;
-  var ans2 = document.getElementById('answer2');
-  //If typing mode
-  // if (mode == 1 && answer.value.length > 0 && answer.value.substring(0, 3) == "add") {
-  // }
-  //if mode is bridge
-
-  if (modeTitles[mode]== "bridge") {
-      convertedAns = answer.value;
-  } else {
-      convertedAns = parseFloat(answer.value)
-
-  }
-
-  if ( getDigits(convertedAns) >= getDigits(problem2.answer)){
-    var elapsed = endTimer();
-    if (Math.abs(convertedAns - problem2.answer)<.001 || convertedAns == problem2.answer) {
-        incrementPoints();
-        displayScore(ans2, elapsed);
-        if (!answerShown  && elapsed <= gameLevel+5) {
-          colorFeedback('yes');
-          appendLog("...\n"+foo+" seconds is time limit, you took "+elapsed.toFixed(2));
-        }
-        else if ( elapsed > gameLevel+5 || (CurrentHP!=null && CurrentHP?.elapsed < elapsed)){
-          var foo = CurrentHP?.elapsed == undefined ? gameLevel+5 : CurrentHP?.elapsed;
-          appendLog("not quick enough...\n"+foo+" seconds is time limit, you took "+elapsed.toFixed(2));
-            colorFeedback('slow');
-          sendHardQ();
-        }
-
-        loadGame();
-    }
-    else {
-      decrementPoints();
-      displayScore(ans2, elapsed);
-      ans2.innerHTML = ans2.innerHTML + "<p>" + problem2.desc + "="+ problem2.answer + "</p>"
-      ans2.innerHTML = ans2.innerHTML + "<p>" + answerKey + "</p>";
-      answerShown = true;
-      colorFeedback('wrong');
-
-      loadGame();
-    }
-    answer.value = null;
-  }
-
-}
 
 function pauseQ(){
   pausedQ.push(CurrentHP?.content);
@@ -423,66 +265,6 @@ function appendLog(...params) {
     //alert(ermsg);
 }
 
-function getHardProblems() {
-
-    var i = 0;
-    db.collection("hardproblems")
-        .get()
-        .then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                // doc.data() is never undefined for query doc snapshots
-                //appendLog(doc.id, " => ", doc.data());
-                HardProblems[i++] = {
-                    docID: doc.id,
-                    ...doc.data()
-                };
-            });
-            //appendLog("Got Hard Problems "+HardProblems.length)
-        })
-        .catch(function(error) {
-            appendLog("Error getting documents: ", error);
-        });
-
-}
-async function deleteProblem(c) {
-
-    await db.collection("hardproblems").doc(c.docID).delete().then(function() {
-        appendLog("Document successfully deleted! " + c.content);
-    }).catch(function(error) {
-        console.error("Error removing document: ", error);
-    });
-}
-
-async function rmDups(content) {
-    //alert(HardProblems.filter( h => h.content==content).length+ " to remove");
-    var foo = HardProblems.filter(h => h.content == content)
-    foo.forEach(hp => deleteProblem(hp));
-    HardProblems = HardProblems.filter(h => h.content != content)
-}
-async function getRelevantHP() {
-    await getHardProblems();
-    hpm = HardProblems.filter(d => d.game == modeTitles[mode]);
-    hpm = hpm.filter(d => d.timestamp - Date.now() < -1000 * 3600);
-    //remove dups and remove paused q in session
-    var bar = [];
-    hpm.forEach( d => {
-      if(bar.some(e=>e.content==d.content))
-      {
-
-      }
-      else if (pausedQ.some(e=>e==d.content)){
-
-      }
-      else {
-        bar.push(d);
-      }
-    });
-    hpm =[];
-    hpm = bar;
-
-
-    CurrentHP = null;
-}
 
 function blackFont() {
     document.getElementById("problem2").style.font = "40px";
@@ -520,26 +302,7 @@ function changeRetentionMode(){
   retainMode = !retainMode;
   loadGame();
 }
-function sendHardQ() {
-  if(modeTitles[mode]=="progiq" || modeTitles[mode]== "pointcount" || problem2.ans == "" || retainMode == false) return;
-    var db = firebase.firestore();
 
-    db.collection("hardproblems").add({
-            content: problem2.desc,
-            game: modeTitles[mode],
-            answer: problem2.answer,
-        timestamp: Date.now(),
-        showTime: showTime,
-            elapsed: elapsed
-        })
-        .then(function(docRef) {
-            appendLog("Document written with ID: ", docRef.id.substring(1,4)," ",problem2.desc+"\n");
-        })
-        .catch(function(error) {
-            appendLog("Error adding document: ", docRef.id.substring(1,4));
-        });
-
-}
 
 function getDuration() {
     var output;
@@ -611,7 +374,7 @@ async function populateStocks(){
   interval: '1min',
   amount: 1
   });
-  sleep(20);
+  sleep(20,loadGame);
 });
 stocksLoading = false;
 //alert(pricefoo.toString());
@@ -621,14 +384,7 @@ stocksLoading = false;
 
 
 }
-function sleep(duration) {
-	return new Promise(resolve => {
-		setTimeout(() => {
-      loadGame();
-			resolve();
-		}, duration * 1000)
-	})
-}
+
 function decLevel() {
     if (gameLevel > 1)
         gameLevel--;

@@ -34,7 +34,8 @@
     <script src="alphanumeric.js"></script>
     <script src="bridge.js"></script>
     <script src="util.js"></script>
-
+  <script src="gamelogic.js"></script>
+    <script src="db.js"></script>
     <script>
         //var randomnum = Math.floor(Math.random() * (1000 - 100) + 100) / 100;
         window.onload = function() {
@@ -88,8 +89,8 @@ priceslist[4]=[28.35,5,64.8,454,16,32,960,480,8,5,30,3.785,4.19];
 randMode = false;
 stocksLoading= false;
 populateStocks();
-RemoveElement([listnames,displaytypelist,priceslist,dataNames],0);
-RemoveElement([listnames,displaytypelist,priceslist,dataNames],1);
+rmIndexFromJagged([listnames,displaytypelist,priceslist,dataNames],0);
+rmIndexFromJagged([listnames,displaytypelist,priceslist,dataNames],1);
 updateData(0);
             //[4,3,3,9,0,10];
             points = 0;
