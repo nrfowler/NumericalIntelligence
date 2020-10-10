@@ -365,9 +365,7 @@ async function checkAns() {
         pauseQ();
     }
 }
-function getDigits(number){
-return Math.log(number) * Math.LOG10E + 1 | 0;
-}
+
 function onKeyPress(){
   var answer = document.getElementById('ans');
   var convertedAns;

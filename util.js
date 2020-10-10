@@ -7,9 +7,7 @@ function RemoveElement(arr,i){
     val.splice(i, 1);
 
   }
-
+}
   function getDigits(number){
   return Math.log(number) * Math.LOG10E + 1 | 0;
-}
-
 }
