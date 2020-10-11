@@ -7,7 +7,7 @@
           answer: ""
       };
       hpm = [];
-      if(reviewMode) await getRelevantHP();
+      if (reviewMode) await getRelevantHP();
       if (hpm.length > 0) {
           displayHardProblem();
       } else {
@@ -15,44 +15,44 @@
           MultLogic();
       }
       totalPitches++;
-      displayInfo(problem2, "", lin2);
+      displayInfo(problem2, "");
       document.getElementById('modeDisplay').innerHTML = "Mode: Multiply"
       question = problem2.desc;
       return problem2.desc;
   }
 
-function MultLogic() {
-    var q1 = 0,
-        q2 = 0;
-        do {
-            q1 = getRandomNumber((window.gameLevel + 1) / 2 + 1);
-            q2 = Math.round(Math.random() * 2) + 7;
-        } while (q1 % 10 == 0 || q2 % 10 == 0)
-    if (verbalMode) {
-        smallFont();
-        var item = getRandomInt(varItems.length);
-        problem2.desc = q1 + " " + varItems[item]+"\n\n";
+  function MultLogic() {
+      var q1 = 0,
+          q2 = 0;
+      do {
+          q1 = getRandomNumber((window.gameLevel + 1) / 2 + 1);
+          q2 = Math.round(Math.random() * 2) + 7;
+      } while (q1 % 10 == 0 || q2 % 10 == 0)
+      if (verbalMode) {
+          smallFont();
+          var item = getRandomInt(varItems.length);
+          var item2 = getRandomInt(varItems.length,item);
+          problem2.desc = varItems[item2] + "&#215;" + varItems[item] + "\n\n";
 
-        problem2.answer = prices[item] * q1;
-        answerKey =  varItems[item] +"="+prices[item];
-        displayData();
-        //varItems = varItems.reverse();
-        return;
-    }
-    else{
-      if (gameLevel % 2 == 1) {
+          problem2.answer = prices[item] * prices[item2];
+          answerKey = varItems[item] + "=" + prices[item]+ "\n"+varItems[item2] + "=" + prices[item2];
+          displayData();
+          //varItems = varItems.reverse();
+          return;
+      } else {
+          if (gameLevel % 2 == 1) {
 
 
-          problem2.desc = " 0x" + q1.toString(16) + "\n x" + "" + q2;
-          problem2.answer = q1 * q2;
-      } else if (gameLevel % 2 == 0) {
-          var foo = [2.5, .75, 1, 2];
-          q1 = getRandomNumber(window.gameLevel / 2 + 1);
-          q2 = foo[Math.round(Math.random() * 3)];
-          problem2.desc = " " + q1 + " mph for "  + q2 + " s = __ ft";
-          problem2.answer = Math.round(q1 * 5280* q2 / 3600);
+              problem2.desc = " 0x" + q1.toString(16) + "\n x" + "" + q2;
+              problem2.answer = q1 * q2;
+          } else if (gameLevel % 2 == 0) {
+              var foo = [2.5, .75, 1, 2];
+              q1 = getRandomNumber(window.gameLevel / 2 + 1);
+              q2 = foo[Math.round(Math.random() * 3)];
+              problem2.desc = " " + q1 + " mph for " + q2 + " s = __ ft";
+              problem2.answer = Math.round(q1 * 5280 * q2 / 3600);
+          }
       }
-    }
 
 
   }
@@ -79,7 +79,7 @@ function MultLogic() {
           desc: "",
           answer: ""
       };
-      if (reviewMode && hpm.length > 0 ) {
+      if (reviewMode && hpm.length > 0) {
           CurrentHP = hpm[0];
           problem2.desc = CurrentHP.content;
           problem2.answer = CurrentHP.answer;
@@ -89,18 +89,19 @@ function MultLogic() {
           divLogic();
       }
       totalPitches++;
-      displayInfo(problem2, "", lin2)
-      document.getElementById('modeDisplay').innerHTML ="Mode: Division";
+      displayInfo(problem2, "")
+      document.getElementById('modeDisplay').innerHTML = "Mode: Division";
       question = problem2.desc;
       return problem2.desc;
   }
-function divLogic() {
-    var q1 = 0,
-        q2 = 0;
-    do {
-        q1 = getRandomNumber(window.gameLevel + 1);
-        q2 = Math.round(Math.random() * 4) + 5;
-    } while (q1 % 10 == 0 || q2 % 10 == 0)
-    problem2.desc = "  " + q1 * q2 + " / " + "" + q2;
-    problem2.answer = q1;
-}
+
+  function divLogic() {
+      var q1 = 0,
+          q2 = 0;
+      do {
+          q1 = getRandomNumber(window.gameLevel + 1);
+          q2 = Math.round(Math.random() * 4) + 5;
+      } while (q1 % 10 == 0 || q2 % 10 == 0)
+      problem2.desc = "  " + q1 * q2 + " / " + "" + q2;
+      problem2.answer = q1;
+  }

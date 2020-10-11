@@ -34,129 +34,36 @@
     <script src="alphanumeric.js"></script>
     <script src="bridge.js"></script>
     <script src="util.js"></script>
-  <script src="gamelogic.js"></script>
+    <script src="gamelogic.js"></script>
     <script src="db.js"></script>
-    <script>
-        //var randomnum = Math.floor(Math.random() * (1000 - 100) + 100) / 100;
-        window.onload = function() {
-            modeNames = [loadSerialAddition, loadLongAddition,
-              loadMult, loadDivide];
-            modeTitles = [];
-            verbalMode = true;
-            modeLevel = 1;
-            showTime = 0;
-
-lin2="";
-            modeBlinkDuration=[];
-            reviewMode = false;
-            listnames =[];
-            priceslist = [];
-            item = 0;
-            item2 = 0;
-            numItems = 0;
-            varItems = [];
-            answerKey = "";
-            dataNames = ['truck','elements','truck','stocks','pharmacy','alphabet']
-            displaytypelist=['vlist','vlist','truckgauges','stocks','vlist','vlist']
-            listnames[0] = ['front suspension', 'front wheel', 'front brake', 'cab area', 'saddle tank area', 'coupling system',
-          'rear tractor wheels','suspension','brakes'];
-          listnames[1] = ['B','C','N','O','F','Ne','Na','Mg',
-          'Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti',
-          'V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As',
-          'Se','Br','Kr','Rb','Sr','Y','Zr','Nb','Mo','Tc','Ru',
-          'Rh','Pd','Ag','Cd','In','Sn','Sb','Te','I','Xe'
-        ];
-          listnames[2]=['exhaust pyrom','engine oil p','engine oil t','engine coolant t','ammeter','voltmeter','tachometer',
-        'odom','air p','air brake app p','fuel gauge','air filter rest','axle t','2nd axle t']
-        listnames[3]=['BA','WMT','D','IBM','KO'];//,'WFC','SPY','NDAQ']
-        listnames[4]=['g/oz','ml/tsp','mg/gr','g/lb','fl-oz/pint','fl-oz/quart','mL/quart','mL/pint','fl-dr/fl-oz','mL/fl-dr'
-      ,'mL/oz','L/gal','J/cal'];
-      listnames[5] = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-      priceslist[5]=(new Array(listnames[5].length )).fill(undefined).map((_, i) => i+ 1);
-
-          priceslist[0]=[];
-          priceslist[1]=(new Array(listnames[1].length -34)).fill(undefined).map((_, i) => i + 5);
-          listnames[1].splice(listnames[1].length -34);
-          priceslist[2]=[];
- items = [];
-priceslist[4]=[28.35,5,64.8,454,16,32,960,480,8,5,30,3.785,4.19];
-          priceslist[3]=[172,344,78.50,124.64,216.47];//24.20,100,100];
-          stocks = new Stocks('ARKXWZK7XN8ZWJ0W');
-          pricefoo = new Array();
-          //rand = getRandomInt(listnames.length);
-          rand = 0;
-          prices = [];
-randMode = false;
-stocksLoading= false;
-populateStocks();
-rmIndexFromJagged([listnames,displaytypelist,priceslist,dataNames],0);
-rmIndexFromJagged([listnames,displaytypelist,priceslist,dataNames],1);
-updateData(0);
-            //[4,3,3,9,0,10];
-            points = 0;
-            gameLevel = 1;
-            totalPitches = 0;
-            totalModes = modeNames.length;
-            mode = 0;
-            answerShown = false;
-            blinkMode = 0;
-            question = "";
-            inarow = 0;
-            timeouts = [];
-            document.cookie = "2";
-            //timer variable
-            seconds = 0;
-            elapsed = 0;
-            totalTime = 0;
-            //points scored in "pitch"
-            pointDiff = 0;
-            //do wrong answers decrement points?
-            penaltyMode = true;
-            //displays error logging to user w/o console
-            ermsg = ""
-            problem2 = {
-                desc: "",
-                answer: "",
-                legend: ""
-            };
-
-            retainMode = false;
-            getDigits(33);
-            pausedQ = [];
-            sentraw = [];
-            db = firebase.firestore();
-            HardProblems = [];
-            hpm = [];
-            CurrentHP = null //HardProblems[0];
-            // db.collection("flashcards").get().then(function(querySnapshot) {
-            //     querySnapshot.forEach(function(doc) {
-            //         // doc.data() is never undefined for query doc snapshots
-            //         sentraw.push(doc.data()["content"].replace("add ", ""));
-            //         //console.log(sentraw.pop());
-            //     });
-            //     //wait until loaded
-            //     rndI = sentraw.length - 1;
-            // });
-            //previous random variable
-            loadGame();
-            PRV = 0;
-            //modeNames.forEach(x => x());
-            //sleep(3);
-
-        }
-    </script>
+    <script src="startgame.js"></script>
+    <script src="elements.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div id="bar1">
         <textarea id="problem2"></textarea>
         <textarea id="legend"></textarea>
+        <div id="elements">
+          <div>
+            <img src="" id="element0" />
+            <p id="elementdesc0"></p>
+          </div>
+          <div>
+
+            <img src="" id="element1" />
+            <p id="elementdesc1">
+          </div>
+          </p>
+        </div>
+
     </div>
 
     <div style="font-size:40px" id="bridge">
     </div>
     <div id="bar2">
-        <input id="ans" type="number" onkeydown="checkAns()" onkeyup="onKeyPress()" autofocus>
+        <input id="ans" type="number" onkeyup="onKeyPress()" autofocus>
         <br />
         <span id="levelDisplay">
     Level: 0
@@ -165,34 +72,39 @@ updateData(0);
         <input type="button" class="button" value="&#9660;" onclick="decLevel()" />
         <br/>
 
-<span id="modeDisplay">
+        <span id="modeDisplay">
   Mode: 0
 </span>
         <!-- <input type="button" class="button" value="&#x25c2;" onclick="modeDown()" /> -->
-                    <input type="button" class="button" value="&#x25b8;" onclick="modeUp()" />
+        <input type="button" class="button" value="&#x25b8;" onclick="modeUp()" />
 
         <br />
 
         <br />
         <input type="button" class="button" value="Blink Mode" id="blinkButton" onclick="changeBlinkMode()" />
-        <br />
-        <input type="button" class="button" value="Review Mode" id="reviewButton" onclick="changeReviewMode()" />
-<br />
+
+        <!-- <input type="button" class="button" value="Review Mode" id="reviewButton" onclick="changeReviewMode()" /> -->
+
         <input type="button" class="button" value="Verbal Mode" id="verbalButton" onclick="changeVerbalMode()" />
-        <br />
-                <input type="button" class="button" value="Retention Mode" id="retainButton" onclick="changeRetentionMode()" />
-        <br />
+
+        <!-- <input type="button" class="button" value="Retention Mode" id="retainButton" onclick="changeRetentionMode()" /> -->
+
         <input type="button" class="button" value="Data Source" id="dataButton" onclick="changeDataSource()" />
-<br />
 
 
-<input type="button" class="button" value="Random (off)" id="randButton" onclick="toggleRandMode()" />
-<br />
+
+        <input type="button" class="button" value="Random (off)" id="randButton" onclick="toggleRandMode()" />
+        <input type="button" class="button" value="Reverse (off)" id="ReverseButton" onclick="toglReverse()" />
+        <input type="button" class="button" value="Base 10" id="base" onclick="toglBase()" />
+        <br />
+
         <div id="stats">
             <p id="answer2"></p>
             <p id="curMode"></p>
             <p id="isBlink"></p>
         </div>
+
     </div>
 </body>
+
 </html>

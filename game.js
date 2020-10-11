@@ -1,4 +1,4 @@
-function displayInfo(problem2, input, lin2) {
+function displayInfo(problem2, input) {
     showQuestion();
     //turn off all timeouts
 
@@ -12,17 +12,22 @@ function displayInfo(problem2, input, lin2) {
         timeouts.push(window.setTimeout(hideQuestion, showTime));
     }
 
+    if(dataNames[rand]=="elements") displayElementInfo(items)
+    else displayPorn("c://Users/Nathan/OneDrive/fl");
+
     document.getElementById('curMode').innerHTML = input + "<br/>" + lin2 + ermsg;
-    document.getElementById('modeDisplay').innerHTML = "Mode " + (mode+1) + " ";
-    document.getElementById('levelDisplay').innerHTML = "Level " + gameLevel ;
-    ermsg="";
+    document.getElementById('modeDisplay').innerHTML = "Mode " + (mode + 1) + " ";
+    document.getElementById('levelDisplay').innerHTML = "Level " + gameLevel;
+    document.getElementById('legend').rows = dataHeight;
+    ermsg = "";
 }
 
-function displayInfoNoHide(problem2, input, lin2) {
+function displayInfoNoHide(problem2, input) {
     var problem2e = document.getElementById('problem2');
     problem2e.innerHTML = problem2.desc;
     var fff = document.getElementById('curMode');
     fff.innerHTML = input + "<br/>" + lin2 + ermsg;
+    document.cookie = fff.innerHTML;
 
 }
 
@@ -31,104 +36,117 @@ function changeBlinkMode() {
     loadGame();
 
 }
-function displayData(){
-  items=[];
-problem2.legend = "";
-  if (verbalMode) {
-      smallFont();
-      items.push(getRandomInt(varItems.length));
-      for(var i = 1; i < gameLevel+1; i++) {
-        items.push(getRandomInt(varItems.length, items));
-      }
 
-      if(prices.length==0)
-        for (var i = 1; i <= varItems.length; i++) prices.push(getRandomDecimal(2,2));
-
-
-      if(displaytype=="vlist"){
-      for (var i = 0; i < varItems.length; i++)
-          problem2.legend += varItems[i] + ':  ' + prices[i] + "\n";
-
+function displayData() {
+    items = [];
+    problem2.legend = "";
+    if (verbalMode) {
+        smallFont();
+        items.push(getRandomInt(varItems.length));
+        for (var i = 1; i < gameLevel + 1; i++) {
+            items.push(getRandomInt(varItems.length, items));
         }
-      else if (displaytype=="hlist") {
-        for (var i = 0; i < varItems.length; i++)
-            problem2.legend += varItems[i] + ': ' + prices[i] + "     ";
 
-      }
-      else if (displaytype=="truckgauges") {
-          truckFont();
-            problem2.legend +=  prices[0] + " ";
-            problem2.legend += prices[1]+ "      ";
-            problem2.legend +=  prices[6]+"    ";
-            problem2.legend +=  prices[7]+ "        ";
-            problem2.legend +=prices[8]+" ";
-            problem2.legend += prices[9]+"\n\n";
+        if (prices.length == 0)
+            for (var i = 1; i <= varItems.length; i++) prices.push(getRandomDecimal(2, 2));
+
+
+        if (displaytype == "vlist") {
+            var height = varItems.length > dataHeight ? dataHeight : varItems.length;
+
+            for (var i = 0; i < height; i++) {
+                j = i;
+                while (j < varItems.length) {
+                    var spaces = concatNTimes("", " ", 10 - prices[j].toString(base).length - varItems[j].length)
+
+                    problem2.legend += varItems[j] + ':  ' + spaces + prices[j].toString(base) + "   ";
+                    j += height;
+                }
+                problem2.legend += "\n";
+            }
+
+        } else if (displaytype == "hlist") {
+            for (var i = 0; i < varItems.length; i++)
+                problem2.legend += varItems[i] + ': ' + prices[i] + "     ";
+
+        } else if (displaytype == "truckgauges") {
+            truckFont();
+            problem2.legend += prices[0] + " ";
+            problem2.legend += prices[1] + "      ";
+            problem2.legend += prices[6] + "    ";
+            problem2.legend += prices[7] + "        ";
+            problem2.legend += prices[8] + " ";
+            problem2.legend += prices[9] + "\n\n";
 
             problem2.legend += prices[2] + " ";
-            problem2.legend += prices[3] +"  ";
-            problem2.legend +="                        ";
-            problem2.legend +=  prices[10]+" ";
-            problem2.legend +=  prices[11]+"\n\n";
+            problem2.legend += prices[3] + "  ";
+            problem2.legend += "                        ";
+            problem2.legend += prices[10] + " ";
+            problem2.legend += prices[11] + "\n\n";
 
-            problem2.legend +=  prices[4] + " ";
-            problem2.legend += prices[5] +" ";
-            problem2.legend +="                        ";
-            problem2.legend +=  prices[12]+" ";
-            problem2.legend +=  prices[13]+"\n";
+            problem2.legend += prices[4] + " ";
+            problem2.legend += prices[5] + " ";
+            problem2.legend += "                        ";
+            problem2.legend += prices[12] + " ";
+            problem2.legend += prices[13] + "\n";
 
-      }
-      else if (displaytype == "stocks"){
-problem2.legend = "loading"
+        } else if (displaytype == "stocks") {
+            problem2.legend = "loading"
 
-problem2.legend = "";
-for (var i = 0; i < varItems.length; i++){
-prices[i]=pricefoo[i][0]['open'];
-console.log(prices[i])
-  problem2.legend += varItems[i] + ':  ' + prices[i] + "\n";
+            problem2.legend = "";
+            for (var i = 0; i < varItems.length; i++) {
+                prices[i] = stockPrices[i][0]['open'];
+                console.log(prices[i])
+                problem2.legend += varItems[i] + ':  ' + prices[i] + "\n";
+            }
+
+
+        }
+        //varItems = varItems.reverse();
+
+    }
 }
 
+function displayQuestion() {
+    problem2.desc = "\n" + varItems[items[0]];
+    problem2.answer = prices[items[0]];
 
-      }
-//varItems = varItems.reverse();
-
-  }
-}
-function displayQuestion(){
-  problem2.desc = "\n"+varItems[items[0]];
-  problem2.answer = prices[items[0]];
-  answerKey = varItems[items[0]] + "="+prices[items[0]];
-  for (var i = 1; i < items.length; i++){
-        problem2.desc +=' + '+ varItems[items[i]] ;
+    answerKey = varItems[items[0]] + "=" + prices[items[0]];
+    for (var i = 1; i < items.length; i++) {
+        problem2.desc += ' + ' + varItems[items[i]];
         problem2.answer += prices[items[i]];
-        answerKey +=   " "+varItems[items[i]] + "="+prices[items[i]];
-      }
-  problem2.desc +="\n\n"
-}
-function updateData(i=1){
-  rand+=i;
-  if(rand>listnames.length-1) rand = 0;
-
-  varItems = listnames[rand];
-  displaytype=displaytypelist[rand];
-
-  prices = priceslist[rand];
-}
-function changeDataSource(){
-  updateData();
-  loadGame();
+        answerKey += " " + varItems[items[i]] + "=" + prices[items[i]];
+    }
+    problem2.desc += "\n\n"
 }
 
-function toggleRandMode(){
-  randMode = !randMode;
-  document.getElementById('randButton').value = "Random " + (randMode ? "(on)" : "(off)");
+function updateData(i = 1) {
+    rand += i;
+    if (rand > listnames.length - 1) rand = 0;
+
+    varItems = listnames[rand];
+    displaytype = displaytypelist[rand];
+
+    prices = priceslist[rand];
 }
+
+function changeDataSource() {
+    updateData();
+    loadGame();
+}
+
+function toggleRandMode() {
+    randMode = !randMode;
+    document.getElementById('randButton').value = "Random " + (randMode ? "(on)" : "(off)");
+}
+
 function changeReviewMode() {
     reviewMode = !reviewMode;
     loadGame();
 
 }
 
-function getRandomItem(){
+function getRandomItem() {
     return varItems[getRandomInt(varItems.length)];
 }
 
@@ -137,12 +155,15 @@ function changeVerbalMode() {
     loadGame();
 
 }
-function modeUp(){
-changeMode(1);
+
+function modeUp() {
+    changeMode(1);
 }
-function modeDown(){
-changeMode(-1);
+
+function modeDown() {
+    changeMode(-1);
 }
+
 function changeMode(foo) {
     //totalPitches = 0;
     seconds = 0;
@@ -159,18 +180,20 @@ function changeMode(foo) {
 function loadGame(remain = false) {
     answerShown = false;
     gameLevel = modeLevel;
+    document.getElementById('ans').value = null;
     answerKey = "";
-    if(randMode == false || remain){
-      question = modeNames[mode]();}
-    else {
-      var f = getRndVal(modeNames);
-      question = f();
+    if (randMode == false || remain) {
+        question = modeNames[mode]();
+    } else {
+        var f = getRndVal(modeNames);
+        question = f();
     }
     //displayLevel();
+    minTime = 15;
     document.getElementById('blinkButton').value = "Blink " + (blinkMode ? "(on)" : "(off)");
-    document.getElementById('reviewButton').value = "Review " + (reviewMode ? "(on)" : "(off)");
+    // document.getElementById('reviewButton').value = "Review " + (reviewMode ? "(on)" : "(off)");
     document.getElementById('verbalButton').value = "Verbal " + (verbalMode ? "(on)" : "(off)");
-    document.getElementById('retainButton').value = "Retain " + (retainMode ? "(on)" : "(off)");
+    // document.getElementById('retainButton').value = "Retain " + (retainMode ? "(on)" : "(off)");
     document.getElementById('dataButton').value = "Data Source: " + dataNames[rand];
 
 }
@@ -235,7 +258,7 @@ function decrementPoints() {
 }
 
 function ReadingRecall() {
-    modeTitles[mode]= "progiq";
+    modeTitles[mode] = "progiq";
     modeBlinkDuration.push(9);
 
     document.getElementById("problem2").style.font = "italic bold 20px arial,serif";
@@ -257,11 +280,12 @@ function ReadingRecall() {
 
 
 
-function pauseQ(){
-  pausedQ.push(CurrentHP?.content);
+function pauseQ() {
+    pausedQ.push(CurrentHP?.content);
 }
+
 function appendLog(...params) {
-    ermsg += "\n"+params;
+    ermsg += "\n" + params;
     //alert(ermsg);
 }
 
@@ -281,7 +305,7 @@ function displayHardProblem() {
     problem2.desc = CurrentHP.content;
     problem2.answer = CurrentHP.answer;
     showTime = CurrentHP.showTime;
-    appendLog("Loading hard problem " + CurrentHP.docID.substring(1,4) +": "+CurrentHP.content+" date: "+new Date(CurrentHP.timestamp).toString()+" seconds ago: "+(CurrentHP.timestamp - Date.now())/1000 )
+    appendLog("Loading hard problem " + CurrentHP.docID.substring(1, 4) + ": " + CurrentHP.content + " date: " + new Date(CurrentHP.timestamp).toString() + " seconds ago: " + (CurrentHP.timestamp - Date.now()) / 1000)
     HardProblems = [];
 }
 
@@ -294,37 +318,45 @@ function blueQuestion() {
 function smallFont() {
     document.getElementById("legend").style.font = "italic bold 20px";
 }
+
 function truckFont() {
     document.getElementById("legend").style.font = "12px ";
 }
 
-function changeRetentionMode(){
-  retainMode = !retainMode;
-  loadGame();
+function changeRetentionMode() {
+    retainMode = !retainMode;
+    loadGame();
 }
 
 
-function getDuration() {
-    var output;
-    if (totalTime >= 60) {
-        var mins = totalTime / 60;
-        output = mins.toFixed(2) + " minutes ";
 
-    } else {
-        output = totalTime.toFixed(2) + " seconds ";
-    }
-    return output;
-}
 
 function displayScore(ans2, elapsed) {
     average = points / totalPitches;
     average = average.toFixed(2);
     totalTime += elapsed;
     ans2.innerHTML = '<ul style="list-style-type:none;">' +
-        "</li><li>Score: " + pointDiff + "</li><li>Elapsed: " + elapsed.toFixed(2) +
+        "</li><li>Score: " + pointDiff + "</li><li>Elapsed: " + getDuration(elapsed) +
         ' seconds <br><br><li>Total Points: ' +
         points.toFixed(2) + "</li><li>Average Score: " + average + "</li><li>Total Time: " +
-        getDuration() + "</li><li>Questions Answered: " + totalPitches + "</li></ul>";
+        getDuration(totalTime) + "</li><li>Questions Answered: " + totalPitches + "</li><li>Base: "+base+"</li></ul>";
+}
+function toglReverse(){
+  ReverseMode= !ReverseMode;
+  document.getElementById('ReverseButton').value = "Reverse " + (ReverseMode ? "(on)" : "(off)");
+priceslist[0] = !ReverseMode ?  createArray(18,9,1) : createArray(18,26,-1);
+
+if(mode==0) {
+prices = priceslist[0];
+  loadGame(true)};
+}
+
+function toglBase(){
+if(base==10) base=16;
+else if( base==16 )base=10;
+document.getElementById('base').value = "Base " + base;
+
+  loadGame(true);
 }
 
 function setColor(color) {
@@ -339,13 +371,11 @@ function setColor(color) {
 }
 
 function colorFeedback(isRight) {
-    if (isRight=="yes") {
+    if (isRight == "yes") {
         setColor("green");
-    }
-    else if (isRight=="slow"){
+    } else if (isRight == "slow") {
         setColor("orange");
-    }
-    else {
+    } else {
         setColor("red");
     }
     window.setTimeout(
@@ -358,28 +388,29 @@ function incLevel() {
     loadGame();
 }
 
-function displayLevel(){
+function displayLevel() {
 
-document.getElementById("levelDisplay").innerHTML="Level: "+gameLevel+ " ";
+    document.getElementById("levelDisplay").innerHTML = "Level: " + gameLevel + " ";
 }
 
-async function populateStocks(){
-  if(!stocksLoading)
-{
-    stocksLoading = true;
-   listnames[3].forEach(async (item, i) => {
+async function populateStocks() {
+    if (!stocksLoading) {
+        stocksLoading = true;
+        listnames[3].forEach(async(item, i) => {
 
-    pricefoo[i] = await stocks.timeSeries({
-  symbol: item,
-  interval: '1min',
-  amount: 1
-  });
-  sleep(20,loadGame);
-});
-stocksLoading = false;
-//alert(pricefoo.toString());
+            stockPrices[i] = await stocks.timeSeries({
+                symbol: item,
+                interval: '1min',
+                amount: 1
+            });
+            sleep(20, function f(x) {
+                return x
+            });
+        });
+        stocksLoading = false;
+        //alert(stockPrices.toString());
 
-}
+    }
 
 
 

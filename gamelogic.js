@@ -51,11 +51,11 @@
 //             if (!answerShown  && elapsed <= gameLevel+5) {
 //               if( CurrentHP != null)  await rmDups(CurrentHP.content);
 //               colorFeedback('yes');
-//               appendLog("...\n"+foo+" seconds is time limit, you took "+elapsed.toFixed(2));
+//               appendLog("...\n"+foo+" seconds is time limit, you took "+getDuration(elapsed));
 //             }
 //             else if ( elapsed > gameLevel+5 || (CurrentHP!=null && CurrentHP?.elapsed < elapsed)){
 //               var foo = CurrentHP?.elapsed == undefined ? gameLevel+5 : CurrentHP?.elapsed;
-//               appendLog("not quick enough...\n"+foo+" seconds is time limit, you took "+elapsed.toFixed(2));
+//               appendLog("not quick enough...\n"+foo+" seconds is time limit, you took "+getDuration(elapsed));
 //                 colorFeedback('slow');
 //               sendHardQ();
 //             }
@@ -79,51 +79,50 @@
 //     }
 // }
 
-function onKeyPress(){
-  var answer = document.getElementById('ans');
-  var convertedAns;
-  var ans2 = document.getElementById('answer2');
-  //If typing mode
-  // if (mode == 1 && answer.value.length > 0 && answer.value.substring(0, 3) == "add") {
-  // }
-  //if mode is bridge
+function onKeyPress() {
+    var answer = document.getElementById('ans');
+    var convertedAns;
+    var ans2 = document.getElementById('answer2');
+    //If typing mode
+    // if (mode == 1 && answer.value.length > 0 && answer.value.substring(0, 3) == "add") {
+    // }
+    //if mode is bridge
 
-  if (modeTitles[mode]== "bridge") {
-      convertedAns = answer.value;
-  } else {
-      convertedAns = parseFloat(answer.value)
+    if (modeTitles[mode] == "bridge") {
+        convertedAns = answer.value;
+    } else {
+        convertedAns = parseFloat(answer.value)
 
-  }
-
-  if (( getDigits(convertedAns) >= getDigits(problem2.answer) )|| event.key === 'Enter'){
-    var elapsed = endTimer();
-    if (Math.abs(convertedAns - problem2.answer)<.001 || convertedAns == problem2.answer) {
-        incrementPoints();
-        displayScore(ans2, elapsed);
-        if (!answerShown  && elapsed <= gameLevel+5) {
-          colorFeedback('yes');
-          appendLog("...\n"+foo+" seconds is time limit, you took "+elapsed.toFixed(2));
-        }
-        else if ( elapsed > gameLevel+5 || (CurrentHP!=null && CurrentHP?.elapsed < elapsed)){
-          var foo = CurrentHP?.elapsed == undefined ? gameLevel+5 : CurrentHP?.elapsed;
-          appendLog("not quick enough...\n"+foo+" seconds is time limit, you took "+elapsed.toFixed(2));
-            colorFeedback('slow');
-          sendHardQ();
-        }
-
-        loadGame();
     }
-    else {
-      decrementPoints();
-      displayScore(ans2, elapsed);
-      ans2.innerHTML = ans2.innerHTML + "<p>" + problem2.desc + "="+ problem2.answer + "</p>"
-      ans2.innerHTML = ans2.innerHTML + "<p>" + answerKey + "</p>";
-      answerShown = true;
-      colorFeedback('wrong');
 
-      loadGame();
+    if ((getDigits(convertedAns) >= getDigits(problem2.answer)) || event.key === 'Enter') {
+        var elapsed = endTimer();
+        var foo = CurrentHP?.elapsed == undefined ? minTime : CurrentHP?.elapsed;
+        if (Math.abs(convertedAns - problem2.answer) < 1 || convertedAns == problem2.answer) {
+            incrementPoints();
+            displayScore(ans2, elapsed);
+            if ( elapsed <= minTime) {
+                colorFeedback('yes');
+                appendLog("...\n" + foo + " seconds is time limit, you took " + getDuration(elapsed));
+            } else if (elapsed > minTime || (CurrentHP != null && CurrentHP?.elapsed < elapsed)) {
+                appendLog("not quick enough...\n" + foo + " seconds is time limit, you took " + getDuration(elapsed));
+                colorFeedback('slow');
+
+                //sendHardQ();
+            }
+
+            loadGame();
+        } else {
+            decrementPoints();
+            displayScore(ans2, elapsed);
+            ans2.innerHTML = ans2.innerHTML + "<p>" + problem2.desc + "=" + problem2.answer + "</p>"
+            ans2.innerHTML = ans2.innerHTML + "<p>" + answerKey + "</p>";
+            answerShown = true;
+            colorFeedback('wrong');
+
+            loadGame();
+        }
+
     }
-    answer.value = null;
-  }
 
 }
