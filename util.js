@@ -68,8 +68,9 @@ function getDuration(foo) {
 function createArray(length=100,start=0,increment=1){
   return (new Array(length)).fill(undefined).map((_, i) => increment*i+start)
 }
+
 function getRandomInt(max, excluding) {
-    if (Array.isArray(excluding)) {
+    if (Array.isArray(excluding) && excluding.length > 0) {
         i = excluding[0];
         while (excluding.some(x => x == i)) i = Math.floor(Math.random() * Math.floor(max));
         return i;

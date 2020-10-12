@@ -12,7 +12,7 @@ function displayInfo(problem2, input) {
         timeouts.push(window.setTimeout(hideQuestion, showTime));
     }
 
-    if(dataNames[rand]=="elements") displayElementInfo(items)
+    if(dataNames[rand]=="elements") displayElementInfo()
 
 
     document.getElementById('curMode').innerHTML = input + "<br/>" + lin2 + ermsg;
@@ -36,16 +36,39 @@ function changeBlinkMode() {
     loadGame();
 
 }
+function setItems(len){
+  items=[];
 
+  for (var i = 0; i < len; i++) {
+       items.push(getRandomInt(varItems.length, items));
+  }
+}
+function setSeqItems(level){
+  items=[];
+len = level > 4 ? 4 : 2;
+    startval = getRandomInt(varItems.length);
+  increment = (getRandomInt(2,0))+level;
+  hardinc = getRandomInt(1,0)+1;
+
+  for (var i = 0; i < len; i++) {
+
+    items.push((startval+increment*i) % varItems.length);
+    if((level > 4 )&& (i % 2 ==0)) items[i] += hardinc
+
+  }
+  var final = (startval+increment*len);
+  if((level > 4 )&& (len % 2 ==0)) final += hardinc;
+
+
+  problem2.answer = varItems[final% varItems.length];
+
+}
 function displayData() {
-    items = [];
+
     problem2.legend = "";
     if (verbalMode) {
         smallFont();
-        items.push(getRandomInt(varItems.length));
-        for (var i = 1; i < gameLevel + 1; i++) {
-            items.push(getRandomInt(varItems.length, items));
-        }
+
 
         if (prices.length == 0)
             for (var i = 1; i <= varItems.length; i++) prices.push(getRandomDecimal(2, 2));
@@ -106,7 +129,12 @@ function displayData() {
 
     }
 }
-
+function RandIterator(){
+  if( randiterator > 10)
+    randiterator %= 10
+  else ++randiterator;
+  return randiterator;
+}
 function displayQuestion() {
     problem2.desc = "\n" + varItems[items[0]];
     problem2.answer = prices[items[0]];
@@ -344,7 +372,7 @@ function displayScore(ans2, elapsed) {
 function toglReverse(){
   ReverseMode= !ReverseMode;
   document.getElementById('ReverseButton').value = "Reverse " + (ReverseMode ? "(on)" : "(off)");
-priceslist[0] = !ReverseMode ?  createArray(18,9,1) : createArray(18,26,-1);
+priceslist[0] = !ReverseMode ?  createArray(18,9,1) : createArray(18,18,-1);
 
 if(mode==0) {
 prices = priceslist[0];

@@ -33,7 +33,7 @@
           var item = getRandomInt(varItems.length);
           var item2 = getRandomInt(varItems.length,item);
           problem2.desc = varItems[item2] + "&#215;" + varItems[item] + "\n\n";
-
+          items=[item,item2];
           problem2.answer = prices[item] * prices[item2];
           answerKey = varItems[item] + "=" + prices[item]+ "\n"+varItems[item2] + "=" + prices[item2];
           displayData();

@@ -1,5 +1,5 @@
 window.onload = function() {
-    modeNames = [loadSerialAddition, loadLongAddition,
+    modeNames = [loadSequence,loadSerialAddition, loadLongAddition,
         loadMult, loadDivide
     ];
     modeTitles = [];
@@ -56,12 +56,11 @@ minTime = 6;
     randMode = false;
     stocksLoading = false;
     populateStocks();
-    var jagged = [listnames, displaytypelist, priceslist, dataNames];
+    jagged = [listnames, displaytypelist, priceslist, dataNames];
     rmArrayFromJagged(jagged, 0);
     rmArrayFromJagged(jagged, 1);
     switchElementsFromJagged(jagged,0,3);
     switchElementsFromJagged(jagged,1,3);
-    spliceElementsFromJaggedSubset(jagged,[0,2],0,[0,8]);
     spliceElementsFromJaggedSubset(jagged,[0,2],1,[25,listnames[1].length]);
     base = 10;
     updateData(0);
@@ -70,7 +69,8 @@ minTime = 6;
     getNews2();
     results = 10;
     arxiv=new Array(results)
-    getArxiv();
+     getArxiv();
+    randiterator = getRandomInt(10,1);
     lin2="";
     //[4,3,3,9,0,10];
     dataHeight = 10;
@@ -102,7 +102,7 @@ minTime = 6;
         legend: "",
     };
     //question index
-    qi=[];
+    items=[];
     retainMode = false;
 
     pausedQ = [];

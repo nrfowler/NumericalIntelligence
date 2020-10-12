@@ -5092,8 +5092,8 @@ function getElementSummary(id){
   return elements[id].summary;
 }
 function displayPorn(foo,i){
-  document.getElementById('element'+i).src = new Array(foo +"/test ("+getRandomInt(10,0)+").jpg",
-  foo +"/test ("+getRandomInt(4,0)+").jpeg")[r()];
+  // document.getElementById('element'+i).src = new Array(foo +"/test ("+(RandIterator())+").jpg",
+  // foo +"/test ("+RandIterator()+").jpeg")[r()];
 
 }
 function getNews(i){
@@ -5103,7 +5103,7 @@ if(articles.length>0)
   if(r()) {
     var ix = 0;
   var foo = articles.splice(ix,1)[0];
-  document.getElementById('elementdesc'+i).innerHTML=articles.length+" <a href="+foo.link+">"+foo.title+"</a>"+foo.summary;
+  document.getElementById('elementdesc'+i).innerHTML=randiterator+" "+articles.length+" <a href="+foo.link+">"+foo.title+"</a>"+foo.summary;
   }
   else {
     var ix = 0;
@@ -5213,12 +5213,14 @@ function getMSDN() {
     //xhr.send(data);
 }
 
-function displayElementInfo(arr){
+function displayElementInfo(){
   j=0;
-  for (var i of arr) {
-    document.getElementById('element'+j).src = "https://images-of-elements.com/s/"+getElementName(i+4).toLowerCase()+".jpg";
-  document.getElementById('elementdesc'+j).innerHTML =getElementSummary(i+4);
-  j++;
+  arr=[0,1];
+
+  for (var j of arr) {
+    document.getElementById('element'+j).src = "https://images-of-elements.com/s/"+getElementName(items[j]+4).toLowerCase()+".jpg";
+  document.getElementById('elementdesc'+j).innerHTML =getElementSummary(items[j]+4);
+
 
   }
   document.getElementById('elements').visibility= "visible";

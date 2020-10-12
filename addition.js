@@ -24,17 +24,17 @@
         }
       if (verbalMode) {
           smallFont();
-          qi = new Array(2);
-          qi[0] = getRandomInt(varItems.length);
-          qi[1] = getRandomInt(varItems.length, item);
+          items = new Array(2);
+          items[0] = getRandomInt(varItems.length);
+          items[1] = getRandomInt(varItems.length, item);
           numItems = 2;
           //displaysuestion();
           var v1 = s1 > 1 ? s1.toString() + " " : "";
           var v2 = s2 > 1 ? s2.toString() + " " : "";
-          problem2.desc = "" + v1 + varItems[qi[0]] + " + " + v2 + varItems[qi[1]] + "\n\n";
-          problem2.answer = s1 * prices[qi[0]] + s2 * prices[qi[1]];
-          answerKey = varItems[qi[0]] + "=" + prices[qi[0]] + " ";
-          answerKey += varItems[qi[1]] + "=" + prices[qi[1]];
+          problem2.desc = "" + v1 + varItems[items[0]] + " + " + v2 + varItems[items[1]] + "\n\n";
+          problem2.answer = s1 * prices[items[0]] + s2 * prices[items[1]];
+          answerKey = varItems[items[0]] + "=" + prices[items[0]] + " ";
+          answerKey += varItems[items[1]] + "=" + prices[items[1]];
           displayData();
           //varItems = varItems.reverse();
 
@@ -52,7 +52,7 @@
 
       lin2 = "";
       //item a and 2 global
-      if(dataNames[rand]=="elements") displayElementInfo([qi[0],qi[1]],lin2);
+      // if(dataNames[rand]=="elements") displayElementInfo([items[0],items[1]],lin2);
       question = problem2.desc;
       displayInfo(problem2, "");
       document.getElementById('modeDisplay').innerHTML = "Mode: Long Addition";
@@ -61,6 +61,7 @@
 
   async function loadSerialAddition() {
       startTimer();
+
       modeLevel = gameLevel;
       problem2 = {
           desc: "",
@@ -79,6 +80,7 @@
 
       totalPitches++;
       if (verbalMode) {
+        setItems(gameLevel+1);
           displayData();
           displayQuestion();
       } else {
