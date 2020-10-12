@@ -13,7 +13,7 @@ function displayInfo(problem2, input) {
     }
 
     if(dataNames[rand]=="elements") displayElementInfo(items)
-    else displayPorn("c://Users/Nathan/OneDrive/fl");
+
 
     document.getElementById('curMode').innerHTML = input + "<br/>" + lin2 + ermsg;
     document.getElementById('modeDisplay').innerHTML = "Mode " + (mode + 1) + " ";
@@ -394,23 +394,23 @@ function displayLevel() {
 }
 
 async function populateStocks() {
-    if (!stocksLoading) {
-        stocksLoading = true;
-        listnames[3].forEach(async(item, i) => {
-
-            stockPrices[i] = await stocks.timeSeries({
-                symbol: item,
-                interval: '1min',
-                amount: 1
-            });
-            sleep(20, function f(x) {
-                return x
-            });
-        });
-        stocksLoading = false;
-        //alert(stockPrices.toString());
-
-    }
+    // if (!stocksLoading) {
+    //     stocksLoading = true;
+    //     listnames[3].forEach(async(item, i) => {
+    //
+    //         stockPrices[i] = await stocks.timeSeries({
+    //             symbol: item,
+    //             interval: '1min',
+    //             amount: 1
+    //         });
+    //         sleep(20, function f(x) {
+    //             return x
+    //         });
+    //     });
+    //     stocksLoading = false;
+    //     //alert(stockPrices.toString());
+    //
+    // }
 
 
 

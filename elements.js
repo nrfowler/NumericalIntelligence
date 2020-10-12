@@ -5085,14 +5085,134 @@ function loadElements(){
 function getElementName(id){
   return elements[id].name;
 }
+function getRndElement(){
+  return getRndVal(elements).name.toLowerCase();
+}
 function getElementSummary(id){
   return elements[id].summary;
 }
-function displayPorn(foo){
-  document.getElementById('element0').src = foo +"/test ("+getRandomInt(18,0)+").jpg";
-document.getElementById('element1').src = foo +"/test ("+getRandomInt(4,0)+").jpeg";
+function displayPorn(foo,i){
+  document.getElementById('element'+i).src = new Array(foo +"/test ("+getRandomInt(10,0)+").jpg",
+  foo +"/test ("+getRandomInt(4,0)+").jpeg")[r()];
 
 }
+function getNews(i){
+if(articles.length>0)
+  {
+
+  if(r()) {
+    var ix = 0;
+  var foo = articles.splice(ix,1)[0];
+  document.getElementById('elementdesc'+i).innerHTML=articles.length+" <a href="+foo.link+">"+foo.title+"</a>"+foo.summary;
+  }
+  else {
+    var ix = 0;
+  var foo = arxiv.splice(ix,1)[0];
+  document.getElementById('elementdesc'+i).innerHTML=arxiv.length+foo;
+  }
+  document.getElementById('elementdesc'+i).style.fontSize = "20px";}
+  displayPorn("c://Users/Nathan/OneDrive/fl",i);
+}
+function getArxiv(){
+  var data = null;
+
+  var xhr = new XMLHttpRequest();
+
+  results = 10;
+  xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === this.DONE ) {
+      parser = new DOMParser();
+xmlDoc = parser.parseFromString(this.responseText,"text/xml");
+
+ console.log(xmlDoc);
+arxiv = createArray(results,0,1).map((i)=>"<a href=\""+xmlDoc.getElementsByTagName("entry")[i]
+.getElementsByTagName("link")[0].getAttribute("href")+"\">"+ xmlDoc.getElementsByTagName("entry")[i]
+.getElementsByTagName("title")[0].childNodes[0].nodeValue+"</a>"+xmlDoc.getElementsByTagName("entry")[i]
+.getElementsByTagName("summary")[0].childNodes[0].nodeValue);
+// document.getElementById("elementdesc0").innerHTML =bar;
+// document.getElementById("elementdesc1").innerHTML = createArray(results,1,1).reduce((ac,c,i)=>ac+=+"\n","");
+// console.log(bar);
+    }
+  });
+
+  // "https://newscatcher.p.rapidapi.com/v1/sources?lang=en"
+  //,
+  // "https://newscatcher.p.rapidapi.com/v1/latest_headlines?topic=tech&lang=en"
+  //"https://newscatcher.p.rapidapi.com/v1/search_free?media=True&lang=en&q="+getRndElement(),
+  //
+
+  var foo= getRndVal(["http://export.arxiv.org/api/query?search_query=cat:physics.pop-ph+AND+physics.bio-ph&start=0&sortBy=submittedDate&sortOrder=ascending&max_results="+results
+
+  ]);
+  xhr.open("GET", foo);
+
+  xhr.send(data);
+
+}
+function  getNews2(){
+  var data = null;
+
+  var xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+
+  xhr.addEventListener("readystatechange", function () {
+  	if (this.readyState === this.DONE && JSON.parse(this.responseText).status=="ok") {
+      // console.log(this.responseText);
+      articles = JSON.parse(this.responseText).articles;
+
+  	}
+  });
+
+// "https://newscatcher.p.rapidapi.com/v1/sources?lang=en"
+//,
+// "https://newscatcher.p.rapidapi.com/v1/latest_headlines?topic=tech&lang=en"
+//"https://newscatcher.p.rapidapi.com/v1/search_free?media=True&lang=en&q="+getRndElement(),
+//
+// http://export.arxiv.org/api/query?search_query=all:electron&start=0&max_results=10
+var sources = "&sources=nature.com,economist.com,nytimes.com,desmoinesregister.com"
+var query = `covid OR regeneron OR remevir`
+  var foo= getRndVal([
+  "https://newscatcher.p.rapidapi.com/v1/search_free?media=True&lang=en&q='amzn'",
+  `https://newscatcher.p.rapidapi.com/v1/search?lang=en&q=${query}`
+]);
+  xhr.open("GET", foo);
+  xhr.setRequestHeader("x-rapidapi-host", "newscatcher.p.rapidapi.com");
+  xhr.setRequestHeader("x-rapidapi-key", "45cba1a80emshb51f3e51e7ff94bp178be0jsn1d848b1a078b");
+
+  xhr.send(data);
+}
+function getMSDN() {
+  var data = null;
+
+  var xhr = new XMLHttpRequest();
+
+
+  xhr.addEventListener("readystatechange", function () {
+  	if (this.readyState === this.DONE) {
+      // console.log(this.responseText);
+      var foo = document.querySelector("#main > div:nth-child(5) > table > tbody > tr:nth-child(1) > td.is-one-third-width-tablet > span > a")
+      console.log(foo);
+  	}
+  });
+  var query = `covid OR regeneron OR remdesevir`
+    var foo= getRndVal([
+    "https://docs.microsoft.com/en-us/dotnet/api/system.net.http?view=netcore-3.1"
+  ]);
+    fetch(
+                'https://google.com',
+                {   method: 'GET',
+                    mode: 'no-cors',
+                    headers: new Headers(
+                       {"Content-Type": "text/html",
+                        "Accept":"text/html"}
+                    ),
+
+                 }
+               ).then( response => { console.log(response);})
+                .catch(err => console.log(err))
+    //xhr.send(data);
+}
+
 function displayElementInfo(arr){
   j=0;
   for (var i of arr) {

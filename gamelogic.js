@@ -104,6 +104,9 @@ function onKeyPress() {
             if ( elapsed <= minTime) {
                 colorFeedback('yes');
                 appendLog("...\n" + foo + " seconds is time limit, you took " + getDuration(elapsed));
+                getNews(r());
+                if(articles.length==0) getNews2();
+
             } else if (elapsed > minTime || (CurrentHP != null && CurrentHP?.elapsed < elapsed)) {
                 appendLog("not quick enough...\n" + foo + " seconds is time limit, you took " + getDuration(elapsed));
                 colorFeedback('slow');

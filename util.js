@@ -9,6 +9,7 @@ function getRndIx(arr) {
     return r = Math.floor(Math.random() * arr.length);
 
 }
+var r = ()=>Math.round(Math.random());
 var spliceElementsFromJaggedSubset = (jagged,ai,type,range)=>ai.forEach(i=>jagged[i][type].splice(range[0],range[1]));
 
 

@@ -10,8 +10,10 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
+      flex-direction: row;
       padding: 5px;
       margin: 10px;
+      width: 90%;
     }
     #bar1 {
       display: flex;
