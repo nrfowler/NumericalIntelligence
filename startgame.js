@@ -1,10 +1,11 @@
 window.onload = function() {
-    modeNames = [loadSequence,loadSerialAddition, loadLongAddition,
-        loadMult, loadDivide
+    modeNames = [SerialAddition, Sequence,
+        Multiply, Divide
     ];
-    modeTitles = [];
+    modeTitles = modeNames.map(l=>l.name);
+    modeLevels = createArray(modeNames.length,1,0);
     verbalMode = true;
-    modeLevel = 1;
+
     showTime = 0;
 
     lin2 = "";
@@ -17,8 +18,8 @@ window.onload = function() {
     numItems = 0;
     varItems = [];
     answerKey = "";
-    dataNames = ['truck', 'elements', 'truck', 'stocks', 'pharmacy', 'alphabet']
-    displaytypelist = ['vlist', 'vlist', 'truckgauges', 'stocks', 'vlist', 'vlist']
+    dataNames = ['truck', 'elements', 'truck', 'months', 'pharmacy', 'alphabet']
+    displaytypelist = createArray(dataNames.length,"","").map(x=>"vlist")
     listnames[0] = ['front suspension', 'front wheel', 'front brake', 'cab area',
     'saddle tank area', 'coupling system',
         'rear tractor wheels', 'suspension', 'brakes'
@@ -33,29 +34,28 @@ window.onload = function() {
      'ammeter', 'voltmeter', 'tachometer',
         'odom', 'air p', 'air brake app p', 'fuel gauge', 'air filter rest', 'axle t', '2nd axle t'
     ];
-    listnames[3] = ['BA', 'WMT', 'D', 'IBM', 'KO','SPY']; //,'WFC','SPY','NDAQ']
+    //new Date(2009, 10, 10).toLocaleString('default', { month: 'long' })
+    listnames[3] = createArray(12,1,1).map(x=>new Date(2009, x-1, 10).toLocaleString('default', { month: 'short' }));
     listnames[4] = ['g/oz', 'ml/tsp', 'mg/gr', 'g/lb', 'fl-oz/pint', 'fl-oz/quart',
      'mL/quart', 'mL/pint', 'fl-dr/fl-oz', 'mL/fl-dr', 'mL/oz', 'L/gal', 'J/cal'];
     listnames[5] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
     'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     priceslist[5] = getRndVal([createArray(26,1)]);
-minTime = 6;
+minTime = 116;
     priceslist[0] = [];
     priceslist[1] = createArray(listnames[1].length, 5);
     //listnames[1].splice(listnames[1].length - 34);
     priceslist[2] = [];
     items = [];
+
     priceslist[4] = [28.35, 5, 64.8, 454, 16, 32, 960, 480, 8, 5, 30, 3.785, 4.19];
-    priceslist[3] = createArray(6,1,1); //24.20,100,100];
-    stocks = new Stocks('ARKXWZK7XN8ZWJ0W');
-    stockPrices = new Array();
+    priceslist[3] = createArray(12,1,1); //24.20,100,100];
     //rand = getRandomInt(listnames.length);
     rand = 0;
     ReverseMode = false;
     prices = [];
     randMode = false;
     stocksLoading = false;
-    populateStocks();
     jagged = [listnames, displaytypelist, priceslist, dataNames];
     rmArrayFromJagged(jagged, 0);
     rmArrayFromJagged(jagged, 1);
@@ -75,7 +75,6 @@ minTime = 6;
     //[4,3,3,9,0,10];
     dataHeight = 10;
     points = 0;
-    gameLevel = 1;
     totalPitches = 0;
     totalModes = modeNames.length;
     mode = 0;

@@ -3,14 +3,14 @@ function loadAlpha() {
     var num = [];
     //minimum level
     var minLevel = 1;
-    gameLevel = gameLevel == 1 ? minLevel : gameLevel;
+    modeLevels[mode] = modeLevels[mode] == 1 ? minLevel : modeLevels[mode];
     //reset from progiq
     document.getElementById("problem2").style.font = "100px";
     modeBlinkDuration.push(6);
-    var addends = new Array(gameLevel + 1);
+    var addends = new Array(modeLevels[mode] + 1);
     var names = [];
     var total;
-    modeTitles.push("alpha");
+    addTitle("alpha");
     startTimer();
     var maxadds = 4;
     totalPitches++;
@@ -18,13 +18,13 @@ function loadAlpha() {
     totalLetters = 26;
     document.getElementById("ans").type = "number"
     //operator level
-    var OPL = gameLevel;
-    if (gameLevel > 2 * maxadds + 4) {
+    var OPL = modeLevels[mode];
+    if (modeLevels[mode] > 2 * maxadds + 4) {
         //level3: greek
         OPL -= 2 * maxadds + 4;
         totalLetters = 77;
         lin2 = "Greek Alphabet: ";
-    } else if (gameLevel > maxadds + 2) {
+    } else if (modeLevels[mode] > maxadds + 2) {
         OPL -= maxadds + 2;
         totalLetters += 26;
         lin2 = "Z=26, a=27, b=28...";

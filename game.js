@@ -6,7 +6,7 @@ function displayInfo(problem2, input) {
         clearTimeout(timeouts[i]);
     }
     if (CurrentHP == null)
-        showTime = modeBlinkDuration[mode] * 300 + 1500 * gameLevel;
+        showTime = modeBlinkDuration[mode] * 300 + 1500 * modeLevels[mode];
 
     if (blinkMode) {
         timeouts.push(window.setTimeout(hideQuestion, showTime));
@@ -17,7 +17,7 @@ function displayInfo(problem2, input) {
 
     document.getElementById('curMode').innerHTML = input + "<br/>" + lin2 + ermsg;
     document.getElementById('modeDisplay').innerHTML = "Mode " + (mode + 1) + " ";
-    document.getElementById('levelDisplay').innerHTML = "Level " + gameLevel;
+    document.getElementById('levelDisplay').innerHTML = "Level " + modeLevels[mode];
     document.getElementById('legend').rows = dataHeight;
     ermsg = "";
 }
@@ -43,26 +43,7 @@ function setItems(len){
        items.push(getRandomInt(varItems.length, items));
   }
 }
-function setSeqItems(level){
-  items=[];
-len = level > 4 ? 4 : 2;
-    startval = getRandomInt(varItems.length);
-  increment = (getRandomInt(2,0))+level;
-  hardinc = getRandomInt(1,0)+1;
 
-  for (var i = 0; i < len; i++) {
-
-    items.push((startval+increment*i) % varItems.length);
-    if((level > 4 )&& (i % 2 ==0)) items[i] += hardinc
-
-  }
-  var final = (startval+increment*len);
-  if((level > 4 )&& (len % 2 ==0)) final += hardinc;
-
-
-  problem2.answer = varItems[final% varItems.length];
-
-}
 function displayData() {
 
     problem2.legend = "";
@@ -118,7 +99,6 @@ function displayData() {
 
             problem2.legend = "";
             for (var i = 0; i < varItems.length; i++) {
-                prices[i] = stockPrices[i][0]['open'];
                 console.log(prices[i])
                 problem2.legend += varItems[i] + ':  ' + prices[i] + "\n";
             }
@@ -147,6 +127,7 @@ function displayQuestion() {
     }
     problem2.desc += "\n\n"
 }
+
 
 function updateData(i = 1) {
     rand += i;
@@ -203,27 +184,33 @@ function changeMode(foo) {
     // document.getElementById("modeDisplay").innerHTML = str1+"\n";
 
 }
-
+function addTitle(title){
+  if(modeTitles.every(x=>x!=title)) modeTitles.push(title);
+}
 
 function loadGame(remain = false) {
     answerShown = false;
-    gameLevel = modeLevel;
     document.getElementById('ans').value = null;
     answerKey = "";
     if (randMode == false || remain) {
         question = modeNames[mode]();
     } else {
-        var f = getRndVal(modeNames);
-        question = f();
+        inarow=0;
+        mode = getRndIx(modeNames);
+        question =modeNames[mode]();
     }
     //displayLevel();
-    minTime = 15;
+    minTime = 115;
     document.getElementById('blinkButton').value = "Blink " + (blinkMode ? "(on)" : "(off)");
     // document.getElementById('reviewButton').value = "Review " + (reviewMode ? "(on)" : "(off)");
     document.getElementById('verbalButton').value = "Verbal " + (verbalMode ? "(on)" : "(off)");
     // document.getElementById('retainButton').value = "Retain " + (retainMode ? "(on)" : "(off)");
     document.getElementById('dataButton').value = "Data Source: " + dataNames[rand];
 
+}
+
+function gameLevel() {
+  return modeLevels[mode];
 }
 
 function startTimer() {
@@ -263,11 +250,11 @@ function incrementPoints() {
     var longerTH = 15;
 
     inarow++;
-    pointDiff = gameLevel;
-    points += gameLevel;
-    if (inarow > 5) {
-        gameLevel++;
-        //cument.cookie=gameLevel;
+    pointDiff = modeLevels[mode];
+    points += modeLevels[mode];
+    if (inarow > 2) {
+        modeLevels[mode]++;
+        //cument.cookie=modeLevels[mode];
         inarow = 0;
     }
 }
@@ -275,14 +262,11 @@ function incrementPoints() {
 function decrementPoints() {
     var mentalMathThreshold = 5;
     var longerTH = 15;
-    inarow--;
-    pointDiff = -1.5 * gameLevel;
+    inarow=0;
+    pointDiff = -1.5 * modeLevels[mode];
     if (penaltyMode)
         points += pointDiff;
-    if (inarow < -20) {
-        mode = (mode + 1) % modeNames.length;
-        inarow = 0;
-    }
+    if(modeLevels[mode]>1) modeLevels[mode]--;
 }
 
 function ReadingRecall() {
@@ -411,42 +395,68 @@ function colorFeedback(isRight) {
 }
 
 function incLevel() {
-    gameLevel++;
-    modeLevel = gameLevel;
+    modeLevels[mode]++;
     loadGame();
 }
 
 function displayLevel() {
 
-    document.getElementById("levelDisplay").innerHTML = "Level: " + gameLevel + " ";
+    document.getElementById("levelDisplay").innerHTML = "Level: " + modeLevels[mode] + " ";
 }
+async function loadStocks(){
+  stocknames = ["D","WMT","AMZN"];
+  listnames.push(stocknames);
+  displaytypelist.push("stocks");
+  priceslist.push(createArray(stocknames.length,1,1));
+  dataNames.push("stocks")
+  stocks = new Stocks('ARKXWZK7XN8ZWJ0W');
+  stockPrices = new Array();
+  console.log("load stocks")
+   populateStocks(stocknames);
+}
+function loadData(name){
+  rand = dataNames.findIndex(x=>x.includes(name));
+  varItems = listnames[rand];
+  displaytype = displaytypelist[rand];
 
-async function populateStocks() {
-    // if (!stocksLoading) {
-    //     stocksLoading = true;
-    //     listnames[3].forEach(async(item, i) => {
-    //
-    //         stockPrices[i] = await stocks.timeSeries({
-    //             symbol: item,
-    //             interval: '1min',
-    //             amount: 1
-    //         });
-    //         sleep(20, function f(x) {
-    //             return x
-    //         });
-    //     });
-    //     stocksLoading = false;
-    //     //alert(stockPrices.toString());
-    //
-    // }
+  prices = priceslist[rand];
+}
+function updateStocks(values) {
+    rand = dataNames.findIndex(x=>x=="stocks");
+
+    varItems = listnames[rand];
+    displaytype = displaytypelist[rand];
+
+    prices = priceslist[rand] = values.map(x=>x[0]['open']);
+    mode = modeNames.map(x=>x.name.toLowerCase()).findIndex(x=>x.includes("addition"))
+    loadGame();
+}
+ function populateStocks(stockNames) {
+    if (!stocksLoading) {
+        stocksLoading = true;
+        stockNames.forEach((item, i) => {
+
+            stockPrices[i] =  stocks.timeSeries({
+                symbol: item,
+                interval: '1min',
+                amount: 1
+            });
+
+        });
+        Promise.all(stockPrices).then((values) => {
+  updateStocks(values);
+});
+        stocksLoading = false;
+
+    }
 
 
 
 }
 
 function decLevel() {
-    if (gameLevel > 1)
-        gameLevel--;
-    modeLevel = gameLevel;
+    if (modeLevels[mode] > 1)
+        modeLevels[mode]--;
+
     loadGame();
 }

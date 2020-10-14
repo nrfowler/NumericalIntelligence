@@ -1,11 +1,11 @@
- async function loadLongAddition() {
+ async function LongAddition() {
       startTimer();
-      modeLevel = 1;
-      modeTitles.push("longaddition");
+      mode = modeTitles.findIndex(x=>x=="LongAddition");
+
       modeBlinkDuration.push(9);
       hpm = [];
       blackFont();
-      minTime = 15;
+      minTime = 115;
       if (reviewMode) await getRelevantHP();
       if (hpm.length > 0 && reviewMode) {
           displayHardProblem();
@@ -14,7 +14,7 @@
             q2 = 0,
             s1 = 0,
             s2 = 0;
-        for (var i = 0; i < gameLevel; i++) {
+        for (var i = 0; i < modeLevels[mode]; i++) {
             q1 = Math.round(Math.random() * 8) + 1;
             do {
                 q2 = Math.round(Math.random() * (9 - q1)) + q1;
@@ -59,19 +59,18 @@
       return problem2.desc;
   }
 
-  async function loadSerialAddition() {
+  async function SerialAddition() {
       startTimer();
+      mode = modeTitles.findIndex(x=>x=="SerialAddition");
 
-      modeLevel = gameLevel;
       problem2 = {
           desc: "",
           answer: ""
       };
-      modeTitles.push("serial");
       blackFont();
       //document.cookie[0]=1;
-      //gameLevel = parseInt(document.cookie) ?? 1;
-      var saLevel = gameLevel + 1;
+      //modeLevels[mode] = parseInt(document.cookie) ?? 1;
+      var saLevel = modeLevels[mode] + 1;
       var q = new Array(saLevel + 1);
       var i = 0;
 
@@ -80,7 +79,7 @@
 
       totalPitches++;
       if (verbalMode) {
-        setItems(gameLevel+1);
+        setItems(modeLevels[mode]+1);
           displayData();
           displayQuestion();
       } else {

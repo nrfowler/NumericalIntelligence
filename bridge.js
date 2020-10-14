@@ -2,9 +2,8 @@ function loadPointCount() {
     startTimer();
     var average;
     var ttt;
-    gameLevel = 1;
-    modeTitle = "pointcount"
-    modeTitles.push("bridge");
+    modeLevels[mode] = 1;
+    mode = modeTitles.findIndex(x=>x=="Sequence");
     modeBlinkDuration.push(9);
     hpm = [];
     problem2 = {
@@ -79,7 +78,7 @@ function loadPointCount() {
             else if(i==8)
               hpc+=.5;
         }
-    } while (cards.length < 13*gameLevel)
+    } while (cards.length < 13*modeLevels[mode])
     //Deduct pt if singleton hpc less than ace
     if(clubsctr==1 && cards.find(e => e >=9 && e <= 12)!=undefined)
       {hpc--;}

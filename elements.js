@@ -5092,43 +5092,71 @@ function getElementSummary(id){
   return elements[id].summary;
 }
 function displayPorn(foo,i){
-  // document.getElementById('element'+i).src = new Array(foo +"/test ("+(RandIterator())+").jpg",
-  // foo +"/test ("+RandIterator()+").jpeg")[r()];
+  document.getElementById('element'+i).src = new Array(foo +"/test ("+(RandIterator())+").jpg",
+  foo +"/test ("+RandIterator()+").jpeg")[r()];
 
 }
-function getNews(i){
-if(articles.length>0)
+async function getNews(i){
+  function display(i,things)
   {
+    var ix = getRndIx(things);
+var foo = things.splice(ix,1)[0];
+document.getElementById('elementdesc'+i).innerHTML=ix+"/"+things.length+" <a href="+foo.link+">"+foo.title+"</a>"+foo.summary;
+}
+function displayArxiv()
+  {
+    var ix = getRndIx(arxiv);
+var foo = arxiv.splice(ix,1)[0];
+document.getElementById('elementdesc'+i).innerHTML=ix+" "+foo;}
+  if(!i) {
+    if(articles.length==0) {
+      new Promise((resolve,rej)=>{getNews2(resolve);
 
-  if(r()) {
-    var ix = 0;
-  var foo = articles.splice(ix,1)[0];
-  document.getElementById('elementdesc'+i).innerHTML=randiterator+" "+articles.length+" <a href="+foo.link+">"+foo.title+"</a>"+foo.summary;
-  }
+    }).then(()=>display(0,articles))
+    }
+    display(0,articles);
+
+}
   else {
-    var ix = 0;
-  var foo = arxiv.splice(ix,1)[0];
-  document.getElementById('elementdesc'+i).innerHTML=arxiv.length+foo;
+    if(arxiv.length==0) getArxiv(displayArxiv);
+    else displayArxiv;
+
   }
-  document.getElementById('elementdesc'+i).style.fontSize = "20px";}
+  document.getElementById('elementdesc'+i).style.fontSize = "20px";
+
   displayPorn("c://Users/Nathan/OneDrive/fl",i);
 }
-function getArxiv(){
+function searchArxiv(){
+  if(event.key.toLowerCase()=="enter") {
+    arxiv=[];
+    getNews(1);
+
+  }
+}
+function searchNews(){
+  if(event.key.toLowerCase()=="enter") {
+    articles=[];
+    getNews(0);
+
+  }
+}
+function getArxiv(resolve){
   var data = null;
 
   var xhr = new XMLHttpRequest();
 
-  results = 10;
+  results = 20;
   xhr.addEventListener("readystatechange", function () {
     if (this.readyState === this.DONE ) {
       parser = new DOMParser();
 xmlDoc = parser.parseFromString(this.responseText,"text/xml");
 
- console.log(xmlDoc);
+ // cosnsole.log(xmlDoc);
 arxiv = createArray(results,0,1).map((i)=>"<a href=\""+xmlDoc.getElementsByTagName("entry")[i]
 .getElementsByTagName("link")[0].getAttribute("href")+"\">"+ xmlDoc.getElementsByTagName("entry")[i]
 .getElementsByTagName("title")[0].childNodes[0].nodeValue+"</a>"+xmlDoc.getElementsByTagName("entry")[i]
 .getElementsByTagName("summary")[0].childNodes[0].nodeValue);
+resolve();
 // document.getElementById("elementdesc0").innerHTML =bar;
 // document.getElementById("elementdesc1").innerHTML = createArray(results,1,1).reduce((ac,c,i)=>ac+=+"\n","");
 // console.log(bar);
@@ -5140,8 +5168,8 @@ arxiv = createArray(results,0,1).map((i)=>"<a href=\""+xmlDoc.getElementsByTagNa
   // "https://newscatcher.p.rapidapi.com/v1/latest_headlines?topic=tech&lang=en"
   //"https://newscatcher.p.rapidapi.com/v1/search_free?media=True&lang=en&q="+getRndElement(),
   //
-
-  var foo= getRndVal(["http://export.arxiv.org/api/query?search_query=cat:physics.pop-ph+AND+physics.bio-ph&start=0&sortBy=submittedDate&sortOrder=ascending&max_results="+results
+query = document.getElementById("arxiv").value;
+  var foo= getRndVal(["http://export.arxiv.org/api/query?search_query="+query+"&start=0&sortBy=submittedDate&sortOrder=descending&max_results="+results
 
   ]);
   xhr.open("GET", foo);
@@ -5149,17 +5177,17 @@ arxiv = createArray(results,0,1).map((i)=>"<a href=\""+xmlDoc.getElementsByTagNa
   xhr.send(data);
 
 }
-function  getNews2(){
+async function  getNews2(resolve){
   var data = null;
-
+query = document.getElementById("getnews").value;
   var xhr = new XMLHttpRequest();
   xhr.withCredentials = true;
 
   xhr.addEventListener("readystatechange", function () {
   	if (this.readyState === this.DONE && JSON.parse(this.responseText).status=="ok") {
       // console.log(this.responseText);
-      articles = JSON.parse(this.responseText).articles;
-
+      articles = JSON.parse(this.responseText).articles.reverse();
+resolve();
   	}
   });
 
@@ -5170,10 +5198,9 @@ function  getNews2(){
 //
 // http://export.arxiv.org/api/query?search_query=all:electron&start=0&max_results=10
 var sources = "&sources=nature.com,economist.com,nytimes.com,desmoinesregister.com"
-var query = `covid OR regeneron OR remevir`
+var exclude = "";//"&not_sources=reddit.com,stackexchange.com"
   var foo= getRndVal([
-  "https://newscatcher.p.rapidapi.com/v1/search_free?media=True&lang=en&q='amzn'",
-  `https://newscatcher.p.rapidapi.com/v1/search?lang=en&q=${query}`
+  "https://newscatcher.p.rapidapi.com/v1/search_free?media=True&lang=en&q="+query+exclude
 ]);
   xhr.open("GET", foo);
   xhr.setRequestHeader("x-rapidapi-host", "newscatcher.p.rapidapi.com");

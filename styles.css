@@ -15,6 +15,10 @@
       margin: 10px;
       width: 90%;
     }
+    .search{
+      font-size: 20px;
+      float: left;
+    }
     #bar1 {
       display: flex;
       flex-wrap: wrap;

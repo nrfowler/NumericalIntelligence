@@ -49,13 +49,16 @@
         <textarea id="legend"></textarea>
         <div id="elements">
           <div>
-            <img src="" id="element0" />
+            <img src="" id="element0" onclick="getNews(0)"/>
+            <input type="text"  class="search" value="nasa" id="getnews" onkeydown="searchNews()" />
             <p id="elementdesc0"></p>
           </div>
           <div>
 
-            <img src="" id="element1" />
-            <p id="elementdesc1">
+            <img src="" id="element1" onclick="getNews(1)"/>
+            <input type="text" class="search" value="cat:physics.bio-ph" id="arxiv" onkeydown="searchArxiv()" />
+
+            <p id="elementdesc1" >
           </div>
           </p>
         </div>
@@ -98,6 +101,15 @@
         <input type="button" class="button" value="Random (off)" id="randButton" onclick="toggleRandMode()" />
         <input type="button" class="button" value="Reverse (off)" id="ReverseButton" onclick="toglReverse()" />
         <input type="button" class="button" value="Base 10" id="base" onclick="toglBase()" />
+        <br />
+        <input type="button" class="button" value="Stocks" id="stockbtn" onclick="loadStocks()" />
+        <input type="button" class="button" value="Bridge" id="bridgebtn" onclick="loadPointCount()" />
+        <input type="button" class="button" value="Sequence" id="seqbtn" onclick="Sequence()" />
+        <br />
+
+        <br />
+        <a href="https://mail.google.com/mail/u/0/#inbox" >Gmail</a>
+        <a href="https://www.youtube.com/channel/UCrp_UI8XtuYfpiqluWLD7Lw/videos" >CNBC</a>
         <br />
 
         <div id="stats">

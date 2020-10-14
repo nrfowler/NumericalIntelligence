@@ -70,6 +70,7 @@ function createArray(length=100,start=0,increment=1){
 }
 
 function getRandomInt(max, excluding) {
+  max = Math.floor(max)
     if (Array.isArray(excluding) && excluding.length > 0) {
         i = excluding[0];
         while (excluding.some(x => x == i)) i = Math.floor(Math.random() * Math.floor(max));
@@ -80,7 +81,7 @@ function getRandomInt(max, excluding) {
     var i = 0
     i = excluding;
     while (i == excluding)
-        i = Math.floor(Math.random() * Math.floor(max));
+        i = Math.round(Math.random() * max);
     return i;
 }
 
