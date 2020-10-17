@@ -27,7 +27,7 @@ function displayInfoNoHide(problem2, input) {
     problem2e.innerHTML = problem2.desc;
     var fff = document.getElementById('curMode');
     fff.innerHTML = input + "<br/>" + lin2 + ermsg;
-    document.cookie = fff.innerHTML;
+    //document.cookie = fff.innerHTML;
 
 }
 
@@ -116,7 +116,7 @@ function RandIterator(){
   return randiterator;
 }
 function displayQuestion() {
-    problem2.desc = "\n" + varItems[items[0]];
+    problem2.desc = varItems[items[0]];
     problem2.answer = prices[items[0]];
 
     answerKey = varItems[items[0]] + "=" + prices[items[0]];
@@ -132,11 +132,16 @@ function displayQuestion() {
 function updateData(i = 1) {
     rand += i;
     if (rand > listnames.length - 1) rand = 0;
-
-    varItems = listnames[rand];
+    if(!verbalMode){
+      varItems=createArray(100,1,1);
+      items = createArray(100,1,1);
+      prices = createArray(100,1,1);
+    }
+    else
+  {  varItems = listnames[rand];
     displaytype = displaytypelist[rand];
 
-    prices = priceslist[rand];
+    prices = priceslist[rand];}
 }
 
 function changeDataSource() {
@@ -161,6 +166,7 @@ function getRandomItem() {
 
 function changeVerbalMode() {
     verbalMode = !verbalMode;
+
     loadGame();
 
 }
@@ -187,19 +193,25 @@ function changeMode(foo) {
 function addTitle(title){
   if(modeTitles.every(x=>x!=title)) modeTitles.push(title);
 }
-
+function loadLevel() {
+    //var foo = document.cookie.split(';');
+    //if (foo.length > 0) return foo.find(row => row.startsWith())
+    //    ?.split('=')[1];
+    return parseInt(localStorage.getItem(modeNames[mode].name + "_" + dataNames[rand]) ?? "1") ;
+   
+}
 function loadGame(remain = false) {
     answerShown = false;
     document.getElementById('ans').value = null;
     answerKey = "";
     if (randMode == false || remain) {
-        question = modeNames[mode]();
     } else {
         inarow=0;
         mode = getRndIx(modeNames);
-        question =modeNames[mode]();
     }
-    //displayLevel();
+    modeLevels[mode] = loadLevel();
+        question = modeNames[mode]();
+
     minTime = 115;
     document.getElementById('blinkButton').value = "Blink " + (blinkMode ? "(on)" : "(off)");
     // document.getElementById('reviewButton').value = "Review " + (reviewMode ? "(on)" : "(off)");
@@ -254,9 +266,14 @@ function incrementPoints() {
     points += modeLevels[mode];
     if (inarow > 2) {
         modeLevels[mode]++;
-        //cument.cookie=modeLevels[mode];
+        setLevel();
+
         inarow = 0;
     }
+}
+
+function setLevel() {
+    localStorage.setItem( modeNames[mode].name + "_" + dataNames[rand], modeLevels[mode]);
 }
 
 function decrementPoints() {
@@ -266,7 +283,8 @@ function decrementPoints() {
     pointDiff = -1.5 * modeLevels[mode];
     if (penaltyMode)
         points += pointDiff;
-    if(modeLevels[mode]>1) modeLevels[mode]--;
+    if (modeLevels[mode] > 1) modeLevels[mode]--;
+    setLevel();
 }
 
 function ReadingRecall() {
@@ -396,6 +414,7 @@ function colorFeedback(isRight) {
 
 function incLevel() {
     modeLevels[mode]++;
+    setLevel();
     loadGame();
 }
 
@@ -415,11 +434,18 @@ async function loadStocks(){
    populateStocks(stocknames);
 }
 function loadData(name){
+  if(!verbalMode){
+    varItems=createArray(1000,1,1);
+    items = createArray(1000,1,1);
+    prices = createArray(1000,1,1);
+  }
+  else{
   rand = dataNames.findIndex(x=>x.includes(name));
   varItems = listnames[rand];
   displaytype = displaytypelist[rand];
 
   prices = priceslist[rand];
+}
 }
 function updateStocks(values) {
     rand = dataNames.findIndex(x=>x=="stocks");
@@ -457,6 +483,6 @@ function updateStocks(values) {
 function decLevel() {
     if (modeLevels[mode] > 1)
         modeLevels[mode]--;
-
+    setLevel();
     loadGame();
 }

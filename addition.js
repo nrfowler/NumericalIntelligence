@@ -6,9 +6,9 @@
       hpm = [];
       blackFont();
       minTime = 115;
-      if (reviewMode) await getRelevantHP();
+      //if (reviewMode) await getRelevantHP();
       if (hpm.length > 0 && reviewMode) {
-          displayHardProblem();
+          //displayHardProblem();
       } else {
         var q1 = 0,
             q2 = 0,

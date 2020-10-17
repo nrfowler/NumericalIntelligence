@@ -45,12 +45,13 @@ display: block;
 			border-color: white;
 
 		}
-    #problem2 {
-        font-size: 40px;
-				padding-right: 10px;
-				width: 70%;
-				height: 25%;
-    }
+#problem2 {
+    font-size: 100px;
+    padding-left: 100px;
+    text-align: center;
+    width: 70%;
+    height: 25%;
+}
     #legend {
         font-size: 20px;
 				padding-right: 10px;

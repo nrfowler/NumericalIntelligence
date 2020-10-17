@@ -5093,7 +5093,7 @@ function getElementSummary(id){
 }
 function displayPorn(foo,i){
   document.getElementById('element'+i).src = new Array(foo +"/test ("+(RandIterator())+").jpg",
-  foo +"/test ("+RandIterator()+").jpeg")[r()];
+  foo +"/test ("+RandIterator()+").jpeg")[r1()];
 
 }
 async function getNews(i){

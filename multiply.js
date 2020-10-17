@@ -8,9 +8,9 @@
           answer: ""
       };
       hpm = [];
-      if (reviewMode) await getRelevantHP();
+      //if (reviewMode) await getRelevantHP();
       if (hpm.length > 0) {
-          displayHardProblem();
+          //displayHardProblem();
       } else {
           blackFont();
           MultLogic();
@@ -71,20 +71,20 @@
       document.getElementById("ans").type = "number";
       var hpm = [];
       if (reviewMode && totalPitches % 5 == 4) {
-          await getHardProblems();
-          hpm = HardProblems.filter(d => d.game == modeTitle);
-          CurrentHP = null;
+          //await getHardProblems();
+          //hpm = HardProblems.filter(d => d.game == modeTitle);
+          //CurrentHP = null;
       }
       problem2 = {
           desc: "",
           answer: ""
       };
       if (reviewMode && hpm.length > 0) {
-          CurrentHP = hpm[0];
-          problem2.desc = CurrentHP.content;
-          problem2.answer = CurrentHP.answer;
-          console.log("Loading hard problem: " + CurrentHP.docID)
-          HardProblems = [];
+          //CurrentHP = hpm[0];
+          //problem2.desc = CurrentHP.content;
+          //problem2.answer = CurrentHP.answer;
+          //console.log("Loading hard problem: " + CurrentHP.docID)
+          //HardProblems = [];
       } else {
           divLogic();
       }
@@ -99,8 +99,13 @@
       var q1 = 0,
           q2 = 0;
       do {
-          q1 = getRandomNumber(window.modeLevels[mode] + 1);
-          q2 = Math.round(Math.random() * 4) + 5;
+          if(modeLevels[mode] < 6){
+          q1 = getRandomNumber(modeLevels[mode] + 1);
+          q2 = Math.round(Math.random() * 4) + 6;}
+          else{
+            q1 = getRandomNumber(modeLevels[mode]-4)+1;
+            q2 = getRandomNumber(2)+1;
+          }
       } while (q1 % 10 == 0 || q2 % 10 == 0)
       problem2.desc = "  " + q1 * q2 + " / " + "" + q2;
       problem2.answer = q1;

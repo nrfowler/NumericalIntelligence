@@ -10,20 +10,27 @@ async function Sequence() {
     //modeLevels[mode] = parseInt(document.cookie) ?? 1;
 // modeLevels[mode] = 5;
 loadData('alphabet');
+
     var i = 0;
     totalPitches++;
     function setSeqItems(level){
       items=[];
-    len = level > 4 ? 4 : 2;
-        startval = getRandomInt(varItems.length);
-        increment = (getRandomInt(3))+1+(level > 4 ? (level-4) : level);
-        hardinc = getRandomInt(2,0)+1;
+
+      hardLevel = 10;
+      hll=5;
+    len = createArray(100,1,1).map(x=>x<=hardLevel ? 2 : x)
+    .map(x=>((x >hardLevel) && (x<=hardLevel+hll)) ? 3 : x)
+    .map(x=>x >hardLevel+hll ? 6 : x)[level-1];
+        startval = getRandomInt(varItems.length > 100 ? 100 : varItems.length);
+        increment = (getRandomInt(3))+1+(level > hardLevel ? (level-hardLevel) : level);
+        hardinc = (getRandomInt(3))+1+(level > hardLevel ? (level-hardLevel) : level);
+        hardinc2 = (getRandomInt(3))+1+(level > hardLevel+hll ? (level-hardLevel-hll) : level)
       items.push(startval);
-      var foo = r();
+      var foo = r1();
       for (var i = 1; i <= len; i++) {
 startval =(startval+increment) % varItems.length
-        if((level  ==5 )&& (i % 2 ==foo)) startval = (hardinc +startval)% varItems.length
-        if(level> 5) startval=(startval+hardinc*i) % varItems.length;
+        if((level  > hardLevel+hll )&& (i % 2 ==foo)) startval = (hardinc2 +startval)% varItems.length
+        if(level> hardLevel) startval=(startval+hardinc*i) % varItems.length;
         if(i < len) items.push(startval);
 
       }

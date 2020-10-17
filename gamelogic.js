@@ -14,8 +14,8 @@ function onKeyPress() {
       if ( elapsed <= minTime) {
           colorFeedback('yes');
           appendLog("...\n" + minTime + " seconds is time limit, you took " + getDuration(elapsed));
-          getNews(r());
-          if(articles.length==0) getNews2();
+          //getNews(r1());
+          //if(articles.length==0) getNews2();
     }
     else if (elapsed > minTime || (CurrentHP != null && CurrentHP?.elapsed < elapsed)) {
         appendLog("not quick enough...\n" + minTime + " seconds is time limit, you took " + getDuration(elapsed));
@@ -36,7 +36,7 @@ function onKeyPress() {
 
     loadGame();
   }
-    if (["bridge","seq"].includes(modeTitles[mode])) {
+    if (["bridge","Sequence"].includes(modeTitles[mode]) && verbalMode) {
         convertedAns = answer.value;
         if ((convertedAns.length >= problem2.answer.length) || event.key === 'Enter') {
           if (convertedAns.toLowerCase() == problem2.answer.toLowerCase()) {

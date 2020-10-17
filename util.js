@@ -9,9 +9,30 @@ function getRndIx(arr) {
     return r = Math.floor(Math.random() * arr.length);
 
 }
-var r = ()=>Math.round(Math.random());
+var r1 = ()=>Math.round(Math.random());
 var spliceElementsFromJaggedSubset = (jagged,ai,type,range)=>ai.forEach(i=>jagged[i][type].splice(range[0],range[1]));
+function product_Range(a,b) {
+  var prd = a,i = a;
 
+  while (i++< b) {
+    prd*=i;
+  }
+  return prd;
+}
+
+
+function combinations(n, r)
+{
+  if (n==r)
+  {
+    return 1;
+  }
+  else
+  {
+    r=(r < n-r) ? n-r : r;
+    return product_Range(r+1, n)/product_Range(1,n-r);
+  }
+}
 
 function reverseElements(foo){
   return createArray(foo.length,foo[foo.length-1],-1);

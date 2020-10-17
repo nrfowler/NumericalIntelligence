@@ -5,9 +5,10 @@ window.onload = function() {
     modeTitles = modeNames.map(l=>l.name);
     modeLevels = createArray(modeNames.length,1,0);
     verbalMode = true;
-
+    //document.cookie = "SerialAddition_alphabet=3"
+    //document.cookie= "SerialAddition_elements=4"
     showTime = 0;
-
+    //localStorage.setItem("SerialAddition_alphabet", "3");
     lin2 = "";
     modeBlinkDuration = [];
     reviewMode = false;
@@ -66,10 +67,10 @@ minTime = 116;
     updateData(0);
     articles=[];
     loadElements();
-    getNews2();
+    //getNews2();
     results = 10;
     arxiv=new Array(results)
-     getArxiv();
+     //getArxiv();
     randiterator = getRandomInt(10,1);
     lin2="";
     //[4,3,3,9,0,10];
@@ -106,7 +107,7 @@ minTime = 116;
 
     pausedQ = [];
     sentraw = [];
-    db = firebase.firestore();
+    //db = firebase.firestore();
     HardProblems = [];
     hpm = [];
     CurrentHP = null //HardProblems[0];
