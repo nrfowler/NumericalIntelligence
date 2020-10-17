@@ -197,7 +197,7 @@ function loadLevel() {
     //var foo = document.cookie.split(';');
     //if (foo.length > 0) return foo.find(row => row.startsWith())
     //    ?.split('=')[1];
-    return parseInt(localStorage.getItem(modeNames[mode].name + "_" + dataNames[rand]) ?? "1") ;
+    modeLevels[mode]= parseInt(localStorage.getItem(modeNames[mode].name + "_" + dataNames[rand]) ?? "1") ;
    
 }
 function loadGame(remain = false) {
@@ -209,9 +209,9 @@ function loadGame(remain = false) {
         inarow=0;
         mode = getRndIx(modeNames);
     }
-    modeLevels[mode] = loadLevel();
+    loadLevel();
         question = modeNames[mode]();
-
+    document.querySelector("#problem2").style.fontSize = 100-document.querySelector("#problem2").textContent.length + "px";
     minTime = 115;
     document.getElementById('blinkButton').value = "Blink " + (blinkMode ? "(on)" : "(off)");
     // document.getElementById('reviewButton').value = "Review " + (reviewMode ? "(on)" : "(off)");
