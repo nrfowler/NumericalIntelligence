@@ -5,11 +5,11 @@ async function Sequence() {
         answer: ""
     };
     blackFont();
-    mode = modeTitles.findIndex(x=>x=="Sequence");
+    setMode("Sequence");
     //document.cookie[0]=1;
     //modeLevels[mode] = parseInt(document.cookie) ?? 1;
-// modeLevels[mode] = 5;
-loadData('alphabet');
+// modeLevels[mode] = 5;//
+//loadData('alphabet');
 
     var i = 0;
     totalPitches++;
@@ -22,7 +22,7 @@ loadData('alphabet');
     .map(x=>((x >hardLevel) && (x<=hardLevel+hll)) ? 3 : x)
     .map(x=>x >hardLevel+hll ? 6 : x)[level-1];
         startval = getRandomInt(varItems.length > 100 ? 100 : varItems.length);
-        increment = (getRandomInt(3))+1+(level > hardLevel ? (level-hardLevel) : level);
+        increment = (getRandomInt(5))+3+(level > hardLevel ? (level-hardLevel) : level);
         hardinc = (getRandomInt(3))+1+(level > hardLevel ? (level-hardLevel) : level);
         hardinc2 = (getRandomInt(3))+1+(level > hardLevel+hll ? (level-hardLevel-hll) : level)
       items.push(startval);

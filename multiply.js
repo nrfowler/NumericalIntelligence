@@ -1,6 +1,6 @@
   async function Multiply() {
       startTimer();
-      mode = modeTitles.findIndex(x=>x=="Multiply");
+      setMode("Multiply");
 
       modeBlinkDuration.push(9);
       problem2 = {
@@ -26,13 +26,13 @@
       var q1 = 0,
           q2 = 0;
       do {
-          q1 = getRandomNumber((window.modeLevels[mode] + 1) / 2 + 1);
+          q1 = getHardNumber(gameLevel()+1);
           q2 = Math.round(Math.random() * 2) + 7;
       } while (q1 % 10 == 0 || q2 % 10 == 0)
       if (verbalMode) {
           smallFont();
-          var item = getRandomInt(varItems.length);
-          var item2 = getRandomInt(varItems.length,item);
+          var item = (gameLevel()-1) % 22;
+          var item2 = gameLevel() > 25 ? getRndIx(varItems) : getRandomInt(4,0)+item;
           problem2.desc = varItems[item2] + "&#215;" + varItems[item] + "\n\n";
           items=[item,item2];
           problem2.answer = prices[item] * prices[item2];
@@ -41,12 +41,12 @@
           //varItems = varItems.reverse();
           return;
       } else {
-          if (modeLevels[mode] % 2 == 1) {
+          if (true) {
 
 
-              problem2.desc = " 0x" + q1.toString(16) + "\n x" + "" + q2;
+              problem2.desc = ((base == 16) ? " 0x" + q1.toString(base) : q1.toLocaleString('en-US')) + "&#215;" + q2;
               problem2.answer = q1 * q2;
-          } else if (modeLevels[mode] % 2 == 0) {
+          } else if (modeLevels[mode] % 45 == 0) {
               var foo = [2.5, .75, 1, 2];
               q1 = getRandomNumber(window.modeLevels[mode] / 2 + 1);
               q2 = foo[Math.round(Math.random() * 3)];
@@ -59,41 +59,39 @@
   }
   async function Divide() {
       startTimer();
-      mode = modeTitles.findIndex(x=>x=="Divide");
-      var gameModifier = Math.pow(10, modeLevels[mode]) - 1;
-      var average;
-      modeBlinkDuration.push(9);
-      var ttt;
-      problem2 = {
-          desc: "",
-          answer: ""
-      };
-      document.getElementById("ans").type = "number";
-      var hpm = [];
-      if (reviewMode && totalPitches % 5 == 4) {
-          //await getHardProblems();
-          //hpm = HardProblems.filter(d => d.game == modeTitle);
-          //CurrentHP = null;
-      }
-      problem2 = {
-          desc: "",
-          answer: ""
-      };
-      if (reviewMode && hpm.length > 0) {
-          //CurrentHP = hpm[0];
-          //problem2.desc = CurrentHP.content;
-          //problem2.answer = CurrentHP.answer;
-          //console.log("Loading hard problem: " + CurrentHP.docID)
-          //HardProblems = [];
-      } else {
-          divLogic();
-      }
-      totalPitches++;
-      displayInfo(problem2, "")
-      document.getElementById('modeDisplay').innerHTML = "Mode: Division";
-      question = problem2.desc;
-      return problem2.desc;
-  }
+      verbalMode = false;
+      problem2.legend = "";
+    setMode("Divide");
+    var gameModifier = Math.pow(10, modeLevels[mode]) - 1;
+    var average;
+    modeBlinkDuration.push(9);
+    var ttt;
+
+    document.getElementById("ans").type = "number";
+    var hpm = [];
+    if (reviewMode && totalPitches % 5 == 4) {
+        //await getHardProblems();
+        //hpm = HardProblems.filter(d => d.game == modeTitle);
+        //CurrentHP = null;
+    }
+
+    if (reviewMode && hpm.length > 0) {
+        //CurrentHP = hpm[0];
+        //problem2.desc = CurrentHP.content;
+        //problem2.answer = CurrentHP.answer;
+        //console.log("Loading hard problem: " + CurrentHP.docID)
+        //HardProblems = [];
+    } else {
+        divLogic();
+    }
+    totalPitches++;
+    displayInfo(problem2, "")
+    document.getElementById('modeDisplay').innerHTML = "Mode: Division";
+    question = problem2.desc;
+    return problem2.desc;
+}
+
+
 
   function divLogic() {
       var q1 = 0,

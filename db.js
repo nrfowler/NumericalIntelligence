@@ -1,3 +1,17 @@
+function displayHardProblem() {
+
+
+    CurrentHP = hpm.sort(function (a, b) {
+        return a - b
+    })[0];
+    blueQuestion();
+    problem2.desc = CurrentHP.content;
+    problem2.answer = CurrentHP.answer;
+    showTime = CurrentHP.showTime;
+    appendLog("Loading hard problem " + CurrentHP.docID.substring(1, 4) + ": " + CurrentHP.content + " date: " + new Date(CurrentHP.timestamp).toString() + " seconds ago: " + (CurrentHP.timestamp - Date.now()) / 1000)
+    HardProblems = [];
+}
+
 function getHardProblems() {
 
     var i = 0;

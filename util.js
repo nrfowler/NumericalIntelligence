@@ -114,7 +114,13 @@ function getRandomDecimal(digits, decimals) {
         output += Math.round(Math.random() * 10) * Math.pow(10, i);
     return Math.round((output) * Math.pow(10, decimals)) / Math.pow(10, decimals);
 }
-
+function getHardNumber(digits) {
+    var number = 0;
+    for (var i = 0; i < digits; i++) {
+        number += Math.pow(10, i)*(getRandomInt(4) + 5);
+    }
+    return number;
+}
 function getRandomNumber(digits) {
     if (digits == 1)
         return Math.round(Math.random() * 7 + 2)

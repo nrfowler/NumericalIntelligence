@@ -19,7 +19,8 @@
     <script src="bridge.js"></script>
     <script src="util.js"></script>
     <script src="gamelogic.js"></script>
-    <!--<script src="db.js"></script>-->
+    <script src="ui.js"></script>
+    <script src="api.js"></script>
     <script src="startgame.js"></script>
     <script src="elements.js"></script>
     <script src="sequence.js"></script>
@@ -54,48 +55,104 @@
     <div id="bar2">
         <input id="ans" type="number" onkeyup="onKeyPress()" autofocus>
         <br />
-        <span id="levelDisplay">
-    Level: 0
-  </span>
-        <input type="button" class="button" value="&#9650;" onclick="incLevel()" />
-        <input type="button" class="button" value="&#9660;" onclick="decLevel()" />
-        <br/>
 
-        <span id="modeDisplay">
-  Mode: 0
-</span>
+
+        <table>
+            <tr>
+        <td>
+            <span id="levelDisplay">
+                Level: 0
+            </span>
+        </td>
+        <td>
+            <input type="button" class="button" value="&#9650;" onclick="incLevel()" />
+        </td>        <td>
+            <input type="button" class="button" value="&#9660;" onclick="decLevel()" />
+        </td>        <br/>
+        <td>
+            <span id="modeDisplay">
+                Mode: 0
+            </span>
+        </td>
         <!-- <input type="button" class="button" value="&#x25c2;" onclick="modeDown()" /> -->
-        <input type="button" class="button" value="&#x25b8;" onclick="modeUp()" />
+        <td><input type="button" class="button" value="&#x25b8;" onclick="modeUp()" /></td>
 
-        <br />
+            </tr>
+            <tr>
+                <td>
 
-        <br />
-        <input type="button" class="button" value="Blink Mode" id="blinkButton" onclick="changeBlinkMode()" />
+        <input type="button" class="button" value="Serial" id="Serial" onclick="SerialAddition()" />
+                </td>
+                <td>
+        <input type="button" class="button" value="Sequence" id="seqbtn" onclick="Sequence()" />
 
+                </td>
+                <td>
+                    <input type="button" class="button" value="Multiply" id="Multiply" onclick="Multiply()" />
+                </td>
+                <td>
+                    <input type="button" class="button" value="Divide" id="Divide" onclick="Divide()" />
+
+                </td>
+                <td>
+                    <input type="button" class="button" value="Long Add" id="LongAdd" onclick="LongAddition()" />
+
+                </td>
+            </tr>
+            <tr>
+                
+
+                <td>
+        <input type="button" class="button" value="Alphabet" id="alphabet" onclick="loadData('alphabet');loadGame(true)" />
+
+                </td>
+                <td>
+        <input type="button" class="button" value="Elements" id="periodic" onclick="loadData('elements');loadGame(true)" />
+
+                </td>
+                <td>
+        <input type="button" class="button" value="Pharmacy" id="pharmacy" onclick="loadData('pharmacy');loadGame(true)" />
+
+                </td>
+                <td>
+        <input type="button" class="button" value="Stocks" id="stockbtn" onclick="loadStocks()" />
+
+                </td>
+                <td>
+
+                </td>
+            </tr>
+            <tr>
+
+        <td colspan="2">
+                <input type="button" class="button"  value="Data Source" id="dataButton" onclick="changeDataSource()" />
+            </td>
+
+        <td>
+            <input type="button" class="button" value="Blink Mode" id="blinkButton" onclick="changeBlinkMode()" />
+        </td>
         <!-- <input type="button" class="button" value="Review Mode" id="reviewButton" onclick="changeReviewMode()" /> -->
 
-        <input type="button" class="button" value="Verbal Mode" id="verbalButton" onclick="changeVerbalMode()" />
-
+        <td>
+            <input type="button" class="button" value="Verbal Mode" id="verbalButton" onclick="changeVerbalMode()" />
+        </td>
         <!-- <input type="button" class="button" value="Retention Mode" id="retainButton" onclick="changeRetentionMode()" /> -->
 
-        <input type="button" class="button" value="Data Source" id="dataButton" onclick="changeDataSource()" />
 
-
-
-        <input type="button" class="button" value="Random (off)" id="randButton" onclick="toggleRandMode()" />
-        <input type="button" class="button" value="Reverse (off)" id="ReverseButton" onclick="toglReverse()" />
-        <input type="button" class="button" value="Base 10" id="base" onclick="toglBase()" />
-        <br />
-        <input type="button" class="button" value="Stocks" id="stockbtn" onclick="loadStocks()" />
+        <td>
+            <input type="button" class="button" value="Random (off)" id="randButton" onclick="toggleRandMode()" />
+        </td>        <td>
+    <input type="button" class="button" value="Reverse (off)" id="ReverseButton" onclick="toglReverse()" />
+</td><td><input type="button" class="button" value="Base 10" id="base" onclick="toglBase()" /></td>
+            </tr>
+        </table>
         <input type="button" class="button" value="Bridge" id="bridgebtn" onclick="loadPointCount()" />
-        <input type="button" class="button" value="Sequence" id="seqbtn" onclick="Sequence()" />
-        <br />
-
-        <br />
-        <a href="https://mail.google.com/mail/u/0/#inbox" >Gmail</a>
-        <a href="https://www.youtube.com/channel/UCrp_UI8XtuYfpiqluWLD7Lw/videos" >CNBC</a>
-        <br />
-
+        <div id="links">
+            <a href="https://mail.google.com/mail/u/0/#inbox">Gmail</a>
+            <a href="https://www.youtube.com/channel/UCrp_UI8XtuYfpiqluWLD7Lw/videos">CNBC</a>
+            <a href=" https://www.keybr.com/">Keybr</a>
+            <a href="https://pgexercises.com">postgresql</a>
+        </div>
         <div id="stats">
             <p id="answer2"></p>
             <p id="curMode"></p>

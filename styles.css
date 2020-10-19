@@ -5,6 +5,9 @@
         justify-content: center;
         align-items: center;
     }
+    .button{
+        font-size:20px
+    }
     #elements {
       display: flex;
       flex-wrap: wrap;
@@ -45,11 +48,15 @@ display: block;
 			border-color: white;
 
 		}
+        #links{
+            font-size: 20px;
+            height: 100px;
+        }
 #problem2 {
 
     padding-left: 10px;
     text-align: center;
-    width: 70%;
+    width: 90%;
     height: 25%;
 }
     #legend {
@@ -62,12 +69,10 @@ display: block;
         text-align: center;
     }
     #ans {
-        font-size: 60px;
+        font-size: 100px;
         border: 5px solid black;
     }
-    .button {
-        font-size: 3vh;
-    }
+   
 		#advert{
 			font-size:10px;
 		}

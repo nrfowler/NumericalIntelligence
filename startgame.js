@@ -19,8 +19,11 @@ window.onload = function() {
     numItems = 0;
     varItems = [];
     answerKey = "";
-    dataNames = ['truck', 'elements', 'truck', 'months', 'pharmacy', 'alphabet']
-    displaytypelist = createArray(dataNames.length,"","").map(x=>"vlist")
+    dataNames = ['truck', 'elements', 'truck', 'months', 'pharmacy', 'alphabet', 'none'];
+    displaytypelist = createArray(dataNames.length, "", "").map(x => "vlist");
+    listnames = createArray(dataNames.length, [], null).map(x => new Array());
+    priceslist = createArray(dataNames.length, [], null).map(x => new Array());
+
     listnames[0] = ['front suspension', 'front wheel', 'front brake', 'cab area',
     'saddle tank area', 'coupling system',
         'rear tractor wheels', 'suspension', 'brakes'
@@ -53,6 +56,7 @@ minTime = 116;
     priceslist[3] = createArray(12,1,1); //24.20,100,100];
     //rand = getRandomInt(listnames.length);
     rand = 0;
+    problem2.legend = "";
     ReverseMode = false;
     prices = [];
     randMode = false;

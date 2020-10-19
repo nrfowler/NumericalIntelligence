@@ -1,6 +1,6 @@
  async function LongAddition() {
       startTimer();
-      mode = modeTitles.findIndex(x=>x=="LongAddition");
+      setMode("LongAddition");
 
       modeBlinkDuration.push(9);
       hpm = [];
@@ -40,6 +40,8 @@
 
       } else {
 
+          s1 = getHardNumber(gameLevel() + 1);
+          s2 = getHardNumber(gameLevel() + 1);
 
           problem2.desc = " " + s1 + "\n+" + s2;
           problem2.answer = s1 + s2;
@@ -61,7 +63,7 @@
 
   async function SerialAddition() {
       startTimer();
-      mode = modeTitles.findIndex(x=>x=="SerialAddition");
+      setMode("SerialAddition");
 
       problem2 = {
           desc: "",
@@ -83,11 +85,13 @@
           displayData();
           displayQuestion();
       } else {
-
-          problem2.desc = " " + q[0];
+          q = createArray(q.length);
+          q = q.map(x => getHardNumber(2));
+          problem2.desc = q[0];
           problem2.answer = q[0];
+          problem2.legend = "";
           for (var j = 1; j < saLevel; j++) {
-              problem2.desc += "\n+" + q[j];
+              problem2.desc += " + " + q[j];
               problem2.answer += q[j];
           }
       }

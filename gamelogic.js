@@ -9,9 +9,9 @@ function onKeyPress() {
 
     var elapsed = endTimer();
     function right(){
+      if ( elapsed <= minTime) {
       incrementPoints();
       displayScore(ans2, elapsed);
-      if ( elapsed <= minTime) {
           colorFeedback('yes');
           appendLog("...\n" + minTime + " seconds is time limit, you took " + getDuration(elapsed));
           //getNews(r1());

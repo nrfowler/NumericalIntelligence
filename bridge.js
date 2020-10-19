@@ -3,7 +3,7 @@ function loadPointCount() {
     var average;
     var ttt;
     modeLevels[mode] = 1;
-    mode = modeTitles.findIndex(x=>x=="Sequence");
+    setMode("Bridge");
     modeBlinkDuration.push(9);
     hpm = [];
     problem2 = {
